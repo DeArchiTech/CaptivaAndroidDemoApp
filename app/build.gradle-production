@@ -1,0 +1,55 @@
+apply plugin: 'com.android.application'
+
+
+dependencies {
+    // This is the dependency that utilizes the Captiva Mobile SDK.
+    compile(name: 'captivamobilesdk', ext: 'aar')
+}
+
+// This is required to compile AAR files from the libs folder.
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+android {
+    // This represents the API version of Android that is being compiled against.  It can be as
+    // low as the API requirement of the highest feature in the code.  It does affect the Java
+    // language version though... so if a later/current Java language version is required, use a
+    // more current SDK version.
+    compileSdkVersion 21
+
+    // Note that the build tools version supports a lesser compiler version.
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "emc.captiva.mobile.sdksampleapp"
+        minSdkVersion 14
+
+        // This is the highest version that the code has been tested to run on.  The code will run
+        // on higher versions, but this is the version that has been tested/certified as the target.
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+
+    // We will want to use the same keystore from the old to new version of the application so
+    // that upgrades are possible (instead of a side-by-side installation).
+    signingConfigs {
+        release {
+            storeFile file('sdk-sample-app-release.keystore')
+            keyAlias 'sdk_sample_app'
+            storePassword 'sdksampleappreleasekeystorepassword'
+            keyPassword 'sdksampleappreleasekeystorepassword'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+}
