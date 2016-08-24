@@ -1,7 +1,8 @@
 package emc.captiva.mobile.sdksampleapp.Network;
-import org.json.JSONObject;
+import emc.captiva.mobile.sdksampleapp.JsonObject.LoginObject;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.POST;
 
@@ -11,9 +12,9 @@ import retrofit2.http.POST;
 public interface SessionService {
 
     @POST("cp-rest/session")
-    Call<Response> login(JSONObject object);
+    Call<ResponseBody> login(@Body LoginObject object);
 
     @DELETE("cp-rest/session")
-    Call<Response> logout(JSONObject object);
+    Call<ResponseBody> logout(@Body LoginObject object);
 
 }

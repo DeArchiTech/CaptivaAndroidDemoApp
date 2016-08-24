@@ -1,10 +1,10 @@
 package emc.captiva.mobile.sdksampleapp.RestClient;
-
-import org.json.JSONObject;
-
+import emc.captiva.mobile.sdksampleapp.JsonObject.LoginObject;
+import emc.captiva.mobile.sdksampleapp.Network.LoginInterceptor;
 import emc.captiva.mobile.sdksampleapp.Network.SessionService;
+import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -15,36 +15,44 @@ public class SessionClient {
 
     private static String BASE_URL = "http://104.209.39.82:8090";
 
-    
-    public Call<Response> login(){
 
-        SessionService service = this.createSessionService();
-        JSONObject parameter = new JSONObject();
-        return service.login(parameter);
+    public Call<ResponseBody> login(){
 
-    }
-
-    public Call<Response> logout(){
-
-        SessionService service = this.createSessionService();
-        JSONObject parameter = new JSONObject();
-        return service.logout(parameter);
+        Retrofit retrofit = createAdapter();
+        SessionService service = retrofit.create(SessionService.class);
+        return service.login(createLoginJsonObject());
 
     }
 
-    private SessionService createSessionService(){
+    public Call<ResponseBody> logout(){
 
-        Retrofit adapter = this.createAdapter();
-        return adapter.create(SessionService.class);
+        Retrofit retrofit = createAdapter();
+        SessionService service = retrofit.create(SessionService.class);
+        return service.logout(createLoginJsonObject());
+
     }
 
     private Retrofit createAdapter(){
 
         return new Retrofit.Builder()
+                .client(createClient())
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
     }
+
+    private OkHttpClient createClient(){
+
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        return builder.addInterceptor(new LoginInterceptor()).build();
+
+    }
+
+    private LoginObject createLoginJsonObject(){
+
+        return new LoginObject("en-US","LICE075-D09A-64E3","","APP3075-D09A-59C8","capadmin","Reva12#$","");
+    }
+
 
 }

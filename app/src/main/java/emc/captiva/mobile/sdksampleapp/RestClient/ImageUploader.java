@@ -1,6 +1,8 @@
 package emc.captiva.mobile.sdksampleapp.RestClient;
 import emc.captiva.mobile.sdksampleapp.Network.ImageUploadService;
+import emc.captiva.mobile.sdksampleapp.Network.LoginInterceptor;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -32,9 +34,18 @@ public class ImageUploader {
     private Retrofit createAdapter(){
 
         return new Retrofit.Builder()
+                .client(createClient())
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
+    }
+
+    private OkHttpClient createClient(){
+
+        OkHttpClient client = new OkHttpClient();
+        client.interceptors().add(new LoginInterceptor());
+        return client;
 
     }
 
