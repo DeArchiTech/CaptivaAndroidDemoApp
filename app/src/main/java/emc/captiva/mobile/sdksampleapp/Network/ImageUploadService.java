@@ -1,4 +1,5 @@
 package emc.captiva.mobile.sdksampleapp.Network;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -13,7 +14,7 @@ public interface ImageUploadService {
 
     @Multipart
     @POST("some/endpoint")
-    Call<Response> uploadImage(@Part("description") String description, @Part("image") RequestBody image);
+    Call<Response> uploadImage(@Part MultipartBody.Part image, @Part("name") RequestBody name);
 
 
 }
