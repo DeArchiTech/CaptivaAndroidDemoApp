@@ -24,6 +24,11 @@ import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdk.CaptureWindow;
 import emc.captiva.mobile.sdk.PictureCallback;
 import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
+import emc.captiva.mobile.sdksampleapp.RestClient.SessionClient;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * This class represents the main window offering the ability to take a picture,
@@ -315,6 +320,24 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         // Launch the preference settings activity.
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+    public void onLogin(View view) {
+
+        SessionClient client = new SessionClient();
+        Call<ResponseBody> call = client.login();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("Success", "login succeed");
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("Error", "login has failed");
+            }
+        });
+
     }
 
     /* (non-Javadoc)

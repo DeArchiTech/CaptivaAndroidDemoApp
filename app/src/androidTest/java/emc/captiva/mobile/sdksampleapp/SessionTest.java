@@ -1,14 +1,9 @@
 package emc.captiva.mobile.sdksampleapp;
 import android.test.suitebuilder.annotation.SmallTest;
-import android.util.Log;
-
 import junit.framework.TestCase;
-
 import emc.captiva.mobile.sdksampleapp.RestClient.SessionClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by david on 8/24/16.

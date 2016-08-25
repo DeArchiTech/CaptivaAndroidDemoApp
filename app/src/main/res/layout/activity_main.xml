@@ -64,7 +64,21 @@
 	  	android:onClick="onSettings"
 	  	android:textColor="#FFFFFF"
 	  	android:textAppearance="?android:attr/textAppearanceMedium"
-	  	android:text="@string/MainPage_Settings" />	
+	  	android:text="@string/MainPage_Settings" />
+	<Button
+		android:id="@+id/LoginButton"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="5dp"
+		android:layout_below="@+id/SettingsButton"
+		android:gravity="center_vertical"
+		android:padding="10dp"
+		android:drawableRight="@drawable/ic_next"
+		android:background="@drawable/green_button"
+		android:onClick="onLogin"
+		android:textColor="#FFFFFF"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:text="@string/MainPage_Login" />
 	<TextView
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
