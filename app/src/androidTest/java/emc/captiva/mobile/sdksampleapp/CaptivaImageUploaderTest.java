@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 /**
  * Created by david on 8/23/16.
  */
-public class ImageUploaderTest extends TestCase{
+public class CaptivaImageUploaderTest extends TestCase{
 
     @Override
     protected void tearDown() throws Exception {

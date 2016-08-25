@@ -1,34 +1,34 @@
 package emc.captiva.mobile.sdksampleapp.RestClient;
-import emc.captiva.mobile.sdksampleapp.Network.CaptivaImageUploadService;
+import emc.captiva.mobile.sdksampleapp.Network.FilestackImageUploadService;
 import emc.captiva.mobile.sdksampleapp.Network.LoginInterceptor;
+import emc.captiva.mobile.sdksampleapp.Util.ImageFileUtil;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by david on 8/23/16.
+ * Created by david on 8/25/16.
  */
-//A class that is used to upload images
-public class ImageUploader {
+public class FilestackClient {
 
-    private static String BASE_URL = "http://104.209.39.82:8090";
+    private static String BASE_URL = "http://www.filestackapi.com";
+    private static String key = "AaApUHHABQg2818PX5CLTz";
 
-    public Call<Response> uploadImage(MultipartBody.Part image, RequestBody name){
+    public Call<ResponseBody> updateImage(String fileName, String imageUrl){
 
-        CaptivaImageUploadService service = this.createImageUploadServer();
-        service.uploadImage(image, name);
-        return null;
+        FilestackImageUploadService service = this.createImageUploadService();
+        MultipartBody.Part body = new ImageFileUtil().createPartFromFile(imageUrl);
+        return service.updateImage(key, fileName, body);
 
     }
 
-    private CaptivaImageUploadService createImageUploadServer(){
+    private FilestackImageUploadService createImageUploadService(){
 
         Retrofit adapter = this.createAdapter();
-        return adapter.create(CaptivaImageUploadService.class);
+        return adapter.create(FilestackImageUploadService.class);
     }
 
     private Retrofit createAdapter(){
@@ -48,5 +48,4 @@ public class ImageUploader {
         return client;
 
     }
-
 }

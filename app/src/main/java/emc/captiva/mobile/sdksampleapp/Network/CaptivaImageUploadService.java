@@ -10,7 +10,7 @@ import retrofit2.http.Part;
 /**
  * Created by david on 8/23/16.
  */
-public interface ImageUploadService {
+public interface CaptivaImageUploadService {
 
     @Multipart
     @POST("some/endpoint")

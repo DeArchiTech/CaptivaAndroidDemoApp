@@ -330,6 +330,8 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.d("Success", "login succeed");
+                Log.d("Status Code", String.valueOf(response.code()));
+                Log.d("Response", response.message());
             }
 
             @Override
