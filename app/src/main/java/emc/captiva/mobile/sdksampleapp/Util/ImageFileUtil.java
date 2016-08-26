@@ -13,9 +13,7 @@ import okhttp3.RequestBody;
  */
 public class ImageFileUtil {
 
-    public MultipartBody.Part createPartFromFile(String path){
-
-        File file = getFileFromPath(path);
+    public MultipartBody.Part createPartFromFile(File file){
 
         // create RequestBody instance from file
         RequestBody requestFile =
@@ -28,12 +26,5 @@ public class ImageFileUtil {
         return body;
 
     }
-
-    private File getFileFromPath(String path){
-
-        return new File(path);
-
-    }
-
 
 }

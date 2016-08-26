@@ -14,13 +14,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class FilestackClient {
 
-    private static String BASE_URL = "http://www.filestackapi.com";
+    private static String BASE_URL = "https://www.filestackapi.com";
     private static String key = "AaApUHHABQg2818PX5CLTz";
 
-    public Call<ResponseBody> updateImage(String fileName, String imageUrl){
+    public Call<ResponseBody> updateImage(String fileName, MultipartBody.Part body){
 
         FilestackImageUploadService service = this.createImageUploadService();
-        MultipartBody.Part body = new ImageFileUtil().createPartFromFile(imageUrl);
         return service.updateImage(key, fileName, body);
 
     }
@@ -44,7 +43,6 @@ public class FilestackClient {
     private OkHttpClient createClient(){
 
         OkHttpClient client = new OkHttpClient();
-        client.interceptors().add(new LoginInterceptor());
         return client;
 
     }

@@ -1,7 +1,13 @@
 package emc.captiva.mobile.sdksampleapp;
+import android.os.Environment;
 import android.test.suitebuilder.annotation.SmallTest;
 import junit.framework.TestCase;
+
+import java.io.File;
+
 import emc.captiva.mobile.sdksampleapp.RestClient.FilestackClient;
+import emc.captiva.mobile.sdksampleapp.Util.ImageFileUtil;
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 
@@ -24,9 +30,14 @@ public class FilestackImageUploadTest extends TestCase{
     public void testUploadImage(){
 
         FilestackClient client = new FilestackClient();
-        String filePath = "";
-        String fileName = "A cool file mang";
-        Call<ResponseBody> call = client.updateImage(fileName,filePath);
+        String sdCardPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        String filePath = "/DCIM/Camera/IMG_20160825_153535.jpg";
+        String path = sdCardPath + filePath;
+        File file = new File(path);
+        ImageFileUtil util = new ImageFileUtil();
+        MultipartBody.Part part = util.createPartFromFile(file);
+        String fileName = "a good file";
+        Call<ResponseBody> call = client.updateImage(fileName,part);
         assertNotNull(call);
 
     }

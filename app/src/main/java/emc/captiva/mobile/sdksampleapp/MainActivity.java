@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +25,11 @@ import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdk.CaptureWindow;
 import emc.captiva.mobile.sdk.PictureCallback;
 import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
+import emc.captiva.mobile.sdksampleapp.Network.FilestackImageUploadService;
+import emc.captiva.mobile.sdksampleapp.RestClient.FilestackClient;
 import emc.captiva.mobile.sdksampleapp.RestClient.SessionClient;
+import emc.captiva.mobile.sdksampleapp.Util.ImageFileUtil;
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -341,6 +346,39 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         });
 
     }
+
+    public void onFileStackUpload(View view) {
+
+        FilestackClient client = new FilestackClient();
+
+        //Initialized path
+        String fileName = "aCoolFile.jpg";
+        String sdCardPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        String filePath = "/DCIM/Camera/IMG_20160825_153535.jpg";
+
+        //Create file
+        File file = new File(sdCardPath+filePath);
+
+        //Create Multipart Body and upload
+        MultipartBody.Part body = new ImageFileUtil().createPartFromFile(file);
+        Call<ResponseBody> call = client.updateImage(fileName , body);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("Success", "Filestack Upload succeed");
+                Log.d("Status Code", String.valueOf(response.code()));
+                Log.d("Response", response.message());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("Error", "Filestack upload has failed");
+                Log.e("Error" , t.toString());
+            }
+        });
+
+    }
+
 
     /* (non-Javadoc)
      * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
