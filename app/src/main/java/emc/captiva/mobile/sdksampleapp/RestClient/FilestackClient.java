@@ -1,7 +1,5 @@
 package emc.captiva.mobile.sdksampleapp.RestClient;
 import emc.captiva.mobile.sdksampleapp.Network.FilestackImageUploadService;
-import emc.captiva.mobile.sdksampleapp.Network.LoginInterceptor;
-import emc.captiva.mobile.sdksampleapp.Util.ImageFileUtil;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -16,6 +14,12 @@ public class FilestackClient {
 
     private static String BASE_URL = "https://www.filestackapi.com";
     private static String key = "AaApUHHABQg2818PX5CLTz";
+
+    public FilestackImageUploadService getService(){
+
+        return this.createImageUploadService();
+
+    }
 
     public Call<ResponseBody> updateImage(String fileName, MultipartBody.Part body){
 

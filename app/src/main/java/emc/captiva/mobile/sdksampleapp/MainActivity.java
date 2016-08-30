@@ -19,6 +19,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 
 import emc.captiva.mobile.sdk.CaptureException;
 import emc.captiva.mobile.sdk.CaptureImage;
@@ -27,9 +28,9 @@ import emc.captiva.mobile.sdk.PictureCallback;
 import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
 import emc.captiva.mobile.sdksampleapp.Network.FilestackImageUploadService;
 import emc.captiva.mobile.sdksampleapp.RestClient.FilestackClient;
-import emc.captiva.mobile.sdksampleapp.RestClient.SessionClient;
-import emc.captiva.mobile.sdksampleapp.Util.ImageFileUtil;
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -329,21 +330,21 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     public void onLogin(View view) {
 
-        SessionClient client = new SessionClient();
-        Call<ResponseBody> call = client.login();
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("Success", "login succeed");
-                Log.d("Status Code", String.valueOf(response.code()));
-                Log.d("Response", response.message());
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("Error", "login has failed");
-            }
-        });
+//        SessionClient client = new SessionClient();
+//        Call<ResponseBody> call = client.login();
+//        call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                Log.d("Success", "login succeed");
+//                Log.d("Status Code", String.valueOf(response.code()));
+//                Log.d("Response", response.message());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                Log.e("Error", "login has failed");
+//            }
+//        });
 
     }
 
@@ -360,8 +361,25 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         File file = new File(sdCardPath+filePath);
 
         //Create Multipart Body and upload
-        MultipartBody.Part body = new ImageFileUtil().createPartFromFile(file);
-        Call<ResponseBody> call = client.updateImage(fileName , body);
+        //MultipartBody.Part body = new ImageFileUtil().createPartFromFile(file);
+
+        String content_type = getMimeType(file.getPath());
+
+        String file_path = file.getAbsolutePath();
+
+        RequestBody file_body = RequestBody.create(MediaType.parse(content_type),file);
+
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("type", content_type)
+                .addFormDataPart("uploaded_file", file_path.substring(file_path.lastIndexOf("/")+1), file_body).build();
+        //TODO Implement WebRequest Call With Interface
+
+        FilestackImageUploadService service = client.getService();
+        String BASE_URL = "https://www.filestackapi.com";
+        String key = "AaApUHHABQg2818PX5CLTz";
+
+        Call<ResponseBody> call = service.updateImage(key, fileName, requestBody);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -376,6 +394,13 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                 Log.e("Error" , t.toString());
             }
         });
+
+    }
+
+    private String getMimeType(String path){
+
+        String extension = MimeTypeMap.getFileExtensionFromUrl(path);
+        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
 
     }
 
