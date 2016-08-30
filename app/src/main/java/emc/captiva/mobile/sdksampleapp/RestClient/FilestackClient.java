@@ -1,9 +1,6 @@
 package emc.captiva.mobile.sdksampleapp.RestClient;
 import emc.captiva.mobile.sdksampleapp.Network.FilestackImageUploadService;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -18,13 +15,6 @@ public class FilestackClient {
     public FilestackImageUploadService getService(){
 
         return this.createImageUploadService();
-
-    }
-
-    public Call<ResponseBody> updateImage(String fileName, MultipartBody.Part body){
-
-        FilestackImageUploadService service = this.createImageUploadService();
-        return service.updateImage(key, fileName, body);
 
     }
 

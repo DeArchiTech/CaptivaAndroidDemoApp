@@ -28,6 +28,7 @@ import emc.captiva.mobile.sdk.PictureCallback;
 import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
 import emc.captiva.mobile.sdksampleapp.Network.FilestackImageUploadService;
 import emc.captiva.mobile.sdksampleapp.RestClient.FilestackClient;
+import emc.captiva.mobile.sdksampleapp.RestClient.SessionClient;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -332,106 +333,30 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     public void onLogin(View view) {
 
-//        SessionClient client = new SessionClient();
-//        Call<ResponseBody> call = client.login();
-//        call.enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                Log.d("Success", "login succeed");
-//                Log.d("Status Code", String.valueOf(response.code()));
-//                Log.d("Response", response.message());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                Log.e("Error", "login has failed");
-//            }
-//        });
+        SessionClient client = new SessionClient();
+        Call<ResponseBody> call = client.login();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("Success", "login succeed");
+                Log.d("Status Code", String.valueOf(response.code()));
+                Log.d("Response", response.message());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("Error", "login has failed");
+            }
+        });
 
     }
 
     public void onFileStackUpload(View view) {
 
-
-    }
-
-    private void postImageWithThread(){
-
-        try{
-            Thread t = new Thread(new Runnable() {
-                @Override
-                public void run() {
-
-                    String sdCardPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-                    String filePath = "/Download/1169155_713668108769575_1241597324_n.jpg";
-
-                    //Create file
-                    File file = new File(sdCardPath+filePath);
-
-                    //Multipart Builder
-                    String content_type = getMimeType(file.getPath());
-                    String file_name = file.getName();
-                    RequestBody requestBody = RequestBody.create(MediaType.parse(content_type),file);
-
-                    String url = "https://www.filestackapi.com/api/store/S3?key=AaApUHHABQg2818PX5CLTz&filename=" + file_name;
-
-                    Request request = new Request.Builder()
-                            .url(url)
-                            .post(requestBody)
-                            .build();
-
-                    OkHttpClient client = new OkHttpClient();
-
-                    try{
-                        okhttp3.Response response = client.newCall(request).execute();
-                        int resultCode = response.code();
-                        Log.d("Succeed With Code", String.valueOf(resultCode));
-                    }catch(Exception e){
-                        Log.d("Failed With No Code Yo", "FAILED");
-                    }
-                }});
-
-            t.start();
-        }
-        catch(Exception e){
-
-
-        }
-    }
-
-    private void attemptOne(){
-
-
-        FilestackClient client = new FilestackClient();
-
-        //Initialized path
-        String fileName = "aCoolFile.jpg";
-        String sdCardPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        String filePath = "/DCIM/Camera/IMG_20160825_153535.jpg";
-
-        //Create file
-        File file = new File(sdCardPath+filePath);
-
-        //Create Multipart Body and upload
-        //MultipartBody.Part body = new ImageFileUtil().createPartFromFile(file);
-
-        String content_type = getMimeType(file.getPath());
-
-        String file_path = file.getAbsolutePath();
-
-        RequestBody file_body = RequestBody.create(MediaType.parse(content_type),file);
-
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("type", content_type)
-                .addFormDataPart("uploaded_file", file_path.substring(file_path.lastIndexOf("/")+1), file_body).build();
-        //TODO Implement WebRequest Call With Interface
-
-        FilestackImageUploadService service = client.getService();
-        String BASE_URL = "https://www.filestackapi.com";
+        FilestackImageUploadService service = new FilestackClient().getService();
         String key = "AaApUHHABQg2818PX5CLTz";
-
-        Call<ResponseBody> call = service.updateImage(key, fileName, requestBody);
+        String file_name = "1169155_713668108769575_1241597324_n.jpg";
+        Call<ResponseBody> call = service.updateImage(key, file_name, createRequestBody(file_name));
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -446,6 +371,20 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                 Log.e("Error" , t.toString());
             }
         });
+    }
+
+    private RequestBody createRequestBody(String fileName){
+
+        //Create file
+        String sdCardPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        String filePath = "/Download/" + fileName;
+        File file = new File(sdCardPath+filePath);
+
+        //Multipart Builder
+        String content_type = getMimeType(file.getPath());
+        String file_name = file.getName();
+        RequestBody requestBody = RequestBody.create(MediaType.parse(content_type),file);
+        return requestBody;
 
     }
 
@@ -455,7 +394,6 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
 
     }
-
 
     /* (non-Javadoc)
      * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
