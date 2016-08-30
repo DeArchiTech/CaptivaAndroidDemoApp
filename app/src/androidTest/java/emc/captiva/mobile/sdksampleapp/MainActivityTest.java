@@ -42,6 +42,8 @@ public class MainActivityTest{
                 .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_FileStackUpload)));
         onView(withId(R.id.CaptivaUpload))
                 .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_CaptivaUpload)));
+        onView(withId(R.id.LogoutButton))
+                .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_Logout)));
     }
 
     @Test
@@ -61,6 +63,13 @@ public class MainActivityTest{
     public void captivaUploadClick(){
 
         onView(withId(R.id.CaptivaUpload)).perform(click());
+
+    }
+
+    @Test
+    public void logoutButtonClick(){
+
+        onView(withId(R.id.LogoutButton)).perform(click());
 
     }
 

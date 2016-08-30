@@ -1,4 +1,4 @@
-package emc.captiva.mobile.sdksampleapp.JsonObject;
+package emc.captiva.mobile.sdksampleapp.JsonPojo;
 
 /**
  * Created by david on 8/24/16.

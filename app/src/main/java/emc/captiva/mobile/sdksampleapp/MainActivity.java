@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -26,11 +28,13 @@ import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdk.CaptureWindow;
 import emc.captiva.mobile.sdk.PictureCallback;
 import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
+import emc.captiva.mobile.sdksampleapp.Model.Cookie;
 import emc.captiva.mobile.sdksampleapp.Network.CaptivaImageUploadService;
 import emc.captiva.mobile.sdksampleapp.Network.FilestackImageUploadService;
 import emc.captiva.mobile.sdksampleapp.RestClient.CaptivaImageUploaderClient;
 import emc.captiva.mobile.sdksampleapp.RestClient.FilestackClient;
 import emc.captiva.mobile.sdksampleapp.RestClient.SessionClient;
+import emc.captiva.mobile.sdksampleapp.Util.ResponseUtil;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -53,7 +57,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
     static String USE_QUADVIEW = "UseQuadView";
     static String USE_MOTION = "UseMotion";
     CustomWindow _customWindow;
-
+    private boolean loggedIn = false;
     /* (non-Javadoc)
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
@@ -335,19 +339,64 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     public void onLogin(View view) {
 
+        if(this.loggedIn){
+            displaySuccessMessage("Login" , "Failed" , "Please Log out before attempting to Log in");
+            return;
+        }
         SessionClient client = new SessionClient();
         Call<ResponseBody> call = client.login();
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("Success", "login succeed");
+                Log.d("Success", "login call succeed");
                 Log.d("Status Code", String.valueOf(response.code()));
                 Log.d("Response", response.message());
+
+                String cookie = getCookieFromResponse(response);
+                Cookie.saveCookie(cookie);
+                displaySuccessMessage("Login", "Success" , response.message());
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("Error", "login has failed");
+                Log.e("Error", "login call has failed");
+                displaySuccessMessage("Login", "Success" , t.toString());
+            }
+        });
+
+    }
+
+
+    private String getCookieFromResponse(Response response){
+
+        return new ResponseUtil().getCookieFromResponse(response);
+
+    }
+
+    public void onLogout(View view) {
+
+        if(!this.loggedIn){
+            displaySuccessMessage("Loggout" , "Failed" , "Please Log in before attempting to Log out");
+            return;
+        }
+        SessionClient client = new SessionClient();
+        Call<ResponseBody> call = client.logout();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("Success", "logout call succeed");
+                Log.d("Status Code", String.valueOf(response.code()));
+                Log.d("Response", response.message());
+
+                String cookie = getCookieFromResponse(response);
+                Cookie.saveCookie(cookie);
+                displaySuccessMessage("logout", "Success" , response.message());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("Error", "logout call has failed");
+                displaySuccessMessage("logout", "Success" , t.toString());
             }
         });
 
@@ -365,18 +414,24 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                 Log.d("Success", "Filestack Upload succeed");
                 Log.d("Status Code", String.valueOf(response.code()));
                 Log.d("Response", response.message());
+                displaySuccessMessage("Filestack Upload", "Success" , response.message());
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("Error", "Filestack upload has failed");
                 Log.e("Error" , t.toString());
+                displaySuccessMessage("Filestack Upload", "Success" , t.toString());
             }
         });
     }
 
     public void onCaptivaUpload(View view) {
 
+        if(!this.loggedIn){
+            displaySuccessMessage("Login" , "Failed" , "Please Log in before attempting to Upload");
+            return;
+        }
         //TODO 1)Write an Interface for Captival Upload Image
         CaptivaImageUploadService service = new CaptivaImageUploaderClient().createImageUploadServer();
 
@@ -384,6 +439,21 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         String file_name = "1169155_713668108769575_1241597324_n.jpg";
         RequestBody body = this.createRequestBody(file_name);
         //TODO 3)Set up to use Json with data key
+
+    }
+
+    private void displaySuccessMessage(String action , String result, String description) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setMessage(action + result)
+                .setPositiveButton(description, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // FIRE ZE MISSILES!
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog  = builder.create();
+        dialog.show();
 
     }
 

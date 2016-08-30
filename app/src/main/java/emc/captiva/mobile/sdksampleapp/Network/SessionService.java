@@ -1,5 +1,5 @@
 package emc.captiva.mobile.sdksampleapp.Network;
-import emc.captiva.mobile.sdksampleapp.JsonObject.LoginObject;
+import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginObject;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;

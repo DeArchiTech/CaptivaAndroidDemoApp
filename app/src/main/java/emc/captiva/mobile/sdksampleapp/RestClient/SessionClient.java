@@ -1,5 +1,5 @@
 package emc.captiva.mobile.sdksampleapp.RestClient;
-import emc.captiva.mobile.sdksampleapp.JsonObject.LoginObject;
+import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginObject;
 import emc.captiva.mobile.sdksampleapp.Network.LoginInterceptor;
 import emc.captiva.mobile.sdksampleapp.Network.SessionService;
 import okhttp3.OkHttpClient;
@@ -51,7 +51,11 @@ public class SessionClient {
 
     private LoginObject createLoginJsonObject(){
 
-        return new LoginObject("en-US","LICE075-D09A-64E3","","APP3075-D09A-59C8","capadmin","Reva12#$","");
+        String licenseKey = "LICE075-D09A-64E3";
+        String applicationId = "APP3075-D09A-59C8";
+        String username = "capadmin";
+        String password = "Reva12#$";
+        return new LoginObject("en-US",licenseKey,"",applicationId,username,password,"");
     }
 
 
