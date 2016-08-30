@@ -5,15 +5,15 @@ import java.io.File;
 /**
  * Created by david on 8/30/16.
  */
-public class ImageUploadObject {
+public class ImageUploadObj {
 
     final String data;
 
-    public ImageUploadObject(String data) {
+    public ImageUploadObj(String data) {
         this.data = data;
     }
 
-    public ImageUploadObject(File file){
+    public ImageUploadObj(File file){
         this.data = "";
         //Todo Implement
     }

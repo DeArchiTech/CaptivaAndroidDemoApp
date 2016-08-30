@@ -3,7 +3,7 @@ package emc.captiva.mobile.sdksampleapp.JsonPojo;
 /**
  * Created by david on 8/24/16.
  */
-public class LoginObject {
+public class LoginRequestObj {
 
     final String culture;
     final String licenseKey;
@@ -13,7 +13,7 @@ public class LoginObject {
     final String password;
     final String extraAuthInfo;
 
-    public LoginObject(String culture, String licenseKey, String deviceId, String applicationId, String username, String password, String extraAuthInfo) {
+    public LoginRequestObj(String culture, String licenseKey, String deviceId, String applicationId, String username, String password, String extraAuthInfo) {
         this.culture = culture;
         this.licenseKey = licenseKey;
         this.deviceId = deviceId;

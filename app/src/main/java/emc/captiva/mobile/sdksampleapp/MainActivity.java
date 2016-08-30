@@ -36,9 +36,6 @@ import emc.captiva.mobile.sdksampleapp.RestClient.FilestackClient;
 import emc.captiva.mobile.sdksampleapp.RestClient.SessionClient;
 import emc.captiva.mobile.sdksampleapp.Util.ResponseUtil;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -340,7 +337,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
     public void onLogin(View view) {
 
         if(this.loggedIn){
-            displaySuccessMessage("Login" , "Failed" , "Please Log out before attempting to Log in");
+            displayCustomToast("Login" , "Failed" , "Please Log out before attempting to Log in");
             return;
         }
         SessionClient client = new SessionClient();
@@ -348,19 +345,27 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("Success", "login call succeed");
-                Log.d("Status Code", String.valueOf(response.code()));
-                Log.d("Response", response.message());
 
-                String cookie = getCookieFromResponse(response);
-                Cookie.saveCookie(cookie);
-                displaySuccessMessage("Login", "Success" , response.message());
+                switch(response.code()){
+
+                    case 200:
+                        Log.d("Success", "login call succeed");
+                        Log.d("Status Code", String.valueOf(response.code()));
+                        Log.d("Response", response.message());
+                        String cookie = getCookieFromResponse(response);
+                        Cookie.saveCookie(cookie);
+                        displayCustomToast("Login", "Success" , response.message());
+                    default:
+                        Log.e("Error", "login call has failed");
+                        displayCustomToast("Login", "Failed" , response.message());
+                }
+
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("Error", "login call has failed");
-                displaySuccessMessage("Login", "Success" , t.toString());
+                displayCustomToast("Login", "Failed" , t.toString());
             }
         });
 
@@ -376,7 +381,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
     public void onLogout(View view) {
 
         if(!this.loggedIn){
-            displaySuccessMessage("Loggout" , "Failed" , "Please Log in before attempting to Log out");
+            displayCustomToast("Loggout" , "Failed" , "Please Log in before attempting to Log out");
             return;
         }
         SessionClient client = new SessionClient();
@@ -390,13 +395,13 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
                 String cookie = getCookieFromResponse(response);
                 Cookie.saveCookie(cookie);
-                displaySuccessMessage("logout", "Success" , response.message());
+                displayCustomToast("logout", "Success" , response.message());
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("Error", "logout call has failed");
-                displaySuccessMessage("logout", "Success" , t.toString());
+                displayCustomToast("logout", "Success" , t.toString());
             }
         });
 
@@ -414,14 +419,14 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                 Log.d("Success", "Filestack Upload succeed");
                 Log.d("Status Code", String.valueOf(response.code()));
                 Log.d("Response", response.message());
-                displaySuccessMessage("Filestack Upload", "Success" , response.message());
+                displayCustomToast("Filestack Upload", "Success" , response.message());
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("Error", "Filestack upload has failed");
                 Log.e("Error" , t.toString());
-                displaySuccessMessage("Filestack Upload", "Success" , t.toString());
+                displayCustomToast("Filestack Upload", "Success" , t.toString());
             }
         });
     }
@@ -429,7 +434,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
     public void onCaptivaUpload(View view) {
 
         if(!this.loggedIn){
-            displaySuccessMessage("Login" , "Failed" , "Please Log in before attempting to Upload");
+            displayCustomToast("Login" , "Failed" , "Please Log in before attempting to Upload");
             return;
         }
         //TODO 1)Write an Interface for Captival Upload Image
@@ -442,10 +447,10 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     }
 
-    private void displaySuccessMessage(String action , String result, String description) {
+    private void displayCustomToast(String action , String result, String description) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setMessage(action + result)
+        builder.setMessage(action + " " + result)
                 .setPositiveButton(description, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // FIRE ZE MISSILES!

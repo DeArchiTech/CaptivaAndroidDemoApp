@@ -13,4 +13,11 @@ public class ResponseUtil {
         return null;
 
     }
+
+    public String getCookieFromResponse(String response){
+
+        //Todo Implement
+        return null;
+
+    }
 }

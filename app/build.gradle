@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'realm-android'
 
 dependencies {
     // This is the dependency that utilizes the Captiva Mobile SDK.
@@ -62,6 +62,7 @@ android {
             storePassword 'sdksampleappreleasekeystorepassword'
             keyPassword 'sdksampleappreleasekeystorepassword'
         }
+
     }
 
     buildTypes {
@@ -72,3 +73,10 @@ android {
         }
     }
 }
+
+task copyResourcesToClasses(type: Copy) {
+    from "${projectDir}/src/androidTest/res"
+    into "${buildDir}/intermediates/classes/test/debug/resources"
+}
+
+assembleDebug.dependsOn(copyResourcesToClasses)

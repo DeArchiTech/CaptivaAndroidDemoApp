@@ -24,7 +24,6 @@ public class MainActivityTest{
     @Test
     public void allButtonsViewAreThere(){
 
-        //TODO: Figure out how to write to check a label exists on an espresso testa
         onView(withId(R.id.takepicturebtn))
                 .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_TakePicture)));
         onView(withId(R.id.takecontinuouspicturesbtn))
