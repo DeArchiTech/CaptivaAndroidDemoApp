@@ -15,7 +15,7 @@ import retrofit2.http.Query;
  */
 public interface CaptivaImageUploadService {
 
-    @POST("api/store/S3")
+    @POST("cp-rest/session/files")
     Call<ResponseBody> uploadImage(@Query("key") String key, @Query("filename") String filename, @Body RequestBody file);
 
 }
