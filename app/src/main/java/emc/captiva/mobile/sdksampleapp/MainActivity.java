@@ -352,32 +352,27 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     public void onFileStackUpload(View view) {
 
+
+    }
+
+    private void postImageWithThread(){
+
         try{
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
 
                     String sdCardPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-                    String filePath = "/Download/SmallFry3_1080p.jpg";
+                    String filePath = "/Download/1169155_713668108769575_1241597324_n.jpg";
 
-                    //Initialized path
-                    String fileName = "AnotherFile.jpg";
                     //Create file
                     File file = new File(sdCardPath+filePath);
 
                     //Multipart Builder
-
                     String content_type = getMimeType(file.getPath());
-
-                    //      Call<ResponseBody> call = service.uploadImageTwo(key, fileName, builder.build());
-                    String file_path = file.getAbsolutePath();
                     String file_name = file.getName();
-                    RequestBody file_body = RequestBody.create(MediaType.parse(content_type),file);
+                    RequestBody requestBody = RequestBody.create(MediaType.parse(content_type),file);
 
-                    RequestBody requestBody = new MultipartBody.Builder()
-                            .setType(MultipartBody.FORM)
-                            .addFormDataPart("type", content_type)
-                            .addFormDataPart("uploaded_file", file_path.substring(file_path.lastIndexOf("/")+1), file_body).build();
                     String url = "https://www.filestackapi.com/api/store/S3?key=AaApUHHABQg2818PX5CLTz&filename=" + file_name;
 
                     Request request = new Request.Builder()
@@ -387,27 +382,21 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
                     OkHttpClient client = new OkHttpClient();
 
-                    //TODO Look into why it is giving me Status 400 and not 200
                     try{
                         okhttp3.Response response = client.newCall(request).execute();
                         int resultCode = response.code();
                         Log.d("Succeed With Code", String.valueOf(resultCode));
-                        String resultYo = "";
                     }catch(Exception e){
-                        String noResultYo = "";
                         Log.d("Failed With No Code Yo", "FAILED");
                     }
                 }});
 
             t.start();
-
-
         }
         catch(Exception e){
 
 
         }
-
     }
 
     private void attemptOne(){
