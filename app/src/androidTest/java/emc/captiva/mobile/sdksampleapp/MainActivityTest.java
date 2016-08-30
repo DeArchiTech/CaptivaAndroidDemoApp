@@ -64,13 +64,6 @@ public class MainActivityTest{
 
     }
 
-
-//    @Test
-//    public void buttonShouldUpdateText(){
-//
-//        onView(withId(getResourceId("Click"))).check(matches(withText("Done")));
-//    }
-
     private static int getResourceId(String s) {
         Context targetContext = InstrumentationRegistry.getTargetContext();
         String packageName = targetContext.getPackageName();
