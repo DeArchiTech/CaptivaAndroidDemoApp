@@ -26,7 +26,9 @@ import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdk.CaptureWindow;
 import emc.captiva.mobile.sdk.PictureCallback;
 import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
+import emc.captiva.mobile.sdksampleapp.Network.CaptivaImageUploadService;
 import emc.captiva.mobile.sdksampleapp.Network.FilestackImageUploadService;
+import emc.captiva.mobile.sdksampleapp.RestClient.CaptivaImageUploaderClient;
 import emc.captiva.mobile.sdksampleapp.RestClient.FilestackClient;
 import emc.captiva.mobile.sdksampleapp.RestClient.SessionClient;
 import okhttp3.MediaType;
@@ -371,6 +373,18 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                 Log.e("Error" , t.toString());
             }
         });
+    }
+
+    public void onCaptivaUpload(View view) {
+
+        //TODO 1)Write an Interface for Captival Upload Image
+        CaptivaImageUploadService service = new CaptivaImageUploaderClient().createImageUploadServer();
+
+        //TODO 2)Set Up to use binary like FileStack
+        String file_name = "1169155_713668108769575_1241597324_n.jpg";
+        RequestBody body = this.createRequestBody(file_name);
+        //TODO 3)Set up to use Json with data key
+
     }
 
     private RequestBody createRequestBody(String fileName){

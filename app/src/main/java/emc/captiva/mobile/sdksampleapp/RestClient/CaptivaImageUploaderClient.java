@@ -13,19 +13,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by david on 8/23/16.
  */
 //A class that is used to upload images
-public class ImageUploader {
+public class CaptivaImageUploaderClient {
 
     private static String BASE_URL = "http://104.209.39.82:8090";
 
-    public Call<Response> uploadImage(MultipartBody.Part image, RequestBody name){
-
-        CaptivaImageUploadService service = this.createImageUploadServer();
-        service.uploadImage(image, name);
-        return null;
-
-    }
-
-    private CaptivaImageUploadService createImageUploadServer(){
+    public CaptivaImageUploadService createImageUploadServer(){
 
         Retrofit adapter = this.createAdapter();
         return adapter.create(CaptivaImageUploadService.class);
