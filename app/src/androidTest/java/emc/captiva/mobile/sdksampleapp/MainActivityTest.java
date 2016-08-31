@@ -43,10 +43,6 @@ public class MainActivityTest{
                 .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_CaptivaUpload)));
         onView(withId(R.id.LogoutButton))
                 .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_Logout)));
-        onView(withId(R.id.CaptureAndUpload))
-                .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_CaptureAndUplaod)));
-        onView(withId(R.id.EnhanceAndUpload))
-                .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_EnhanceAndUpload)));
     }
 
     @Test
@@ -101,64 +97,6 @@ public class MainActivityTest{
 
             //1)Click Log In
             onView(withId(R.id.LoginButton)).perform(click());
-
-            Thread.sleep(1500);
-
-            //2)Click Ok on the alert dialog
-            onView(withId(android.R.id.button1)).perform(click());
-
-            //3)Second click on Captiva Upload button
-            onView(withId(R.id.CaptivaUpload)).perform(click());
-
-            Thread.sleep(1500);
-
-            //4)Click Ok on the alert dialog
-            onView(withId(android.R.id.button1)).perform(click());
-
-            Thread.sleep(1500);
-
-        }catch (Exception e){
-
-        }
-
-    }
-
-    @Test
-    public void captureAndUploadTest(){
-
-        try{
-
-            //1)Click Log In
-            onView(withId(R.id.LoginButton)).perform(click());
-
-            Thread.sleep(1500);
-
-            //2)Click Ok on the alert dialog
-            onView(withId(android.R.id.button1)).perform(click());
-
-            //3)Second click on Captiva Upload button
-            onView(withId(R.id.CaptureAndUpload)).perform(click());
-
-            Thread.sleep(1500);
-
-            //4)Click Ok on the alert dialog
-            onView(withId(android.R.id.button1)).perform(click());
-
-            Thread.sleep(1500);
-
-        }catch (Exception e){
-
-        }
-
-    }
-
-    @Test
-    public void enhanceAndUploadTest(){
-
-        try{
-
-            //1)Click Log In
-            onView(withId(R.id.CaptureAndUpload)).perform(click());
 
             Thread.sleep(1500);
 

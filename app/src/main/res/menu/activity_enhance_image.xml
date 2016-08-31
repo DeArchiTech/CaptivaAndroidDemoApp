@@ -68,5 +68,10 @@
 	        android:orderInCategory="117"
 	        android:title="@string/Menu_GetInfo" >
 	    </item>
+		<item
+			android:id="@+id/imageUpload"
+			android:orderInCategory="117"
+			android:title="@string/Menu_ImageUpload" >
+		</item>
     </group>
 </menu>

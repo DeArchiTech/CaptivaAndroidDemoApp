@@ -7,11 +7,9 @@ import android.util.Log;
 import junit.framework.TestCase;
 
 import java.io.File;
+import java.io.InputStream;
 
 import emc.captiva.mobile.sdksampleapp.Util.ImageFileUtil;
-import okhttp3.MultipartBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
 
 /**
  * Created by david on 8/25/16.
@@ -38,6 +36,19 @@ public class ImageFileUtilTest extends TestCase{
         File file = new File(path);
         assertNotNull(util.createPartFromFile(file));
         Log.i("Succeed", String.valueOf(file));
+
+    }
+
+    @SmallTest
+    public void testEncodeImageBase64(){
+
+        ImageFileUtil util = new ImageFileUtil();
+
+        String imageFileName = "dog.jpg";
+        InputStream in = this.getClass().getClassLoader().getResourceAsStream(imageFileName);
+
+        assertNotNull(util.encodeImageBase64(in));
+        Log.i("Succeed", String.valueOf(in));
 
     }
 

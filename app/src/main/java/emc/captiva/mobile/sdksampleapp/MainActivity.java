@@ -17,7 +17,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -81,6 +80,10 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
      */
     public void onTakePicture(View view) {
         // Use a separate HashMap to hold non-TakePicture parameter values from preferences.
+        if(this.loggedIn){
+            displayCustomToast("Take Picture" , "Failed" , "Please Log in before attempting Take Pictures");
+            return;
+        }
         HashMap<String, Object> appParams = new HashMap<>();
         // Obtain our picture parameters from the preferences. Only supported SDK keys should go into parameters.
         HashMap<String, Object> parameters = CoreHelper.getTakePictureParametersFromPrefs(this, appParams);
@@ -326,6 +329,10 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         // storage folder, it will still save and you can verify that it is there by using the 
         // Android "My Files" application if available on your device, or the Android Debug 
         // Bridge (adb). You can get the path to the file by debugging this application's save function.
+        if(this.loggedIn){
+            displayCustomToast("Enhance Image" , "Failed" , "Please Log in before attempting to Enhance Image");
+            return;
+        }
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         startActivityForResult(intent, CHOOSE_IMAGE);
@@ -461,14 +468,13 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
             return;
         }
 
-        AssetManager am = getApplicationContext().getAssets();
         InputStream is = null;
         try{
             is = getAssets().open("base64Image.txt");
         }catch(Exception e){
 
         }
-        String imageData = StringUtil.getStringFromInputStream(is);;
+        String imageData = StringUtil.getStringFromInputStream(is);
         ImageUploadObj obj = new ImageUploadObj(imageData);
         CaptivaImageUploadService service = new CaptivaImageUploaderClient().createImageUploadServer();
         Call<ResponseBody> call = service.uploadImage(obj);
@@ -491,14 +497,6 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
             }
         });
         this.startProcessDialog();
-    }
-
-    public void onCaptureAndUpload(View view){
-        //TODO Implement
-    }
-
-    public void onEnhanceAndUpload(View view){
-        //TODO Implement
     }
 
     private void displayCustomToast(String action , String result, String description) {
@@ -581,6 +579,8 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
         if(this.dialog == null){
             this.dialog = new ProgressDialog(this);
+            this.dialog.setTitle("Loading");
+            this.dialog.setMessage("Connecting to server");
         }
         this.dialog.show();
         return true;

@@ -13,8 +13,6 @@
 	<string name="MainPage_Logout">Logout</string>
 	<string name="MainPage_FileStackUpload">FileStackUpload(Static)</string>
     <string name="MainPage_CaptivaUpload">CaptivaUpload(Static)</string>
-    <string name="MainPage_CaptureAndUplaod">Capture and Upload To Server</string>
-	<string name="MainPage_EnhanceAndUpload">Enhance and Upload To Server</string>
     <string name="EnhanceImage_Title">Enhance Image</string>
     <string name="EnhanceImageCrop_Title">Crop Image</string>
     <string name="EnhanceImageQuadCrop_Title">Quad Crop Image</string>
@@ -56,7 +54,8 @@
     <string name="Menu_RemoveNoise">Remove Noise</string>
     <string name="Menu_Resize">Resize</string>
     <string name="Menu_Rotate180">Rotate 180</string>
-    <string name="GPREF_CAPTURE_GROUP">GPREF_CAPTURE_GROUP</string>	
+    <string name="Menu_ImageUpload">Upload Image</string>
+    <string name="GPREF_CAPTURE_GROUP">GPREF_CAPTURE_GROUP</string>
 	<string name="GPREF_CAPTURE_GROUP_TITLE">Capture Settings</string>
     <string name="GPREF_EDGELABEL">GPREF_EDGELABEL</string>
 	<string name="GPREF_EDGELABEL_TITLE">Edge Label</string>

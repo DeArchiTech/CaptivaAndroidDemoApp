@@ -5,6 +5,8 @@
 package emc.captiva.mobile.sdksampleapp;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +30,16 @@ import android.widget.RelativeLayout;
 import emc.captiva.mobile.sdk.CaptureException;
 import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdk.QuadrilateralCropCallback;
+import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
+import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
+import emc.captiva.mobile.sdksampleapp.Model.Cookie;
+import emc.captiva.mobile.sdksampleapp.Network.CaptivaImageUploadService;
+import emc.captiva.mobile.sdksampleapp.RestClient.CaptivaImageUploaderClient;
+import emc.captiva.mobile.sdksampleapp.Util.ImageFileUtil;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * This activity provides the ability to enhance the image.
@@ -182,6 +194,12 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 					break;
 				}
 
+				case R.id.imageUpload: {
+					// Apply the auto-cropping operation.
+					uploadImage();
+					break;
+				}
+
 				default: {
 					return super.onOptionsItemSelected(item);
 				}
@@ -194,6 +212,48 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 
 		return true;
     }
+
+	private void uploadImage(){
+
+		//1)Create the base 64 String
+
+		String fullpath = null;
+		InputStream inputStream = null;
+		try{
+			fullpath = saveCurrentImage();
+			inputStream = new FileInputStream(fullpath);
+		}catch (Exception e){
+
+		}
+		String base64String = new ImageFileUtil().encodeImageBase64(inputStream);
+
+		//2)Create Json Object
+		ImageUploadObj obj = new ImageUploadObj(base64String);
+		CaptivaImageUploadService service = new CaptivaImageUploaderClient().createImageUploadServer();
+		Call<ResponseBody> call = service.uploadImage(obj);
+		call.enqueue(new Callback<ResponseBody>() {
+			@Override
+			public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+				switch(response.code()){
+
+					case 201:
+						Log.d("Success", "Image Upload succeed");
+						Log.d("Status Code", String.valueOf(response.code()));
+						Log.d("Response", response.message());
+						break;
+					default:
+						Log.e("Error", "Image upload has failed");
+						break;
+				}
+			}
+
+			@Override
+			public void onFailure(Call<ResponseBody> call, Throwable t) {
+				Log.e("Error", "Image upload has failed");
+			}
+		});
+	}
 
 	/**
 	 * The Undo All button handler. This will revert any changes made.
