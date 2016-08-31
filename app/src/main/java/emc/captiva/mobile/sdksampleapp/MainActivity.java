@@ -7,6 +7,7 @@ package emc.captiva.mobile.sdksampleapp;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,6 +30,7 @@ import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdk.CaptureWindow;
 import emc.captiva.mobile.sdk.PictureCallback;
 import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
+import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
 import emc.captiva.mobile.sdksampleapp.Model.Cookie;
 import emc.captiva.mobile.sdksampleapp.Network.CaptivaImageUploadService;
@@ -35,6 +38,7 @@ import emc.captiva.mobile.sdksampleapp.Network.FilestackImageUploadService;
 import emc.captiva.mobile.sdksampleapp.RestClient.CaptivaImageUploaderClient;
 import emc.captiva.mobile.sdksampleapp.RestClient.FilestackClient;
 import emc.captiva.mobile.sdksampleapp.RestClient.SessionClient;
+import emc.captiva.mobile.sdksampleapp.Util.StringUtil;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -443,14 +447,34 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
             displayCustomToast("Login" , "Failed" , "Please Log in before attempting to Upload");
             return;
         }
-        //TODO 1)Write an Interface for Captival Upload Image
+
+        AssetManager am = getApplicationContext().getAssets();
+        InputStream is = null;
+        try{
+            is = getAssets().open("base64Image.txt");
+        }catch(Exception e){
+
+        }
+        String imageData = StringUtil.getStringFromInputStream(is);;
+        ImageUploadObj obj = new ImageUploadObj(imageData);
         CaptivaImageUploadService service = new CaptivaImageUploaderClient().createImageUploadServer();
+        Call<ResponseBody> call = service.uploadImage(obj);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("Success", "Captiva Image Upload succeed");
+                Log.d("Status Code", String.valueOf(response.code()));
+                Log.d("Response", response.message());
+                displayCustomToast("Captiva Image Upload", "Success" , response.message());
+            }
 
-        //TODO 2)Set Up to use binary like FileStack
-        String file_name = "1169155_713668108769575_1241597324_n.jpg";
-        RequestBody body = this.createRequestBody(file_name);
-        //TODO 3)Set up to use Json with data key
-
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("Error", "CaptivalImage upload has failed");
+                Log.e("Error" , t.toString());
+                displayCustomToast("CaptivaImage Upload", "Failed" , t.toString());
+            }
+        });
     }
 
     private void displayCustomToast(String action , String result, String description) {

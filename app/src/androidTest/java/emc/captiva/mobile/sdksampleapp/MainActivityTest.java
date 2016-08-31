@@ -49,6 +49,9 @@ public class MainActivityTest{
     public void loginButtonClick(){
 
         onView(withId(R.id.LoginButton)).perform(click());
+
+        //2)Click Ok on the alert dialog
+        onView(withId(android.R.id.button1)).perform(click());
     }
 
     @Test
@@ -59,9 +62,20 @@ public class MainActivityTest{
     }
 
     @Test
-    public void captivaUploadClick(){
+    public void captivaImageUploadTest(){
 
+        //1)First click login button
+        onView(withId(R.id.LoginButton)).perform(click());
+
+        //2)Click Ok on the alert dialog
+        onView(withId(android.R.id.button1)).perform(click());
+
+        //3)Second click on Captiva Upload button
         onView(withId(R.id.CaptivaUpload)).perform(click());
+
+        //4)Click Ok On the alert dialog
+        //onView(withId(android.R.id.button1)).perform(click());
+
 
     }
 
