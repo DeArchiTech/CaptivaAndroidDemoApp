@@ -46,43 +46,76 @@ public class MainActivityTest{
     }
 
     @Test
-    public void loginButtonClick(){
+    public void loginLogutTest(){
 
+        try{
+
+        //1)Click Log In
         onView(withId(R.id.LoginButton)).perform(click());
+
+        Thread.sleep(1500);
 
         //2)Click Ok on the alert dialog
         onView(withId(android.R.id.button1)).perform(click());
+
+        //3)Click Log Out
+        onView(withId(R.id.LogoutButton)).perform(click());
+
+        Thread.sleep(1500);
+
+        //2)Click Ok on the alert dialog
+        onView(withId(android.R.id.button1)).perform(click());
+
+        Thread.sleep(1500);
+
+        }catch (Exception e){
+
+        }
     }
 
     @Test
     public void fileStackUploadClick(){
 
+        //1)Click file stack upload
         onView(withId(R.id.FileStackUpload)).perform(click());
+
+        try{
+            Thread.sleep(1500);
+        }catch(Exception e){
+
+        }
+
+        //2)Click Ok on the alert dialog
+        onView(withId(android.R.id.button1)).perform(click());
 
     }
 
     @Test
     public void captivaImageUploadTest(){
 
-        //1)First click login button
-        onView(withId(R.id.LoginButton)).perform(click());
+        try{
 
-        //2)Click Ok on the alert dialog
-        onView(withId(android.R.id.button1)).perform(click());
+            //1)Click Log In
+            onView(withId(R.id.LoginButton)).perform(click());
 
-        //3)Second click on Captiva Upload button
-        onView(withId(R.id.CaptivaUpload)).perform(click());
+            Thread.sleep(1500);
 
-        //4)Click Ok On the alert dialog
-        //onView(withId(android.R.id.button1)).perform(click());
+            //2)Click Ok on the alert dialog
+            onView(withId(android.R.id.button1)).perform(click());
 
+            //3)Second click on Captiva Upload button
+            onView(withId(R.id.CaptivaUpload)).perform(click());
 
-    }
+            Thread.sleep(1500);
 
-    @Test
-    public void logoutButtonClick(){
+            //4)Click Ok on the alert dialog
+            onView(withId(android.R.id.button1)).perform(click());
 
-        onView(withId(R.id.LogoutButton)).perform(click());
+            Thread.sleep(1500);
+
+        }catch (Exception e){
+
+        }
 
     }
 
