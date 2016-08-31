@@ -1,20 +1,11 @@
 package emc.captiva.mobile.sdksampleapp;
 
-import android.content.Context;
 import android.test.suitebuilder.annotation.SmallTest;
-
 import junit.framework.TestCase;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-
 import emc.captiva.mobile.sdksampleapp.Util.ResponseUtil;
 import emc.captiva.mobile.sdksampleapp.Util.StringUtil;
-import retrofit2.Response;
+
 
 /**
  * Created by david on 8/30/16.
@@ -37,7 +28,6 @@ public class ResponseUtilTest extends TestCase{
         //1)Mock Up Objects
         String jsonFileName = "loginObject.json";
 
-        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         InputStream in = this.getClass().getClassLoader().getResourceAsStream(jsonFileName);
         String responseString = StringUtil.getStringFromInputStream(in);
 

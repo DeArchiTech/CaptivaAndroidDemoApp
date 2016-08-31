@@ -354,6 +354,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                         Log.d("Response", response.message());
                         String cookie = getCookieFromResponse(response);
                         Cookie.saveCookie(cookie);
+                        MainActivity.this.loggedIn = true;
                         displayCustomToast("Login", "Success" , response.message());
                     default:
                         Log.e("Error", "login call has failed");
@@ -374,7 +375,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     private String getCookieFromResponse(Response response){
 
-        return new ResponseUtil().getCookieFromResponse(response);
+        return new ResponseUtil().getCookieFromResponse(response.body().toString());
 
     }
 
@@ -389,13 +390,21 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("Success", "logout call succeed");
-                Log.d("Status Code", String.valueOf(response.code()));
-                Log.d("Response", response.message());
 
-                String cookie = getCookieFromResponse(response);
-                Cookie.saveCookie(cookie);
-                displayCustomToast("logout", "Success" , response.message());
+                switch(response.code()){
+
+                    case 200:
+                        Log.d("Success", "logout call succeed");
+                        Log.d("Status Code", String.valueOf(response.code()));
+                        Log.d("Response", response.message());
+                        Cookie.deleteCookie();
+                        MainActivity.this.loggedIn = false;
+                        displayCustomToast("logout", "Success" , response.message());
+                    default:
+                        Log.e("Error", "logout call has failed");
+                        displayCustomToast("logout", "Success" , response.message());
+                }
+
             }
 
             @Override

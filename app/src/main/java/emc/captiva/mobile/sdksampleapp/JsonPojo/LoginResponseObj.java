@@ -7,7 +7,7 @@ public class LoginResponseObj {
 
     final LoginResponseReturnStatusObj returnStatus;
 
-    final String ticket;
+    public final String ticket;
 
     public LoginResponseObj(LoginResponseReturnStatusObj returnStatus, String ticket) {
         this.returnStatus = returnStatus;
