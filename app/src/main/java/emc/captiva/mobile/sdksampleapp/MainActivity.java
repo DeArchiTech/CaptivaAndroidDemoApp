@@ -493,6 +493,14 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         this.startProcessDialog();
     }
 
+    public void onCaptureAndUpload(View view){
+        //TODO Implement
+    }
+
+    public void onEnhanceAndUpload(View view){
+        //TODO Implement
+    }
+
     private void displayCustomToast(String action , String result, String description) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
