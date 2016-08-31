@@ -1,4 +1,5 @@
 package emc.captiva.mobile.sdksampleapp.RestClient;
+import emc.captiva.mobile.sdksampleapp.Network.CaptivaCookieInterpreter;
 import emc.captiva.mobile.sdksampleapp.Network.CaptivaImageUploadService;
 import emc.captiva.mobile.sdksampleapp.Network.LoginInterceptor;
 import okhttp3.MultipartBody;
@@ -35,9 +36,8 @@ public class CaptivaImageUploaderClient {
 
     private OkHttpClient createClient(){
 
-        OkHttpClient client = new OkHttpClient();
-        client.interceptors().add(new LoginInterceptor());
-        return client;
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        return builder.addInterceptor(new CaptivaCookieInterpreter()).build();
 
     }
 

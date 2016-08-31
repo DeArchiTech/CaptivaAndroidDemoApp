@@ -389,16 +389,16 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                 switch(response.code()){
 
                     case 200:
-                        Log.d("Success", "logout call succeed");
+                        Log.d("Success", "Logout call succeed");
                         Log.d("Status Code", String.valueOf(response.code()));
                         Log.d("Response", response.message());
                         Cookie.deleteCookie();
                         MainActivity.this.loggedIn = false;
-                        displayCustomToast("logout", "Success" , response.message());
+                        displayCustomToast("Logout", "Success" , response.message());
                         break;
                     default:
-                        Log.e("Error", "logout call has failed");
-                        displayCustomToast("logout", "Success" , response.message());
+                        Log.e("Error", "Logout call has failed");
+                        displayCustomToast("Logout", "Failed" , response.message());
                         break;
                 }
 

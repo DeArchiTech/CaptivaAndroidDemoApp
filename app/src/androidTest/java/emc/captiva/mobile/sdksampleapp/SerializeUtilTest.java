@@ -24,7 +24,6 @@ public class SerializeUtilTest extends TestCase{
     @SmallTest
     public void testGetCookieFromResponse(){
 
-        //Todo Implement
         //1)Mock Up Objects
         String jsonFileName = "loginObject.json";
 

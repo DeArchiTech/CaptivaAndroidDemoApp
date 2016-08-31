@@ -1,8 +1,10 @@
 package emc.captiva.mobile.sdksampleapp.RestClient;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginRequestObj;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
+import emc.captiva.mobile.sdksampleapp.Network.CaptivaCookieInterpreter;
 import emc.captiva.mobile.sdksampleapp.Network.LoginInterceptor;
 import emc.captiva.mobile.sdksampleapp.Network.SessionService;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -19,7 +21,7 @@ public class SessionClient {
 
     public Call<LoginResponseObj> login(){
 
-        Retrofit retrofit = createAdapter();
+        Retrofit retrofit = createAdapter(new LoginInterceptor());
         SessionService service = retrofit.create(SessionService.class);
         return service.login(createLoginJsonObject());
 
@@ -27,26 +29,26 @@ public class SessionClient {
 
     public Call<ResponseBody> logout(){
 
-        Retrofit retrofit = createAdapter();
+        Retrofit retrofit = createAdapter(new CaptivaCookieInterpreter());
         SessionService service = retrofit.create(SessionService.class);
         return service.logout();
 
     }
 
-    private Retrofit createAdapter(){
+    private Retrofit createAdapter(Interceptor interceptor){
 
         return new Retrofit.Builder()
-                .client(createClient())
+                .client(createClient(interceptor))
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
     }
 
-    private OkHttpClient createClient(){
+    private OkHttpClient createClient(Interceptor interceptor){
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        return builder.addInterceptor(new LoginInterceptor()).build();
+        return builder.addInterceptor(interceptor).build();
 
     }
 
