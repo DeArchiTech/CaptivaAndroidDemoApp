@@ -1,6 +1,8 @@
 package emc.captiva.mobile.sdksampleapp;
 import android.test.suitebuilder.annotation.SmallTest;
 import junit.framework.TestCase;
+
+import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
 import emc.captiva.mobile.sdksampleapp.RestClient.SessionClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -24,7 +26,7 @@ public class SessionTest extends TestCase{
     public void testLogin(){
 
         SessionClient client = new SessionClient();
-        Call<ResponseBody> call = client.login();
+        Call<LoginResponseObj> call = client.login();
         assertNotNull(call);
 
     }

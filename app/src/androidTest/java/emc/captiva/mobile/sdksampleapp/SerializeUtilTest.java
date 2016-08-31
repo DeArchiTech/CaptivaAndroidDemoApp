@@ -3,14 +3,14 @@ package emc.captiva.mobile.sdksampleapp;
 import android.test.suitebuilder.annotation.SmallTest;
 import junit.framework.TestCase;
 import java.io.InputStream;
-import emc.captiva.mobile.sdksampleapp.Util.ResponseUtil;
+import emc.captiva.mobile.sdksampleapp.Util.SerializeUtil;
 import emc.captiva.mobile.sdksampleapp.Util.StringUtil;
 
 
 /**
  * Created by david on 8/30/16.
  */
-public class ResponseUtilTest extends TestCase{
+public class SerializeUtilTest extends TestCase{
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -32,7 +32,7 @@ public class ResponseUtilTest extends TestCase{
         String responseString = StringUtil.getStringFromInputStream(in);
 
         //2)Call Method
-        String result = new ResponseUtil().getCookieFromResponse(responseString);
+        String result = new SerializeUtil().getCookieFromResponse(responseString).ticket;
 
         //3)Assert Result is correct
         assertNotNull(result);

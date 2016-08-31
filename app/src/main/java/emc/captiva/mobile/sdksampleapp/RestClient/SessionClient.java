@@ -1,5 +1,6 @@
 package emc.captiva.mobile.sdksampleapp.RestClient;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginRequestObj;
+import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
 import emc.captiva.mobile.sdksampleapp.Network.LoginInterceptor;
 import emc.captiva.mobile.sdksampleapp.Network.SessionService;
 import okhttp3.OkHttpClient;
@@ -16,7 +17,7 @@ public class SessionClient {
     private static String BASE_URL = "http://104.209.39.82:8090";
 
 
-    public Call<ResponseBody> login(){
+    public Call<LoginResponseObj> login(){
 
         Retrofit retrofit = createAdapter();
         SessionService service = retrofit.create(SessionService.class);
@@ -28,7 +29,7 @@ public class SessionClient {
 
         Retrofit retrofit = createAdapter();
         SessionService service = retrofit.create(SessionService.class);
-        return service.logout(createLoginJsonObject());
+        return service.logout();
 
     }
 

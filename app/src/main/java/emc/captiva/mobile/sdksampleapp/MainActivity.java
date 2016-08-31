@@ -28,13 +28,13 @@ import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdk.CaptureWindow;
 import emc.captiva.mobile.sdk.PictureCallback;
 import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
+import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
 import emc.captiva.mobile.sdksampleapp.Model.Cookie;
 import emc.captiva.mobile.sdksampleapp.Network.CaptivaImageUploadService;
 import emc.captiva.mobile.sdksampleapp.Network.FilestackImageUploadService;
 import emc.captiva.mobile.sdksampleapp.RestClient.CaptivaImageUploaderClient;
 import emc.captiva.mobile.sdksampleapp.RestClient.FilestackClient;
 import emc.captiva.mobile.sdksampleapp.RestClient.SessionClient;
-import emc.captiva.mobile.sdksampleapp.Util.ResponseUtil;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -341,10 +341,10 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
             return;
         }
         SessionClient client = new SessionClient();
-        Call<ResponseBody> call = client.login();
-        call.enqueue(new Callback<ResponseBody>() {
+        Call<LoginResponseObj> call = client.login();
+        call.enqueue(new Callback<LoginResponseObj>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<LoginResponseObj> call, Response<LoginResponseObj> response) {
 
                 switch(response.code()){
 
@@ -352,30 +352,25 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                         Log.d("Success", "login call succeed");
                         Log.d("Status Code", String.valueOf(response.code()));
                         Log.d("Response", response.message());
-                        String cookie = getCookieFromResponse(response);
-                        Cookie.saveCookie(cookie);
+                        LoginResponseObj result = response.body();
+                        Cookie.saveCookie(result.ticket);
                         MainActivity.this.loggedIn = true;
                         displayCustomToast("Login", "Success" , response.message());
+                        break;
                     default:
                         Log.e("Error", "login call has failed");
                         displayCustomToast("Login", "Failed" , response.message());
+                        break;
                 }
 
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<LoginResponseObj> call, Throwable t) {
                 Log.e("Error", "login call has failed");
                 displayCustomToast("Login", "Failed" , t.toString());
             }
         });
-
-    }
-
-
-    private String getCookieFromResponse(Response response){
-
-        return new ResponseUtil().getCookieFromResponse(response.body().toString());
 
     }
 
@@ -400,9 +395,11 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                         Cookie.deleteCookie();
                         MainActivity.this.loggedIn = false;
                         displayCustomToast("logout", "Success" , response.message());
+                        break;
                     default:
                         Log.e("Error", "logout call has failed");
                         displayCustomToast("logout", "Success" , response.message());
+                        break;
                 }
 
             }
