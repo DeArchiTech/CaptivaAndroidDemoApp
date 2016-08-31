@@ -13,6 +13,7 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -59,9 +60,11 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
     static String USE_MOTION = "UseMotion";
     CustomWindow _customWindow;
     private boolean loggedIn = false;
+    private ProgressDialog dialog;
     /* (non-Javadoc)
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -350,6 +353,8 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
             @Override
             public void onResponse(Call<LoginResponseObj> call, Response<LoginResponseObj> response) {
 
+                MainActivity.this.stopProcessDialog();
+
                 switch(response.code()){
 
                     case 200:
@@ -372,9 +377,11 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
             @Override
             public void onFailure(Call<LoginResponseObj> call, Throwable t) {
                 Log.e("Error", "login call has failed");
+                MainActivity.this.stopProcessDialog();
                 displayCustomToast("Login", "Failed" , t.toString());
             }
         });
+        this.startProcessDialog();
 
     }
 
@@ -390,6 +397,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
+                MainActivity.this.stopProcessDialog();
                 switch(response.code()){
 
                     case 200:
@@ -411,9 +419,11 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("Error", "logout call has failed");
+                MainActivity.this.stopProcessDialog();
                 displayCustomToast("logout", "Success" , t.toString());
             }
         });
+        this.startProcessDialog();
 
     }
 
@@ -429,6 +439,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                 Log.d("Success", "Filestack Upload succeed");
                 Log.d("Status Code", String.valueOf(response.code()));
                 Log.d("Response", response.message());
+                MainActivity.this.stopProcessDialog();
                 displayCustomToast("Filestack Upload", "Success" , response.message());
             }
 
@@ -436,15 +447,17 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("Error", "Filestack upload has failed");
                 Log.e("Error" , t.toString());
+                MainActivity.this.stopProcessDialog();
                 displayCustomToast("Filestack Upload", "Success" , t.toString());
             }
         });
+        this.startProcessDialog();
     }
 
     public void onCaptivaUpload(View view) {
 
         if(!this.loggedIn){
-            displayCustomToast("Login" , "Failed" , "Please Log in before attempting to Upload");
+            displayCustomToast("Upload" , "Failed" , "Please Log in before attempting to Upload");
             return;
         }
 
@@ -465,6 +478,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                 Log.d("Success", "Captiva Image Upload succeed");
                 Log.d("Status Code", String.valueOf(response.code()));
                 Log.d("Response", response.message());
+                MainActivity.this.stopProcessDialog();
                 displayCustomToast("Captiva Image Upload", "Success" , response.message());
             }
 
@@ -472,9 +486,11 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("Error", "CaptivalImage upload has failed");
                 Log.e("Error" , t.toString());
+                MainActivity.this.stopProcessDialog();
                 displayCustomToast("CaptivaImage Upload", "Failed" , t.toString());
             }
         });
+        this.startProcessDialog();
     }
 
     private void displayCustomToast(String action , String result, String description) {
@@ -550,6 +566,25 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
             _newLoad = true;
             startActivity(intent);
         }
+    }
+
+
+    private boolean startProcessDialog(){
+
+        if(this.dialog == null){
+            this.dialog = new ProgressDialog(this);
+        }
+        this.dialog.show();
+        return true;
+    }
+
+    private boolean stopProcessDialog(){
+
+        if(this.dialog != null){
+            this.dialog.dismiss();
+            return true;
+        }
+        return false;
     }
 }
 
