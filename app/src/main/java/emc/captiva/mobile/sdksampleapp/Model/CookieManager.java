@@ -1,6 +1,6 @@
 package emc.captiva.mobile.sdksampleapp.Model;
 
-import android.util.Log;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -12,109 +12,91 @@ public class CookieManager {
     public static Cookie sessionCookie;
 
     //Delete All The Cookies and persist one cookie
-    public void createAndPersistOneCookie(final String cookieString){
+    public void createAndPersistOneCookie(final String cookieString, Realm realm,
+                                          Realm.Transaction.OnSuccess onSuccess,
+                                          Realm.Transaction.OnError onError){
 
-        Realm realm = Realm.getDefaultInstance();
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgrealm) {
-
-                //Delete Cookies
-                RealmResults<Cookie> cookies = bgrealm.where(Cookie.class).findAll();
-
-                //Persist One Cookie
-                Cookie cookie = bgrealm.createObject(Cookie.class);
-                cookie.setCookie(cookieString);
-                CookieManager.this.sessionCookie = cookie;
-
+                CookieManager.this.createAndPersistSync(bgrealm,cookieString);
             }
-        },new Realm.Transaction.OnSuccess(){
-            @Override
-            public void onSuccess() {
-                Log.i("Realm" , "Cookie save succeed");
-            }
-        }, new Realm.Transaction.OnError(){
-            @Override
-            public void onError(Throwable error) {
-                Log.i("Realm" , "Cookie save failed");
-            }
-        });
+        },onSuccess,onError);
 
     }
 
-    public void createCookie(final String cookieString){
+    public void createAndPersistSync(Realm bgrealm,String cookieString){
 
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm bgrealm) {
-                Cookie cookie = bgrealm.createObject(Cookie.class);
-                cookie.setCookie(cookieString);
-                CookieManager.this.sessionCookie = cookie;
-            }
-        },new Realm.Transaction.OnSuccess(){
-            @Override
-            public void onSuccess() {
-                Log.i("Realm" , "Cookie save succeed");
-            }
-        }, new Realm.Transaction.OnError(){
-            @Override
-            public void onError(Throwable error) {
-                Log.i("Realm" , "Cookie save failed");
-            }
-        });
+        //Delete Cookies
+        RealmResults<Cookie> cookies = bgrealm.where(Cookie.class).findAll();
+
+        //Persist One Cookie
+        Cookie cookie = bgrealm.createObject(Cookie.class);
+        cookie.setCookie(cookieString);
+        CookieManager.this.sessionCookie = cookie;
 
     }
 
-    public void readCookie(){
+    public void createCookieAync(final String cookieString, final Realm realm, Realm.Transaction.OnSuccess onSuccess
+            , Realm.Transaction.OnError onError){
 
-        Realm realm = Realm.getDefaultInstance();
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgrealm) {
+                CookieManager.this.createCookieSync(realm,cookieString);
+            }
+        },onSuccess,onError);
 
-                final RealmResults<Cookie> cookies = bgrealm.where(Cookie.class).findAll();
-                if(cookies.size() > 0){
-                    CookieManager.sessionCookie=cookies.first();
-                }
-            }
-        },new Realm.Transaction.OnSuccess(){
-            @Override
-            public void onSuccess() {
-                Log.i("Realm" , "Cookie read succeed");
-            }
-        }, new Realm.Transaction.OnError(){
-            @Override
-            public void onError(Throwable error) {
-                Log.i("Realm" , "Cookie read failed");
-            }
-        });
     }
 
+    public void createCookieSync(Realm bgrealm,String cookieString){
 
-    public void deleteCookie(){
+        Cookie cookie = bgrealm.createObject(Cookie.class);
+        cookie.setCookie(cookieString);
+        CookieManager.this.sessionCookie = cookie;
+    }
 
-        Realm realm = Realm.getDefaultInstance();
+    public void readCookieAsync(Realm realm,Realm.Transaction.OnSuccess onSuccess
+            , Realm.Transaction.OnError onError){
+
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgrealm) {
 
-                RealmResults<Cookie> cookies = bgrealm.where(Cookie.class).findAll();
-                if (cookies.deleteAllFromRealm()){
-                    CookieManager.sessionCookie = null;
-                }
+                CookieManager.this.readCookieSync(bgrealm);
             }
-        },new Realm.Transaction.OnSuccess(){
+        },onSuccess,onError);
+    }
+
+    public void readCookieSync(Realm bgrealm){
+
+        final RealmResults<Cookie> cookies = bgrealm.where(Cookie.class).findAll();
+        if(cookies.size() > 0){
+            CookieManager.sessionCookie=cookies.first();
+        }else{
+            CookieManager.sessionCookie=null;
+        }
+    }
+
+    public void deleteCookie(Realm realm,Realm.Transaction.OnSuccess onSuccess
+            , Realm.Transaction.OnError onError){
+
+        realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
-            public void onSuccess() {
-                Log.i("Realm" , "Cookie delete succeed");
+            public void execute(Realm bgrealm) {
+
+                CookieManager.this.deleteCookieSync(bgrealm);
             }
-        }, new Realm.Transaction.OnError(){
-            @Override
-            public void onError(Throwable error) {
-                Log.i("Realm" , "Cookie delete failed");
-            }
-        });
+        },onSuccess,onError);
+    }
+
+    public void deleteCookieSync(Realm bgrealm){
+
+        final RealmResults<Cookie> cookies = bgrealm.where(Cookie.class).findAll();
+        cookies.deleteAllFromRealm();
+        if(cookies.size() == 0){
+            CookieManager.sessionCookie=null;
+        }
     }
 
 }

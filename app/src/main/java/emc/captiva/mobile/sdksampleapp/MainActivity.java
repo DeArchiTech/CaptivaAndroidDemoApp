@@ -40,6 +40,7 @@ import emc.captiva.mobile.sdksampleapp.RestClient.FilestackClient;
 import emc.captiva.mobile.sdksampleapp.RestClient.SessionClient;
 import emc.captiva.mobile.sdksampleapp.Util.StringUtil;
 import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
+import io.realm.Realm;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -51,9 +52,11 @@ import retrofit2.Response;
  * This class represents the main window offering the ability to take a picture,
  * enhance an image from the gallery, or adjust the settings.
  */
-public class MainActivity extends Activity implements PictureCallback, ContinuousCaptureCallback {
+public class MainActivity extends Activity implements PictureCallback, ContinuousCaptureCallback, Realm.Transaction.OnSuccess,Realm.Transaction.OnError {
 	static boolean _newLoad = true;
     private static String TAG = MainActivity.class.getSimpleName();
+
+
     private final int CHOOSE_IMAGE = 1;
     private int _captureCount = 0;
     static String USE_QUADVIEW = "UseQuadView";
@@ -374,7 +377,8 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                         Log.d("Status Code", String.valueOf(response.code()));
                         Log.d("Response", response.message());
                         LoginResponseObj result = response.body();
-                        new CookieManager().createAndPersistOneCookie(result.ticket);
+                        new CookieManager().createAndPersistOneCookie(result.ticket,getRealmInstance()
+                                ,MainActivity.this, MainActivity.this);
                         MainActivity.this.loggedIn = true;
                         MainActivity.this.enableButtons(MainActivity.this.loggedIn);
                         displayCustomToast("Login", "Success" , response.message());
@@ -417,7 +421,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                         Log.d("Success", "Logout call succeed");
                         Log.d("Status Code", String.valueOf(response.code()));
                         Log.d("Response", response.message());
-                        new CookieManager().deleteCookie();
+                        new CookieManager().deleteCookie(getRealmInstance(),MainActivity.this,MainActivity.this);
                         MainActivity.this.loggedIn = false;
                         MainActivity.this.enableButtons(MainActivity.this.loggedIn);
                         displayCustomToast("Logout", "Success" , response.message());
@@ -613,5 +617,20 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     }
 
+
+    @Override
+    public void onError(Throwable error) {
+
+    }
+
+    @Override
+    public void onSuccess() {
+
+    }
+
+    private Realm getRealmInstance(){
+
+        return null;
+    }
 }
 
