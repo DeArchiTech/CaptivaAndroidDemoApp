@@ -8,13 +8,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
     android:background="@android:color/black">
-    
+	<Button
+		android:id="@+id/LoginButton"
+		android:layout_alignParentTop="true"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="5dp"
+		android:gravity="center_vertical"
+		android:padding="10dp"
+		android:drawableRight="@drawable/ic_next"
+		android:background="@drawable/green_button"
+		android:onClick="onLogin"
+		android:textColor="#FFFFFF"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:text="@string/MainPage_Login" />
+	<Button
+		android:id="@+id/LogoutButton"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="5dp"
+		android:layout_below="@+id/LoginButton"
+		android:gravity="center_vertical"
+		android:padding="10dp"
+		android:drawableRight="@drawable/ic_next"
+		android:background="@drawable/green_button"
+		android:onClick="onLogout"
+		android:textColor="#FFFFFF"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:text="@string/MainPage_Logout" />
 	<Button
 	    android:id="@+id/takepicturebtn"
     	android:layout_width="match_parent"
 	 	android:layout_height="wrap_content"
 	 	android:layout_marginTop="5dp"
-        android:layout_alignParentTop="true"
+		android:layout_below="@id/LogoutButton"
 	 	android:gravity="center_vertical"
 	  	android:padding="10dp"
 	  	android:drawableRight="@drawable/ic_next"
@@ -65,40 +92,13 @@
 	  	android:textColor="#FFFFFF"
 	  	android:textAppearance="?android:attr/textAppearanceMedium"
 	  	android:text="@string/MainPage_Settings" />
-	<Button
-		android:id="@+id/LoginButton"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="5dp"
-		android:layout_below="@+id/SettingsButton"
-		android:gravity="center_vertical"
-		android:padding="10dp"
-		android:drawableRight="@drawable/ic_next"
-		android:background="@drawable/green_button"
-		android:onClick="onLogin"
-		android:textColor="#FFFFFF"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:text="@string/MainPage_Login" />
-	<Button
-		android:id="@+id/LogoutButton"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="5dp"
-		android:layout_below="@+id/LoginButton"
-		android:gravity="center_vertical"
-		android:padding="10dp"
-		android:drawableRight="@drawable/ic_next"
-		android:background="@drawable/green_button"
-		android:onClick="onLogout"
-		android:textColor="#FFFFFF"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:text="@string/MainPage_Logout" />
+
 	<Button
 		android:id="@+id/FileStackUpload"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="5dp"
-		android:layout_below="@+id/LogoutButton"
+		android:layout_below="@+id/SettingsButton"
 		android:gravity="center_vertical"
 		android:padding="10dp"
 		android:drawableRight="@drawable/ic_next"
@@ -122,6 +122,27 @@
 		android:textAppearance="?android:attr/textAppearanceMedium"
 		android:text="@string/MainPage_CaptivaUpload" />
 
+	<Switch
+		android:id="@+id/autoApplyFilter"
+		android:layout_width="match_parent"
+		android:layout_height="60dp"
+		android:layout_marginTop="5dp"
+		android:layout_below="@+id/CaptivaUpload"
+		android:background="@drawable/green_button"
+		android:gravity="center_vertical"
+		android:padding="10dp"
+		android:text="@string/MainPage_AutoApplyFilter"/>
+
+	<Spinner
+		android:id="@+id/filterProfileDropDown"
+		android:layout_width="match_parent"
+		android:layout_height="60dp"
+		android:layout_marginTop="5dp"
+		android:layout_below="@+id/autoApplyFilter"
+		android:gravity="center_vertical"
+		android:padding="10dp"
+		android:text="@string/MainPage_filterProfileSelections"/>
+
 	<TextView
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
@@ -130,6 +151,10 @@
 	    android:padding="2dp"
 	    android:text="@string/AppCopyright"
 	    android:textColor="#FFFFFF"
-	    android:textStyle="bold" />
+	    android:textStyle="bold"
+		android:id="@+id/textView" />
+
+
+
 
 </RelativeLayout>

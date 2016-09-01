@@ -1,21 +1,19 @@
 package emc.captiva.mobile.sdksampleapp.Model;
+import io.realm.RealmObject;
 
 /**
  * Created by david on 8/30/16.
  */
-public class Cookie {
+public class Cookie extends RealmObject{
 
-    public static String cookie;
+    private String cookie;
 
-    public static void saveCookie(String cookie){
-        Cookie.cookie = cookie;
-        //Todo Implement
-        //Write to Databse;
+    public String getCookie() {
+        return cookie;
     }
 
-    public static void deleteCookie(){
-        //Todo Implement
-        //Delete from Database;
+    public void setCookie(String cookie) {
+        this.cookie = cookie;
     }
 
 }

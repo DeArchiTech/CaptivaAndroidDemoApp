@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,6 +37,7 @@ import emc.captiva.mobile.sdksampleapp.Model.Cookie;
 import emc.captiva.mobile.sdksampleapp.Network.CaptivaImageUploadService;
 import emc.captiva.mobile.sdksampleapp.RestClient.CaptivaImageUploaderClient;
 import emc.captiva.mobile.sdksampleapp.Util.ImageFileUtil;
+import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,6 +56,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 	private ProgressBar _progressBar = null;	
 	private Menu _menu = null;
 	private RelativeLayout _enhanceLayout = null;
+	private ProgressDialog dialog;
 
 	/**
 	 * Called when the quadrilateral crop operation is complete.
@@ -241,6 +244,9 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 						Log.d("Success", "Image Upload succeed");
 						Log.d("Status Code", String.valueOf(response.code()));
 						Log.d("Response", response.message());
+						EnhanceImageActivity.this.stopProcessDialog();
+						EnhanceImageActivity.this.displayCustomToast("Image Upload"
+								,"Success" ,"Image" + response.message());
 						break;
 					default:
 						Log.e("Error", "Image upload has failed");
@@ -253,6 +259,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 				Log.e("Error", "Image upload has failed");
 			}
 		});
+		this.startProcessDialog();
 	}
 
 	/**
@@ -633,5 +640,29 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		parameters.put(CaptureImage.FILTER_PARAM_ADAPTIVE_BINARY_BLACKNESS, blackness);
 
 		return parameters;
-	}		
+	}
+
+	private boolean startProcessDialog(){
+
+		if(this.dialog == null){
+			this.dialog = new UIUtils().createProgressDialog(this);
+		}
+		this.dialog.show();
+		return true;
+	}
+
+	private boolean stopProcessDialog(){
+
+		if(this.dialog != null){
+			this.dialog.dismiss();
+			return true;
+		}
+		return false;
+	}
+
+	private void displayCustomToast(String action , String result, String description) {
+
+		new UIUtils().createAlertDialog(this, action,result,description);
+
+	}
 }

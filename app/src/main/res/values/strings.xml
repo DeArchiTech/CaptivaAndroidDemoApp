@@ -13,6 +13,9 @@
 	<string name="MainPage_Logout">Logout</string>
 	<string name="MainPage_FileStackUpload">FileStackUpload(Static)</string>
     <string name="MainPage_CaptivaUpload">CaptivaUpload(Static)</string>
+    <string name="MainPage_AutoApplyFilter">Apply Filter Automatically</string>
+    <string name="MainPage_filterProfileSelections">Please select a filter profile</string>
+
     <string name="EnhanceImage_Title">Enhance Image</string>
     <string name="EnhanceImageCrop_Title">Crop Image</string>
     <string name="EnhanceImageQuadCrop_Title">Quad Crop Image</string>

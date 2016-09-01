@@ -3,6 +3,7 @@ package emc.captiva.mobile.sdksampleapp.Network;
 import java.io.IOException;
 
 import emc.captiva.mobile.sdksampleapp.Model.Cookie;
+import emc.captiva.mobile.sdksampleapp.Model.CookieManager;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -28,7 +29,7 @@ public class CaptivaCookieInterpreter implements Interceptor {
     }
 
     private String getCookieString(){
-        return "CPTV-TICKET=" + Cookie.cookie;
+        return "CPTV-TICKET=" + CookieManager.sessionCookie.getCookie();
     }
 
 }

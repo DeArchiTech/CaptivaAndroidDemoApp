@@ -12,9 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -24,6 +22,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.Button;
 
 import emc.captiva.mobile.sdk.CaptureException;
 import emc.captiva.mobile.sdk.CaptureImage;
@@ -33,12 +32,14 @@ import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
 import emc.captiva.mobile.sdksampleapp.Model.Cookie;
+import emc.captiva.mobile.sdksampleapp.Model.CookieManager;
 import emc.captiva.mobile.sdksampleapp.Network.CaptivaImageUploadService;
 import emc.captiva.mobile.sdksampleapp.Network.FilestackImageUploadService;
 import emc.captiva.mobile.sdksampleapp.RestClient.CaptivaImageUploaderClient;
 import emc.captiva.mobile.sdksampleapp.RestClient.FilestackClient;
 import emc.captiva.mobile.sdksampleapp.RestClient.SessionClient;
 import emc.captiva.mobile.sdksampleapp.Util.StringUtil;
+import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -80,7 +81,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
      */
     public void onTakePicture(View view) {
         // Use a separate HashMap to hold non-TakePicture parameter values from preferences.
-        if(this.loggedIn){
+        if(!this.loggedIn){
             displayCustomToast("Take Picture" , "Failed" , "Please Log in before attempting Take Pictures");
             return;
         }
@@ -173,6 +174,10 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
      * @param view      The view for the control event.
      */
     public void onTakeContinuousPictures(View view) {
+        if(!this.loggedIn){
+            displayCustomToast("Taking Continuous picture" , "Failed" , "Please Log in before attempting to Take Continus Picture");
+            return;
+        }
         // Use a separate HashMap to hold non-TakePicture parameter values from preferences.
         HashMap<String, Object> appParams = new HashMap<>();
         // Obtain our picture parameters from the preferences. Only supported SDK keys should go into parameters.
@@ -329,7 +334,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         // storage folder, it will still save and you can verify that it is there by using the 
         // Android "My Files" application if available on your device, or the Android Debug 
         // Bridge (adb). You can get the path to the file by debugging this application's save function.
-        if(this.loggedIn){
+        if(!this.loggedIn){
             displayCustomToast("Enhance Image" , "Failed" , "Please Log in before attempting to Enhance Image");
             return;
         }
@@ -369,8 +374,9 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                         Log.d("Status Code", String.valueOf(response.code()));
                         Log.d("Response", response.message());
                         LoginResponseObj result = response.body();
-                        Cookie.saveCookie(result.ticket);
+                        new CookieManager().createAndPersistOneCookie(result.ticket);
                         MainActivity.this.loggedIn = true;
+                        MainActivity.this.enableButtons(MainActivity.this.loggedIn);
                         displayCustomToast("Login", "Success" , response.message());
                         break;
                     default:
@@ -411,8 +417,9 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                         Log.d("Success", "Logout call succeed");
                         Log.d("Status Code", String.valueOf(response.code()));
                         Log.d("Response", response.message());
-                        Cookie.deleteCookie();
+                        new CookieManager().deleteCookie();
                         MainActivity.this.loggedIn = false;
+                        MainActivity.this.enableButtons(MainActivity.this.loggedIn);
                         displayCustomToast("Logout", "Success" , response.message());
                         break;
                     default:
@@ -493,25 +500,10 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                 Log.e("Error", "CaptivalImage upload has failed");
                 Log.e("Error" , t.toString());
                 MainActivity.this.stopProcessDialog();
-                displayCustomToast("CaptivaImage Upload", "Failed" , t.toString());
+                new UIUtils().createAlertDialog(MainActivity.this,"CaptivaImage Upload","Failed",t.toString());
             }
         });
         this.startProcessDialog();
-    }
-
-    private void displayCustomToast(String action , String result, String description) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setMessage(action + " " + result)
-                .setPositiveButton(description, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // FIRE ZE MISSILES!
-                        dialog.dismiss();
-                    }
-                });
-        AlertDialog dialog  = builder.create();
-        dialog.show();
-
     }
 
     private RequestBody createRequestBody(String fileName){
@@ -578,9 +570,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
     private boolean startProcessDialog(){
 
         if(this.dialog == null){
-            this.dialog = new ProgressDialog(this);
-            this.dialog.setTitle("Loading");
-            this.dialog.setMessage("Connecting to server");
+            this.dialog = new UIUtils().createProgressDialog(this);
         }
         this.dialog.show();
         return true;
@@ -594,5 +584,34 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         }
         return false;
     }
+
+    private void displayCustomToast(String action , String result, String description) {
+
+        new UIUtils().createAlertDialog(this, action,result,description);
+
+    }
+
+    private void enableButtons(boolean loggedIn){
+
+        Button button1 = (Button)findViewById(R.id.takecontinuouspicturesbtn);
+        Button button2 = (Button)findViewById(R.id.enhancepicturebtn);
+        Button button3 = (Button)findViewById(R.id.CaptivaUpload);
+        Button button4 = (Button)findViewById(R.id.takepicturebtn);
+        Button button5 = (Button)findViewById(R.id.enhancepicturebtn);
+
+        button1.setEnabled(loggedIn);
+        button2.setEnabled(loggedIn);
+        button3.setEnabled(loggedIn);
+        button4.setEnabled(loggedIn);
+        button5.setEnabled(loggedIn);
+
+        Button buttonLogout = (Button)findViewById(R.id.LogoutButton);
+        Button buttonLogin = (Button)findViewById(R.id.LoginButton);
+
+        buttonLogin.setEnabled(!loggedIn);
+        buttonLogout.setEnabled(loggedIn);
+
+    }
+
 }
 
