@@ -122,23 +122,27 @@
 		android:textAppearance="?android:attr/textAppearanceMedium"
 		android:text="@string/MainPage_CaptivaUpload" />
 
-	<Switch
-		android:id="@+id/autoApplyFilter"
+	<Button
+		android:id="@+id/CreateFilterProfile"
 		android:layout_width="match_parent"
-		android:layout_height="60dp"
+		android:layout_height="wrap_content"
 		android:layout_marginTop="5dp"
 		android:layout_below="@+id/CaptivaUpload"
-		android:background="@drawable/green_button"
 		android:gravity="center_vertical"
 		android:padding="10dp"
-		android:text="@string/MainPage_AutoApplyFilter"/>
+		android:drawableRight="@drawable/ic_next"
+		android:background="@drawable/green_button"
+		android:onClick="onCreateFilterProfile"
+		android:textColor="#FFFFFF"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:text="@string/MainPage_CreateFilterProfile" />
 
 	<Spinner
 		android:id="@+id/filterProfileDropDown"
 		android:layout_width="match_parent"
 		android:layout_height="60dp"
 		android:layout_marginTop="5dp"
-		android:layout_below="@+id/autoApplyFilter"
+		android:layout_below="@+id/CreateFilterProfile"
 		android:gravity="center_vertical"
 		android:padding="10dp"
 		android:text="@string/MainPage_filterProfileSelections"/>
@@ -153,8 +157,5 @@
 	    android:textColor="#FFFFFF"
 	    android:textStyle="bold"
 		android:id="@+id/textView" />
-
-
-
 
 </RelativeLayout>

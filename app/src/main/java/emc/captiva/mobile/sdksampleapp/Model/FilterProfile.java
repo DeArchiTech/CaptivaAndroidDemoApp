@@ -36,5 +36,4 @@ public class FilterProfile  extends RealmObject {
         this.filters = filters;
     }
 
-
 }

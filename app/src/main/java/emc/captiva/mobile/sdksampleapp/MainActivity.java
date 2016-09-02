@@ -31,7 +31,6 @@ import emc.captiva.mobile.sdk.PictureCallback;
 import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
-import emc.captiva.mobile.sdksampleapp.Model.Cookie;
 import emc.captiva.mobile.sdksampleapp.Model.CookieManager;
 import emc.captiva.mobile.sdksampleapp.Network.CaptivaImageUploadService;
 import emc.captiva.mobile.sdksampleapp.Network.FilestackImageUploadService;
@@ -41,6 +40,7 @@ import emc.captiva.mobile.sdksampleapp.RestClient.SessionClient;
 import emc.captiva.mobile.sdksampleapp.Util.StringUtil;
 import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -510,6 +510,16 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         this.startProcessDialog();
     }
 
+    public void onCreateFilterProfile(View view) {
+
+        if(!this.loggedIn){
+            displayCustomToast("Create Profile" , "Failed" , "Please Log in before attempting to Create Profile");
+            return;
+        }
+        Intent intent = new Intent(this, CreateFilterProfileActivity.class);
+        startActivity(intent);
+    }
+
     private RequestBody createRequestBody(String fileName){
 
         //Create file
@@ -630,7 +640,10 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     private Realm getRealmInstance(){
 
-        return null;
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder(getBaseContext()).build();
+        Realm.setDefaultConfiguration(realmConfig);
+        return Realm.getDefaultInstance();
+
     }
 }
 

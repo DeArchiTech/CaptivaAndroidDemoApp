@@ -43,6 +43,8 @@ public class MainActivityTest{
                 .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_CaptivaUpload)));
         onView(withId(R.id.LogoutButton))
                 .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_Logout)));
+        onView(withId(R.id.CreateFilterProfile))
+                .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_CreateFilterProfile)));
     }
 
     @Test
@@ -110,6 +112,32 @@ public class MainActivityTest{
 
             //4)Click Ok on the alert dialog
             onView(withId(android.R.id.button1)).perform(click());
+
+            Thread.sleep(1500);
+
+        }catch (Exception e){
+
+        }
+
+    }
+
+    @Test
+    public void createProfileButtonTest(){
+
+        try{
+            //1)Click Log In
+            onView(withId(R.id.LoginButton)).perform(click());
+
+            Thread.sleep(1500);
+
+            //2)Click Ok on the alert dialog
+            onView(withId(android.R.id.button1)).perform(click());
+
+            //3)Second click on Captiva Upload button
+            onView(withId(R.id.CaptivaUpload)).perform(click());
+
+            //1)Click Create Profile Button
+            onView(withId(R.id.CreateFilterProfile)).perform(click());
 
             Thread.sleep(1500);
 

@@ -13,7 +13,7 @@
 	<string name="MainPage_Logout">Logout</string>
 	<string name="MainPage_FileStackUpload">FileStackUpload(Static)</string>
     <string name="MainPage_CaptivaUpload">CaptivaUpload(Static)</string>
-    <string name="MainPage_AutoApplyFilter">Apply Filter Automatically</string>
+    <string name="MainPage_CreateFilterProfile">Create Filter Profile</string>
     <string name="MainPage_filterProfileSelections">Please select a filter profile</string>
 
     <string name="EnhanceImage_Title">Enhance Image</string>
@@ -203,4 +203,7 @@
         <item>@string/GPREF_CAPTURE_CUSTOM_OPTIONS_EXTEND</item>
         <item>@string/GPREF_CAPTURE_CUSTOM_OPTIONS_REPLACE</item>
     </string-array>
+
+    <string name="CreateProfilePage_CreateBtn">Create Filter Profile</string>
+    <string name="CreateProfilePage_Title">Select the filters for your profile</string>
 </resources>
