@@ -6,11 +6,11 @@ import io.realm.RealmObject;
 /**
  * Created by david on 9/1/16.
  */
-public class UserSettings extends RealmObject {
+public class FilterProfile  extends RealmObject {
 
-    private boolean autoMaticallyApplyFilter;
     private int id;
     private RealmList<Filter> filters;
+    private boolean autoMaticallyApplyFilter;
 
     public boolean isAutoMaticallyApplyFilter() {
         return autoMaticallyApplyFilter;
@@ -35,4 +35,6 @@ public class UserSettings extends RealmObject {
     public void setFilters(RealmList<Filter> filters) {
         this.filters = filters;
     }
+
+
 }

@@ -2,11 +2,8 @@ package emc.captiva.mobile.sdksampleapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.core.deps.guava.util.concurrent.ThreadFactoryBuilder;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
-
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -80,7 +77,7 @@ public class CookieManagerTest{
                 Assert.assertNull(CookieManager.sessionCookie);
 
                 realm.beginTransaction();
-                manager.createAndPersistSync(Realm.getInstance(realmConfig), staticCookie);
+                manager.createAndPersistSync(Realm.getInstance(realmConfig), randomCookie);
                 realm.commitTransaction();
 
                 Assert.assertNotNull(CookieManager.sessionCookie);
@@ -90,11 +87,11 @@ public class CookieManagerTest{
                 Assert.assertNull(CookieManager.sessionCookie);
 
                 realm.beginTransaction();
-                manager.createAndPersistSync(Realm.getInstance(realmConfig), staticCookie);
+                manager.createAndPersistSync(Realm.getInstance(realmConfig), randomCookie);
                 realm.commitTransaction();
 
                 Assert.assertNotNull(CookieManager.sessionCookie);
-                Assert.assertEquals(CookieManager.sessionCookie.getCookie(), staticCookie);
+                Assert.assertEquals(CookieManager.sessionCookie.getCookie(), randomCookie);
 
                 //5)DELETE & ATTEMPT TO READ TEST
                 Assert.assertNotNull(CookieManager.sessionCookie);
