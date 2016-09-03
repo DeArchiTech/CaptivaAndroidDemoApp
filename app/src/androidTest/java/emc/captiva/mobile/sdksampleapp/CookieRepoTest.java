@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import emc.captiva.mobile.sdksampleapp.Model.CookieManager;
+import emc.captiva.mobile.sdksampleapp.Model.CookieRepo;
 import emc.captiva.mobile.sdksampleapp.Util.StringUtil;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -18,7 +18,7 @@ import io.realm.RealmConfiguration;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class CookieManagerTest{
+public class CookieRepoTest {
 
     private String randomCookie = StringUtil.getSaltString();
     private String staticCookie = "I AM A COOKIE";
@@ -42,7 +42,7 @@ public class CookieManagerTest{
                         .build();
 
                 //2)Create manager and Realm Instance
-                CookieManager manager = new CookieManager();
+                CookieRepo manager = new CookieRepo();
                 Realm realm = Realm.getInstance(realmConfig);
                 realm.beginTransaction();
 
@@ -70,37 +70,37 @@ public class CookieManagerTest{
                         .build();
 
                 //2)Create manager and Realm Instance
-                CookieManager manager = new CookieManager();
+                CookieRepo manager = new CookieRepo();
                 Realm realm = Realm.getInstance(realmConfig);
 
                 //3)CREATE TEST
-                Assert.assertNull(CookieManager.sessionCookie);
+                Assert.assertNull(CookieRepo.sessionCookie);
 
                 realm.beginTransaction();
                 manager.createAndPersistSync(Realm.getInstance(realmConfig), randomCookie);
                 realm.commitTransaction();
 
-                Assert.assertNotNull(CookieManager.sessionCookie);
+                Assert.assertNotNull(CookieRepo.sessionCookie);
 
                 //4)READ TEST
-                CookieManager.sessionCookie=null;
-                Assert.assertNull(CookieManager.sessionCookie);
+                CookieRepo.sessionCookie=null;
+                Assert.assertNull(CookieRepo.sessionCookie);
 
                 realm.beginTransaction();
                 manager.createAndPersistSync(Realm.getInstance(realmConfig), randomCookie);
                 realm.commitTransaction();
 
-                Assert.assertNotNull(CookieManager.sessionCookie);
-                Assert.assertEquals(CookieManager.sessionCookie.getCookie(), randomCookie);
+                Assert.assertNotNull(CookieRepo.sessionCookie);
+                Assert.assertEquals(CookieRepo.sessionCookie.getCookie(), randomCookie);
 
                 //5)DELETE & ATTEMPT TO READ TEST
-                Assert.assertNotNull(CookieManager.sessionCookie);
+                Assert.assertNotNull(CookieRepo.sessionCookie);
 
                 realm.beginTransaction();
                 manager.deleteCookieSync(Realm.getInstance(realmConfig));
                 realm.commitTransaction();
 
-                Assert.assertNull(CookieManager.sessionCookie);
+                Assert.assertNull(CookieRepo.sessionCookie);
 
             }
 

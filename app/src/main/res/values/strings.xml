@@ -203,7 +203,28 @@
         <item>@string/GPREF_CAPTURE_CUSTOM_OPTIONS_EXTEND</item>
         <item>@string/GPREF_CAPTURE_CUSTOM_OPTIONS_REPLACE</item>
     </string-array>
+    <string-array name="Filter_List">
+        <item>@string/Menu_ImageLabel</item>
+        <item>@string/Menu_BlackWhite</item>
+        <item>@string/Menu_Gray</item>
+        <item>@string/Menu_Deskew</item>
+        <item>@string/Menu_RotateLeft</item>
+        <item>@string/Menu_RotateRight</item>
+        <item>@string/Menu_Crop</item>
+        <item>@string/Menu_QuadCrop</item>
+        <item>@string/Menu_AutoCrop</item>
+        <item>@string/Menu_Delete</item>
+        <item>@string/Menu_GetInfo</item>
+        <item>@string/Menu_Lighter</item>
+        <item>@string/Menu_Darker</item>
+        <item>@string/Menu_IncreaseContrast</item>
+        <item>@string/Menu_DecreaseContrast</item>
+        <item>@string/Menu_RemoveNoise</item>
+        <item>@string/Menu_Resize</item>
+        <item>@string/Menu_Rotate180</item>
+        <item>@string/Menu_ImageUpload</item>
 
+    </string-array>
     <string name="CreateProfilePage_CreateBtn">Create Filter Profile</string>
     <string name="CreateProfilePage_Title">Select the filters for your profile</string>
 </resources>

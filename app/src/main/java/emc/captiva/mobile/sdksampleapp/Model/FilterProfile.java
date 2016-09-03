@@ -1,12 +1,11 @@
 package emc.captiva.mobile.sdksampleapp.Model;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
 /**
  * Created by david on 9/1/16.
  */
-public class FilterProfile  extends RealmObject {
+public class FilterProfile extends RealmObject {
 
     private int id;
     private RealmList<Filter> filters;

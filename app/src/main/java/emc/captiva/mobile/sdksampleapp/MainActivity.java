@@ -31,7 +31,7 @@ import emc.captiva.mobile.sdk.PictureCallback;
 import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
-import emc.captiva.mobile.sdksampleapp.Model.CookieManager;
+import emc.captiva.mobile.sdksampleapp.Model.CookieRepo;
 import emc.captiva.mobile.sdksampleapp.Network.CaptivaImageUploadService;
 import emc.captiva.mobile.sdksampleapp.Network.FilestackImageUploadService;
 import emc.captiva.mobile.sdksampleapp.RestClient.CaptivaImageUploaderClient;
@@ -41,6 +41,7 @@ import emc.captiva.mobile.sdksampleapp.Util.StringUtil;
 import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.exceptions.RealmMigrationNeededException;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -377,7 +378,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                         Log.d("Status Code", String.valueOf(response.code()));
                         Log.d("Response", response.message());
                         LoginResponseObj result = response.body();
-                        new CookieManager().createAndPersistOneCookie(result.ticket,getRealmInstance()
+                        new CookieRepo().createAndPersistOneCookie(result.ticket,getRealmInstance()
                                 ,MainActivity.this, MainActivity.this);
                         MainActivity.this.loggedIn = true;
                         MainActivity.this.enableButtons(MainActivity.this.loggedIn);
@@ -421,7 +422,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
                         Log.d("Success", "Logout call succeed");
                         Log.d("Status Code", String.valueOf(response.code()));
                         Log.d("Response", response.message());
-                        new CookieManager().deleteCookie(getRealmInstance(),MainActivity.this,MainActivity.this);
+                        new CookieRepo().deleteCookie(getRealmInstance(),MainActivity.this,MainActivity.this);
                         MainActivity.this.loggedIn = false;
                         MainActivity.this.enableButtons(MainActivity.this.loggedIn);
                         displayCustomToast("Logout", "Success" , response.message());
@@ -640,9 +641,21 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     private Realm getRealmInstance(){
 
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder(getBaseContext()).build();
-        Realm.setDefaultConfiguration(realmConfig);
-        return Realm.getDefaultInstance();
+        RealmConfiguration realmConfig;
+        Realm realm;
+
+        try{
+            realmConfig = new RealmConfiguration.Builder(getBaseContext()).build();
+            Realm.setDefaultConfiguration(realmConfig);
+            realm = Realm.getDefaultInstance();
+        }catch (RealmMigrationNeededException r){
+            RealmConfiguration migrationConfig = new RealmConfiguration.Builder(this)
+                    .deleteRealmIfMigrationNeeded()
+                    .build();
+            Realm.setDefaultConfiguration(migrationConfig);
+            realm = Realm.getDefaultInstance();
+        }
+        return realm;
 
     }
 }

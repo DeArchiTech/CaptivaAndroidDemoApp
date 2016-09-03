@@ -6,12 +6,13 @@
     <TextView
         android:id="@+id/CreateProfileTitle"
         android:text="@string/CreateProfilePage_Title"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
 
     <ListView
-        android:id="@+id/ProfilesListView"
+        android:id="@+id/filterListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/CreateProfileTitle"/>
@@ -21,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/CreateProfilePage_CreateBtn"
-        android:layout_below="@+id/ProfilesListView"
+        android:layout_below="@+id/filterListView"
         android:layout_alignParentBottom ="true"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>

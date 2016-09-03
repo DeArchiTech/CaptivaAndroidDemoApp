@@ -8,9 +8,10 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
  * Created by david on 9/2/16.
@@ -32,6 +33,11 @@ public class CreateProfileActivityTest {
         onView(withId(R.id.CreateProfileButton))
                 .check(ViewAssertions.matches(ViewMatchers.withText(R.string.CreateProfilePage_CreateBtn)));
 
+    }
+
+    @Test
+    public void listViewHasString(){
+        onView(withText("Image Label")).check(ViewAssertions.matches(isDisplayed()));
     }
 
 }

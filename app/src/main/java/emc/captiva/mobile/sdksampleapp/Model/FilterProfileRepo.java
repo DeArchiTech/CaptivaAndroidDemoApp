@@ -1,14 +1,12 @@
 package emc.captiva.mobile.sdksampleapp.Model;
 
-import android.util.Log;
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
  * Created by david on 9/1/16.
  */
-public class FilterProfileManager {
+public class FilterProfileRepo {
 
     public static int defaultId = 0;
     public static  RealmResults<FilterProfile> profilesCache;
@@ -22,7 +20,7 @@ public class FilterProfileManager {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgrealm) {
-                FilterProfileManager.this.createFilterProfileSync(realm, profile);
+                FilterProfileRepo.this.createFilterProfileSync(realm, profile);
             }
         },onSuccess,onError);
 
@@ -45,7 +43,7 @@ public class FilterProfileManager {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgrealm) {
-                FilterProfileManager.this.readListOfFilterProfileSync(realm);
+                FilterProfileRepo.this.readListOfFilterProfileSync(realm);
             }
         },onSuccess,onError);
 
@@ -64,7 +62,7 @@ public class FilterProfileManager {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgrealm) {
-                FilterProfileManager.this.readMaxIdSync(realm);
+                FilterProfileRepo.this.readMaxIdSync(realm);
             }
         },onSuccess,onError);
 

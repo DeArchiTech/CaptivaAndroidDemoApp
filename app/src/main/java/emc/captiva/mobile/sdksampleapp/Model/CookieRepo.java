@@ -7,7 +7,7 @@ import io.realm.RealmResults;
 /**
  * Created by david on 9/1/16.
  */
-public class CookieManager {
+public class CookieRepo {
 
     public static Cookie sessionCookie;
 
@@ -19,7 +19,7 @@ public class CookieManager {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgrealm) {
-                CookieManager.this.createAndPersistSync(bgrealm,cookieString);
+                CookieRepo.this.createAndPersistSync(bgrealm,cookieString);
             }
         },onSuccess,onError);
 
@@ -33,7 +33,7 @@ public class CookieManager {
         //Persist One Cookie
         Cookie cookie = bgrealm.createObject(Cookie.class);
         cookie.setCookie(cookieString);
-        CookieManager.this.sessionCookie = cookie;
+        CookieRepo.this.sessionCookie = cookie;
 
     }
 
@@ -43,7 +43,7 @@ public class CookieManager {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgrealm) {
-                CookieManager.this.createCookieSync(realm,cookieString);
+                CookieRepo.this.createCookieSync(realm,cookieString);
             }
         },onSuccess,onError);
 
@@ -53,7 +53,7 @@ public class CookieManager {
 
         Cookie cookie = bgrealm.createObject(Cookie.class);
         cookie.setCookie(cookieString);
-        CookieManager.this.sessionCookie = cookie;
+        CookieRepo.this.sessionCookie = cookie;
     }
 
     public void readCookieAsync(Realm realm,Realm.Transaction.OnSuccess onSuccess
@@ -63,7 +63,7 @@ public class CookieManager {
             @Override
             public void execute(Realm bgrealm) {
 
-                CookieManager.this.readCookieSync(bgrealm);
+                CookieRepo.this.readCookieSync(bgrealm);
             }
         },onSuccess,onError);
     }
@@ -72,9 +72,9 @@ public class CookieManager {
 
         final RealmResults<Cookie> cookies = bgrealm.where(Cookie.class).findAll();
         if(cookies.size() > 0){
-            CookieManager.sessionCookie=cookies.first();
+            CookieRepo.sessionCookie=cookies.first();
         }else{
-            CookieManager.sessionCookie=null;
+            CookieRepo.sessionCookie=null;
         }
     }
 
@@ -85,7 +85,7 @@ public class CookieManager {
             @Override
             public void execute(Realm bgrealm) {
 
-                CookieManager.this.deleteCookieSync(bgrealm);
+                CookieRepo.this.deleteCookieSync(bgrealm);
             }
         },onSuccess,onError);
     }
@@ -95,7 +95,7 @@ public class CookieManager {
         final RealmResults<Cookie> cookies = bgrealm.where(Cookie.class).findAll();
         cookies.deleteAllFromRealm();
         if(cookies.size() == 0){
-            CookieManager.sessionCookie=null;
+            CookieRepo.sessionCookie=null;
         }
     }
 
