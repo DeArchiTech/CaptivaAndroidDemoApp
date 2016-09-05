@@ -14,10 +14,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by david on 8/24/16.
  */
-public class SessionClient {
+public class SessionServiceBuilder {
 
     private static String BASE_URL = "http://104.209.39.82:8090";
-
 
     public Call<LoginResponseObj> login(){
 

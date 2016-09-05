@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by david on 8/23/16.
  */
 //A class that is used to upload images
-public class CaptivaImageUploaderClient {
+public class CaptivaImageServiceBuilder {
 
     private static String BASE_URL = "http://104.209.39.82:8090";
 

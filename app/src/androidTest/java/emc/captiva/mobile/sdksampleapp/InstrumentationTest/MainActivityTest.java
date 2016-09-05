@@ -1,4 +1,4 @@
-package emc.captiva.mobile.sdksampleapp;
+package emc.captiva.mobile.sdksampleapp.InstrumentationTest;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.assertion.ViewAssertions;
@@ -9,6 +9,9 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import emc.captiva.mobile.sdksampleapp.MainActivity;
+import emc.captiva.mobile.sdksampleapp.R;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -24,7 +27,7 @@ public class MainActivityTest{
     @Test
     public void allButtonsViewAreThere(){
 
-        onView(withId(R.id.takepicturebtn))
+        onView(ViewMatchers.withId(R.id.takepicturebtn))
                 .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_TakePicture)));
         onView(withId(R.id.takecontinuouspicturesbtn))
                 .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_TakeContinuousPictures)));

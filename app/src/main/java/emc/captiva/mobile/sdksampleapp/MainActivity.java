@@ -34,9 +34,9 @@ import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
 import emc.captiva.mobile.sdksampleapp.Model.CookieRepo;
 import emc.captiva.mobile.sdksampleapp.Network.CaptivaImageUploadService;
 import emc.captiva.mobile.sdksampleapp.Network.FilestackImageUploadService;
-import emc.captiva.mobile.sdksampleapp.RestClient.CaptivaImageUploaderClient;
-import emc.captiva.mobile.sdksampleapp.RestClient.FilestackClient;
-import emc.captiva.mobile.sdksampleapp.RestClient.SessionClient;
+import emc.captiva.mobile.sdksampleapp.RestClient.CaptivaImageServiceBuilder;
+import emc.captiva.mobile.sdksampleapp.RestClient.FilestackServiceBuilder;
+import emc.captiva.mobile.sdksampleapp.RestClient.SessionServiceBuilder;
 import emc.captiva.mobile.sdksampleapp.Util.StringUtil;
 import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
 import io.realm.Realm;
@@ -363,7 +363,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
             displayCustomToast("Login" , "Failed" , "Please Log out before attempting to Log in");
             return;
         }
-        SessionClient client = new SessionClient();
+        SessionServiceBuilder client = new SessionServiceBuilder();
         Call<LoginResponseObj> call = client.login();
         call.enqueue(new Callback<LoginResponseObj>() {
             @Override
@@ -409,7 +409,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
             displayCustomToast("Loggout" , "Failed" , "Please Log in before attempting to Log out");
             return;
         }
-        SessionClient client = new SessionClient();
+        SessionServiceBuilder client = new SessionServiceBuilder();
         Call<ResponseBody> call = client.logout();
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -448,7 +448,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     public void onFileStackUpload(View view) {
 
-        FilestackImageUploadService service = new FilestackClient().getService();
+        FilestackImageUploadService service = new FilestackServiceBuilder().buildFilestackService();
         String key = "AaApUHHABQg2818PX5CLTz";
         String file_name = "1169155_713668108769575_1241597324_n.jpg";
         Call<ResponseBody> call = service.updateImage(key, file_name, createRequestBody(file_name));
@@ -488,7 +488,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         }
         String imageData = StringUtil.getStringFromInputStream(is);
         ImageUploadObj obj = new ImageUploadObj(imageData);
-        CaptivaImageUploadService service = new CaptivaImageUploaderClient().createImageUploadServer();
+        CaptivaImageUploadService service = new CaptivaImageServiceBuilder().createImageUploadServer();
         Call<ResponseBody> call = service.uploadImage(obj);
         call.enqueue(new Callback<ResponseBody>() {
             @Override

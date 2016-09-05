@@ -1,4 +1,4 @@
-package emc.captiva.mobile.sdksampleapp;
+package emc.captiva.mobile.sdksampleapp.InstrumentationTest;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -11,6 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import emc.captiva.mobile.sdksampleapp.MainActivity;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfileRepo;
 import io.realm.Realm;

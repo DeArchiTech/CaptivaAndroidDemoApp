@@ -1,9 +1,9 @@
-package emc.captiva.mobile.sdksampleapp;
+package emc.captiva.mobile.sdksampleapp.UnitTest;
 import android.test.suitebuilder.annotation.SmallTest;
 import junit.framework.TestCase;
 
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
-import emc.captiva.mobile.sdksampleapp.RestClient.SessionClient;
+import emc.captiva.mobile.sdksampleapp.RestClient.SessionServiceBuilder;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 
@@ -25,7 +25,7 @@ public class SessionTest extends TestCase{
     @SmallTest
     public void testLogin(){
 
-        SessionClient client = new SessionClient();
+        SessionServiceBuilder client = new SessionServiceBuilder();
         Call<LoginResponseObj> call = client.login();
         assertNotNull(call);
 
@@ -34,7 +34,7 @@ public class SessionTest extends TestCase{
     @SmallTest
     public void testLogout(){
 
-        SessionClient client = new SessionClient();
+        SessionServiceBuilder client = new SessionServiceBuilder();
         Call<ResponseBody> responseCall = client.logout();
         assertNotNull(responseCall);
 

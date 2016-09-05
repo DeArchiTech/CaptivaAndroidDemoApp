@@ -1,4 +1,4 @@
-package emc.captiva.mobile.sdksampleapp;
+package emc.captiva.mobile.sdksampleapp.InstrumentationTest;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -8,6 +8,8 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import emc.captiva.mobile.sdksampleapp.MainActivity;
 import emc.captiva.mobile.sdksampleapp.Model.CookieRepo;
 import emc.captiva.mobile.sdksampleapp.Util.StringUtil;
 import io.realm.Realm;

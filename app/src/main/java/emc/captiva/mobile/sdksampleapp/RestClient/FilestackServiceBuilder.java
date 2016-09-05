@@ -7,12 +7,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by david on 8/25/16.
  */
-public class FilestackClient {
+public class FilestackServiceBuilder {
 
     private static String BASE_URL = "https://www.filestackapi.com";
     private static String key = "AaApUHHABQg2818PX5CLTz";
 
-    public FilestackImageUploadService getService(){
+    public FilestackImageUploadService buildFilestackService(){
 
         return this.createImageUploadService();
 

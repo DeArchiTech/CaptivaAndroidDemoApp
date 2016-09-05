@@ -32,10 +32,8 @@ import emc.captiva.mobile.sdk.CaptureException;
 import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdk.QuadrilateralCropCallback;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
-import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
-import emc.captiva.mobile.sdksampleapp.Model.Cookie;
 import emc.captiva.mobile.sdksampleapp.Network.CaptivaImageUploadService;
-import emc.captiva.mobile.sdksampleapp.RestClient.CaptivaImageUploaderClient;
+import emc.captiva.mobile.sdksampleapp.RestClient.CaptivaImageServiceBuilder;
 import emc.captiva.mobile.sdksampleapp.Util.ImageFileUtil;
 import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
 import okhttp3.ResponseBody;
@@ -232,7 +230,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 
 		//2)Create Json Object
 		ImageUploadObj obj = new ImageUploadObj(base64String);
-		CaptivaImageUploadService service = new CaptivaImageUploaderClient().createImageUploadServer();
+		CaptivaImageUploadService service = new CaptivaImageServiceBuilder().createImageUploadServer();
 		Call<ResponseBody> call = service.uploadImage(obj);
 		call.enqueue(new Callback<ResponseBody>() {
 			@Override

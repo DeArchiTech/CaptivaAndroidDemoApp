@@ -1,4 +1,4 @@
-package emc.captiva.mobile.sdksampleapp;
+package emc.captiva.mobile.sdksampleapp.UnitTest;
 
 import android.test.suitebuilder.annotation.SmallTest;
 import junit.framework.TestCase;

@@ -1,4 +1,4 @@
-package emc.captiva.mobile.sdksampleapp;
+package emc.captiva.mobile.sdksampleapp.UnitTest;
 
 import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.ListView;
@@ -26,7 +26,7 @@ public class UIUilTest extends TestCase {
     }
 
     @SmallTest
-    public void tesIinitializeListView(){
+    public void testinitializeListView(){
 
         //1)Mock ListView
         //TODO

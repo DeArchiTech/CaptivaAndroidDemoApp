@@ -1,4 +1,4 @@
-package emc.captiva.mobile.sdksampleapp;
+package emc.captiva.mobile.sdksampleapp.InstrumentationTest;
 
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -8,6 +8,10 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import emc.captiva.mobile.sdksampleapp.CreateFilterProfileActivity;
+import emc.captiva.mobile.sdksampleapp.R;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -28,7 +32,7 @@ public class CreateProfileActivityTest {
     @Test
     public void allViewsAreThere(){
 
-        onView(withId(R.id.CreateProfileTitle))
+        onView(ViewMatchers.withId(R.id.CreateProfileTitle))
                 .check(ViewAssertions.matches(ViewMatchers.withText(R.string.CreateProfilePage_Title)));
         onView(withId(R.id.CreateProfileButton))
                 .check(ViewAssertions.matches(ViewMatchers.withText(R.string.CreateProfilePage_CreateBtn)));

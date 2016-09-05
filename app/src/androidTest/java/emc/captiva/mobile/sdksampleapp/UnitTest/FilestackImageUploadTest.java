@@ -1,15 +1,6 @@
-package emc.captiva.mobile.sdksampleapp;
-import android.os.Environment;
+package emc.captiva.mobile.sdksampleapp.UnitTest;
 import android.test.suitebuilder.annotation.SmallTest;
 import junit.framework.TestCase;
-
-import java.io.File;
-
-import emc.captiva.mobile.sdksampleapp.RestClient.FilestackClient;
-import emc.captiva.mobile.sdksampleapp.Util.ImageFileUtil;
-import okhttp3.MultipartBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
 
 /**
  * Created by david on 8/25/16.
@@ -29,7 +20,7 @@ public class FilestackImageUploadTest extends TestCase{
     @SmallTest
     public void testUploadImage(){
         //TODO Reweite uploadtImageTest Code, where should your tests be??
-        /*FilestackClient client = new FilestackClient();
+        /*
         String sdCardPath = Environment.getExternalStorageDirectory().getAbsolutePath();
         String filePath = "/DCIM/Camera/IMG_20160825_153535.jpg";
         String path = sdCardPath + filePath;
@@ -39,7 +30,7 @@ public class FilestackImageUploadTest extends TestCase{
         String fileName = "a good file";
         String key = "";
         Res
-        Call<ResponseBody> call = client.getService().updateImage(fileName,key, part);
+        Call<ResponseBody> call = client.buildFilestackService().updateImage(fileName,key, part);
         assertNotNull(call);
 */
     }

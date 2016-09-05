@@ -1,4 +1,4 @@
-package emc.captiva.mobile.sdksampleapp;
+package emc.captiva.mobile.sdksampleapp.UnitTest;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import junit.framework.TestCase;
@@ -9,7 +9,7 @@ import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
 import emc.captiva.mobile.sdksampleapp.Model.Cookie;
 import emc.captiva.mobile.sdksampleapp.Model.CookieRepo;
 import emc.captiva.mobile.sdksampleapp.Network.CaptivaImageUploadService;
-import emc.captiva.mobile.sdksampleapp.RestClient.CaptivaImageUploaderClient;
+import emc.captiva.mobile.sdksampleapp.RestClient.CaptivaImageServiceBuilder;
 import emc.captiva.mobile.sdksampleapp.Util.StringUtil;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -45,7 +45,7 @@ public class CaptivaImageUploaderTest extends TestCase{
 
         //3)Mock Up services and Object
         ImageUploadObj obj = new ImageUploadObj(imageData);
-        CaptivaImageUploadService service = new CaptivaImageUploaderClient().createImageUploadServer();
+        CaptivaImageUploadService service = new CaptivaImageServiceBuilder().createImageUploadServer();
 
         //4)Execute function
         Call<ResponseBody> call = service.uploadImage(obj);
