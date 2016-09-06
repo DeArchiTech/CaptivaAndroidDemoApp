@@ -1,4 +1,4 @@
-package emc.captiva.mobile.sdksampleapp.Network;
+package emc.captiva.mobile.sdksampleapp.Service;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import okhttp3.RequestBody;

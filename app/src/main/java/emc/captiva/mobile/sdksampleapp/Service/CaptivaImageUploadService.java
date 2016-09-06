@@ -1,4 +1,4 @@
-package emc.captiva.mobile.sdksampleapp.Network;
+package emc.captiva.mobile.sdksampleapp.Service;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;

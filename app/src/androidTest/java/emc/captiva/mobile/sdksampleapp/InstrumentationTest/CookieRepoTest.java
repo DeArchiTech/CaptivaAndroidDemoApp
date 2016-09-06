@@ -52,6 +52,15 @@ public class CookieRepoTest {
                 manager.createAndPersistSync(Realm.getInstance(realmConfig), staticCookie);
                 realm.commitTransaction();
 
+                //4)DELETE & ATTEMPT TO READ TEST
+                Assert.assertNotNull(CookieRepo.sessionCookie);
+
+                realm.beginTransaction();
+                manager.deleteCookieSync(Realm.getInstance(realmConfig));
+                realm.commitTransaction();
+
+                Assert.assertNull(CookieRepo.sessionCookie);
+
             }
 
         });

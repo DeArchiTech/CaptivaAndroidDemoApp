@@ -1,4 +1,4 @@
-package emc.captiva.mobile.sdksampleapp.Network;
+package emc.captiva.mobile.sdksampleapp.Service;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginRequestObj;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
 import okhttp3.ResponseBody;

@@ -1,9 +1,9 @@
-package emc.captiva.mobile.sdksampleapp.RestClient;
+package emc.captiva.mobile.sdksampleapp.ServiceBuilder;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginRequestObj;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
-import emc.captiva.mobile.sdksampleapp.Network.CaptivaCookieInterpreter;
-import emc.captiva.mobile.sdksampleapp.Network.LoginInterceptor;
-import emc.captiva.mobile.sdksampleapp.Network.SessionService;
+import emc.captiva.mobile.sdksampleapp.Interceptor.CaptivaCookieInterpreter;
+import emc.captiva.mobile.sdksampleapp.Interceptor.LoginInterceptor;
+import emc.captiva.mobile.sdksampleapp.Service.SessionService;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;

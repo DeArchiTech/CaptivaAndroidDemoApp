@@ -1,5 +1,5 @@
-package emc.captiva.mobile.sdksampleapp.RestClient;
-import emc.captiva.mobile.sdksampleapp.Network.FilestackImageUploadService;
+package emc.captiva.mobile.sdksampleapp.ServiceBuilder;
+import emc.captiva.mobile.sdksampleapp.Service.FilestackImageUploadService;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

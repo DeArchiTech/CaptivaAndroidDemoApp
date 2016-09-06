@@ -3,7 +3,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import junit.framework.TestCase;
 
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
-import emc.captiva.mobile.sdksampleapp.RestClient.SessionServiceBuilder;
+import emc.captiva.mobile.sdksampleapp.ServiceBuilder.SessionServiceBuilder;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 

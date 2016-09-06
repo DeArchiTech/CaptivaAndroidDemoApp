@@ -8,13 +8,14 @@ import java.util.List;
 
 import emc.captiva.mobile.sdksampleapp.ListAdapter.FilterListAdapter;
 import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
+import emc.captiva.mobile.sdksampleapp.View.CreateProfileView;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 /**
  * Created by david on 9/2/16.
  */
-public class CreateFilterProfileActivity extends Activity implements Realm.Transaction.OnSuccess{
+public class CreateFilterProfileActivity extends Activity implements Realm.Transaction.OnSuccess, CreateProfileView{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,4 +52,8 @@ public class CreateFilterProfileActivity extends Activity implements Realm.Trans
 
     }
 
+    @Override
+    public String getProfileName() {
+        return null;
+    }
 }
