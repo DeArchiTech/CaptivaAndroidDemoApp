@@ -6,7 +6,7 @@ import io.realm.RealmResults;
 /**
  * Created by david on 9/1/16.
  */
-public class FilterProfileRepo {
+public class FilterProfileService {
 
     public static int defaultId = 0;
     public static  RealmResults<FilterProfile> profilesCache;
@@ -20,7 +20,7 @@ public class FilterProfileRepo {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgrealm) {
-                FilterProfileRepo.this.createFilterProfileSync(realm, profile);
+                FilterProfileService.this.createFilterProfileSync(realm, profile);
             }
         },onSuccess,onError);
 
@@ -43,13 +43,13 @@ public class FilterProfileRepo {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgrealm) {
-                FilterProfileRepo.this.readListOfFilterProfileSync(realm);
+                FilterProfileService.this.readProfiles(realm);
             }
         },onSuccess,onError);
 
     }
 
-    public void readListOfFilterProfileSync(Realm bgrealm){
+    public void readProfiles(Realm bgrealm){
 
         //Read list Of profile
         this.profilesCache = bgrealm.where(FilterProfile.class).findAll();
@@ -62,7 +62,7 @@ public class FilterProfileRepo {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgrealm) {
-                FilterProfileRepo.this.readMaxIdSync(realm);
+                FilterProfileService.this.readMaxIdSync(realm);
             }
         },onSuccess,onError);
 

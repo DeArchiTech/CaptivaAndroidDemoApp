@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
 
 import emc.captiva.mobile.sdksampleapp.MainActivity;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
-import emc.captiva.mobile.sdksampleapp.Model.FilterProfileRepo;
+import emc.captiva.mobile.sdksampleapp.Model.FilterProfileService;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -21,7 +21,7 @@ import io.realm.RealmConfiguration;
  * Created by david on 9/1/16.
  */
 @RunWith(AndroidJUnit4.class)
-public class FIlterProfileRepoTest {
+public class FIlterProfileServiceTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule =
@@ -42,7 +42,7 @@ public class FIlterProfileRepoTest {
                         .build();
 
                 //2)Create manager and Realm Instance
-                FilterProfileRepo manager = new FilterProfileRepo();
+                FilterProfileService manager = new FilterProfileService();
                 FilterProfile profile = new FilterProfile();
                 profile.setId(143);
                 Realm realm = Realm.getInstance(realmConfig);
@@ -72,19 +72,19 @@ public class FIlterProfileRepoTest {
                         .build();
 
                 //2)Create manager and Realm Instance
-                FilterProfileRepo manager = new FilterProfileRepo();
+                FilterProfileService manager = new FilterProfileService();
                 FilterProfile profile = new FilterProfile();
                 profile.setId(143);
                 Realm realm = Realm.getInstance(realmConfig);
 
                 //3)Test sync call
-                Assert.assertNull(FilterProfileRepo.profilesCache);
+                Assert.assertNull(FilterProfileService.profilesCache);
 
                 realm.beginTransaction();
-                manager.readListOfFilterProfileSync(realm);
+                manager.readProfiles(realm);
                 realm.commitTransaction();
 
-                Assert.assertNotNull(FilterProfileRepo.profilesCache);
+                Assert.assertNotNull(FilterProfileService.profilesCache);
             }
 
         });
@@ -105,11 +105,11 @@ public class FIlterProfileRepoTest {
                         .build();
 
                 //2)Create manager and Realm Instance
-                FilterProfileRepo manager = new FilterProfileRepo();
+                FilterProfileService manager = new FilterProfileService();
                 Realm realm = Realm.getInstance(realmConfig);
 
                 //3)Test sync call
-                Assert.assertEquals(FilterProfileRepo.maxIdCache ,0);
+                Assert.assertEquals(FilterProfileService.maxIdCache ,0);
 
                 int maxID = 999;
                 int midID = 455;
@@ -134,7 +134,7 @@ public class FIlterProfileRepoTest {
 
                 manager.readMaxIdSync(realm);
 
-                Assert.assertEquals(FilterProfileRepo.maxIdCache.intValue(), maxID);
+                Assert.assertEquals(FilterProfileService.maxIdCache.intValue(), maxID);
 
             }
 

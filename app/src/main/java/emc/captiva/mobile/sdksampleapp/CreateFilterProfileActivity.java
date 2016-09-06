@@ -56,4 +56,9 @@ public class CreateFilterProfileActivity extends Activity implements Realm.Trans
     public String getProfileName() {
         return null;
     }
+
+    @Override
+    public void onProfilesLoadResponse() {
+
+    }
 }
