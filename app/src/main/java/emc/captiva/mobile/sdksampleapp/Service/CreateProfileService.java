@@ -11,5 +11,6 @@ public interface CreateProfileService {
                                  Realm.Transaction.OnSuccess onSuccess,
                                  Realm.Transaction.OnError onError);
 
-    void readProfiles(Realm bgrealm);
+    void readProfiles(Realm bgrealm,Realm.Transaction.OnSuccess onSuccess,
+                      Realm.Transaction.OnError onError);
 }

@@ -16,7 +16,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
+import static android.support.test.espresso.action.ViewActions.click;
 /**
  * Created by david on 9/2/16.
  */
@@ -42,6 +42,21 @@ public class CreateProfileActivityTest {
     @Test
     public void listViewHasString(){
         onView(withText("Image Label")).check(ViewAssertions.matches(isDisplayed()));
+    }
+
+    @Test
+    public void buttonTest(){
+
+        try{
+            onView(withId(R.string.CreateProfilePage_CreateBtn)).perform(click());
+
+            Thread.sleep(1500);
+
+            onView(withId(android.R.id.button1)).perform(click());
+
+        }catch(Exception e){
+
+        }
     }
 
 }

@@ -6,6 +6,8 @@ import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.R;
 import emc.captiva.mobile.sdksampleapp.Service.CreateProfileService;
 import emc.captiva.mobile.sdksampleapp.View.CreateProfileView;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 /**
  * Created by giovanni on 05/09/16.
@@ -28,15 +30,19 @@ public class CreateProfilePresenter {
         return null;
     }
 
-    public void onProfileLoadResponse() {
-        view.onProfilesLoadResponse();
+    public void onReadAllProfiles(Realm.Transaction.OnSuccess onSuccess,
+                                  Realm.Transaction.OnError onError,
+                                  Realm realm) {
+        //Call services to read all profile
+        service.readProfiles(realm, onSuccess,onError);
+
     }
 
-    public void onReadAllProfiles() {
 
+    public void onCreateProfile(FilterProfile profile, Realm.Transaction.OnSuccess onSuccess,
+                                Realm.Transaction.OnError onError,
+                                Realm realm) {
+        service.createAndPersistProfile(profile,realm,onSuccess,onError);
 
-    }
-
-    public void onCreateProfile(FilterProfile profile) {
     }
 }
