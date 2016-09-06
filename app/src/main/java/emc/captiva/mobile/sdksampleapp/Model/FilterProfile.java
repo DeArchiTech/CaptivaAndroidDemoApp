@@ -1,4 +1,6 @@
 package emc.captiva.mobile.sdksampleapp.Model;
+import java.util.List;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
@@ -10,6 +12,7 @@ public class FilterProfile extends RealmObject {
     private int id;
     private RealmList<Filter> filters;
     private boolean autoMaticallyApplyFilter;
+    private String profileName;
 
     public boolean isAutoMaticallyApplyFilter() {
         return autoMaticallyApplyFilter;
@@ -35,4 +38,11 @@ public class FilterProfile extends RealmObject {
         this.filters = filters;
     }
 
+    public String getProfileName() {
+        return profileName;
+    }
+
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
+    }
 }

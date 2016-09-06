@@ -4,7 +4,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import emc.captiva.mobile.sdksampleapp.Model.Filter;
+import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
+import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 
 /**
  * Created by giovanni on 05/09/16.
@@ -12,6 +13,6 @@ import emc.captiva.mobile.sdksampleapp.Model.Filter;
 public interface CreateProfileView{
 
     String getProfileName(TextView textView);
-    String getSelectedFilters(List<Filter> filterList);
-
+    List<FilterListItem> getSelectedFilters(List<FilterListItem> filterList);
+    FilterProfile createFilterProfile(String profileName, List<FilterListItem> items, boolean applyFilterAuto);
 }

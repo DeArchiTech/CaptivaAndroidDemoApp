@@ -19,7 +19,6 @@ import io.realm.Realm;
 
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -82,6 +81,7 @@ public class CreateProfilePresenterTest extends TestCase{
 
     }
 
+    @SmallTest
     public void testOnCreateProfile(){
 
         //Call Function

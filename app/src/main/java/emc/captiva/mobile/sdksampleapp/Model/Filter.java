@@ -3,17 +3,24 @@ package emc.captiva.mobile.sdksampleapp.Model;
 import io.realm.RealmObject;
 
 /**
- * Created by david on 9/2/16.
+ * Created by david on 9/6/16.
  */
-public class Filter extends RealmObject{
+public class Filter extends RealmObject {
 
-    String filter;
+    public String filterName;
 
-    public String getFilter() {
-        return filter;
+    public String getFilterName() {
+        return filterName;
     }
 
-    public void setFilter(String filter) {
-        this.filter = filter;
+    public void setFilterName(String filterName) {
+        this.filterName = filterName;
+    }
+
+    public Filter(String filterName) {
+        this.filterName = filterName;
+    }
+
+    public Filter() {
     }
 }

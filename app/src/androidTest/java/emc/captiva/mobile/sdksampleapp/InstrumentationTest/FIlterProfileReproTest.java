@@ -21,7 +21,7 @@ import io.realm.RealmConfiguration;
  * Created by david on 9/1/16.
  */
 @RunWith(AndroidJUnit4.class)
-public class FIlterProfileServiceTest {
+public class FIlterProfileReproTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule =

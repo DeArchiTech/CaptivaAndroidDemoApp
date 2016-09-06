@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/CreateProfileTitle"
+        android:id="@+id/createProfileTitle"
         android:text="@string/CreateProfilePage_Title"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         android:id="@+id/filterListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/CreateProfileTitle"/>
+        android:layout_below="@+id/createProfileTitle"/>
 
     <Button
         android:id="@+id/CreateProfileButton"

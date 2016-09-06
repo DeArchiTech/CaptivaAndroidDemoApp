@@ -14,6 +14,7 @@ import java.util.List;
 import emc.captiva.mobile.sdksampleapp.CreateFilterProfileActivity;
 import emc.captiva.mobile.sdksampleapp.ListAdapter.FilterListAdapter;
 import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
+import emc.captiva.mobile.sdksampleapp.Model.Filter;
 
 /**
  * Created by david on 8/31/16.
@@ -48,7 +49,7 @@ public class UIUtils {
         List<String> filters = Arrays.asList(array);
         ArrayList<FilterListItem> listItems = new ArrayList<FilterListItem>();
         for(String item: filters){
-            listItems.add(new FilterListItem(item));
+            listItems.add(new FilterListItem(new Filter(item)));
         }
         FilterListAdapter adapter = new FilterListAdapter(context, listItems);
         listView.setAdapter(adapter);

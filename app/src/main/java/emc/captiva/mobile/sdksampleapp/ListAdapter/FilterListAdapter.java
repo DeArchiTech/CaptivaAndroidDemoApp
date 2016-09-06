@@ -42,7 +42,7 @@ public class FilterListAdapter extends ArrayAdapter<FilterListItem> {
     private void modifyRow(View row, FilterListItem item){
 
         TextView filterField = (TextView) row.findViewById(R.id.filterField);
-        filterField.setText(item.filter);
+        filterField.setText(item.filter.getFilterName());
         if(item.selected){
             row.setBackgroundColor(Color.BLUE);
         }else{
