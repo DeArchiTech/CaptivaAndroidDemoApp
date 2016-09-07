@@ -1,6 +1,7 @@
 package emc.captiva.mobile.sdksampleapp;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -13,18 +14,16 @@ import emc.captiva.mobile.sdksampleapp.Model.Filter;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfileRepo;
 import emc.captiva.mobile.sdksampleapp.Presenter.CreateProfilePresenter;
-import emc.captiva.mobile.sdksampleapp.Service.CreateProfileService;
+import emc.captiva.mobile.sdksampleapp.Util.RealmUtil;
 import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
 import emc.captiva.mobile.sdksampleapp.View.CreateProfileView;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmList;
-import io.realm.exceptions.RealmMigrationNeededException;
 
 /**
  * Created by david on 9/2/16.
  */
-public class CreateFilterProfileActivity extends Activity implements CreateProfileView, Realm.Transaction.OnError,Realm.Transaction.OnSuccess{
+public class CreateFilterProfileActivity extends Activity implements CreateProfileView{
 
     private String action = "Create Profile";
     private CreateProfilePresenter presenter;
@@ -40,6 +39,28 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
         this.listItems = initializeFilterList(getResources().getStringArray(R.array.Filter_List), listView);
         this.presenter = new CreateProfilePresenter(this, new FilterProfileRepo(),this);
 
+    }
+
+    private Realm.Transaction.OnSuccess createReadSuccessCallBack() {
+        return new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                CreateFilterProfileActivity.this
+                        .displayCustomToast(CreateFilterProfileActivity.this.action,
+                                "Succeed", "Profile Saved");
+            }
+        };
+    }
+
+    private Realm.Transaction.OnError createReadErrorCallBack() {
+        return new Realm.Transaction.OnError(){
+            @Override
+            public void onError(Throwable error) {
+                CreateFilterProfileActivity.this
+                        .displayCustomToast(CreateFilterProfileActivity.this.action,
+                                "Failed", error.getMessage());
+            }
+        };
     }
 
     private ArrayList<FilterListItem> initializeFilterList(String[] array, ListView listView){
@@ -83,18 +104,6 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
         return profile;
     }
 
-    @Override
-    public void onError(Throwable error) {
-
-        displayCustomToast(this.action,"Failed", error.getMessage());
-    }
-
-    @Override
-    public void onSuccess() {
-
-        displayCustomToast(this.action,"Success", "Profile Saved");
-    }
-
     public void onSaveButtonClicked(){
 
         boolean autoApply = this.autoApplyFilter;
@@ -103,7 +112,7 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
                 getSelectedFilters(this.listItems),
                 autoApply);
 
-        this.presenter.onCreateProfile(profile,this,this, getRealmInstance());
+        this.presenter.onCreateProfile(profile,createReadSuccessCallBack(),createReadErrorCallBack(),getRealmInstance());
 
     }
 
@@ -115,29 +124,21 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
 
     private Realm getRealmInstance(){
 
-        RealmConfiguration realmConfig;
-        Realm realm;
+        return new RealmUtil().createRealm(this);
 
-        try{
-            realmConfig = new RealmConfiguration.Builder(getBaseContext()).build();
-            Realm.setDefaultConfiguration(realmConfig);
-            realm = Realm.getDefaultInstance();
-        }catch (RealmMigrationNeededException r){
-            RealmConfiguration migrationConfig = new RealmConfiguration.Builder(this)
-                    .deleteRealmIfMigrationNeeded()
-                    .build();
-            Realm.setDefaultConfiguration(migrationConfig);
-            realm = Realm.getDefaultInstance();
-        }
-        return realm;
-
-    }
-
-    public CreateProfilePresenter getPresenter() {
-        return presenter;
     }
 
     public void setPresenter(CreateProfilePresenter presenter) {
         this.presenter = presenter;
+    }
+
+    public boolean isAutoApplyFilter() {
+        return autoApplyFilter;
+    }
+
+    public void onToggleClicked(View view) {
+
+        this.autoApplyFilter = !this.autoApplyFilter;
+
     }
 }

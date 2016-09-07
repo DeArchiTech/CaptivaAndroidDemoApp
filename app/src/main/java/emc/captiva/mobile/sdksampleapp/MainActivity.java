@@ -37,6 +37,7 @@ import emc.captiva.mobile.sdksampleapp.Service.FilestackImageUploadService;
 import emc.captiva.mobile.sdksampleapp.ServiceBuilder.CaptivaImageServiceBuilder;
 import emc.captiva.mobile.sdksampleapp.ServiceBuilder.FilestackServiceBuilder;
 import emc.captiva.mobile.sdksampleapp.ServiceBuilder.SessionServiceBuilder;
+import emc.captiva.mobile.sdksampleapp.Util.RealmUtil;
 import emc.captiva.mobile.sdksampleapp.Util.StringUtil;
 import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
 import io.realm.Realm;
@@ -628,7 +629,6 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     }
 
-
     @Override
     public void onError(Throwable error) {
 
@@ -641,21 +641,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     private Realm getRealmInstance(){
 
-        RealmConfiguration realmConfig;
-        Realm realm;
-
-        try{
-            realmConfig = new RealmConfiguration.Builder(getBaseContext()).build();
-            Realm.setDefaultConfiguration(realmConfig);
-            realm = Realm.getDefaultInstance();
-        }catch (RealmMigrationNeededException r){
-            RealmConfiguration migrationConfig = new RealmConfiguration.Builder(this)
-                    .deleteRealmIfMigrationNeeded()
-                    .build();
-            Realm.setDefaultConfiguration(migrationConfig);
-            realm = Realm.getDefaultInstance();
-        }
-        return realm;
+        return new RealmUtil().createRealm(this);
 
     }
 }

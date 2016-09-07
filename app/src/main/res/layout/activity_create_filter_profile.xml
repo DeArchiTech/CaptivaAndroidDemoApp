@@ -9,10 +9,12 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
+        android:layout_alignParentTop="true" />
 
-    <ListView
-        android:id="@+id/filterListView"
+    <EditText
+        android:id="@+id/createProfileNameInput"
+        android:text="@string/CreateProfilePage_ProfileNameInput"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/createProfileTitle"/>
@@ -22,7 +24,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/CreateProfilePage_CreateBtn"
-        android:layout_below="@+id/filterListView"
-        android:layout_alignParentBottom ="true"
-        android:layout_gravity="center_horizontal" />
+        android:layout_below="@+id/createProfileNameInput"/>
+
+    <ToggleButton
+        android:id="@+id/autoApplyFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onToggleClicked"
+        android:layout_below="@+id/CreateProfileButton"/>
+
+    <ListView
+        android:id="@+id/filterListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/autoApplyFilter"
+        android:layout_alignParentBottom ="true"/>
+
 </LinearLayout>

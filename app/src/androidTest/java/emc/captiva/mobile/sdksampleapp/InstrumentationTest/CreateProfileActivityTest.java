@@ -31,10 +31,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.action.ViewActions.clearText;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-
 import static org.mockito.Mockito.verify;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 
 /**
  * Created by david on 9/2/16.
@@ -85,6 +87,9 @@ public class CreateProfileActivityTest {
         onView(withId(R.id.CreateProfileButton))
                 .check(ViewAssertions.matches(ViewMatchers.withText(R.string.CreateProfilePage_CreateBtn)));
 
+        onView(withId(R.id.createProfileNameInput)).check(ViewAssertions.matches(isDisplayed()));
+
+        onView(withId(R.id.autoApplyFilter)).check(ViewAssertions.matches(isDisplayed()));
     }
 
     @Test
@@ -93,7 +98,7 @@ public class CreateProfileActivityTest {
     }
 
     @Test
-    public void buttonTest() {
+    public void createProfileButtonTest() {
 
         try {
             onView(withId(R.string.CreateProfilePage_CreateBtn)).perform(click());
@@ -107,6 +112,31 @@ public class CreateProfileActivityTest {
         }
     }
 
+    @Test
+    public void testInputProfileName(){
+
+        String profileName = "profileName";
+
+        onView(withId(R.id.createProfileNameInput)).perform(click()).perform(clearText(), typeText(profileName));
+
+        onView(withId(R.id.createProfileNameInput)).check(matches(withText(profileName)));
+
+    }
+
+    @Test
+    public void testToggle() {
+
+        boolean state = mActivityRule.getActivity().isAutoApplyFilter();
+
+        onView(withId(R.id.autoApplyFilter)).perform(click());
+
+        Assert.assertEquals(mActivityRule.getActivity().isAutoApplyFilter(), !state);
+
+        onView(withId(R.id.autoApplyFilter)).perform(click());
+
+        Assert.assertEquals(mActivityRule.getActivity().isAutoApplyFilter(), state);
+
+    }
     @Test
     public void testGetProfileName() {
 
