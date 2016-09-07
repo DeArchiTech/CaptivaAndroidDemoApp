@@ -39,14 +39,25 @@ public class FilterListAdapter extends ArrayAdapter<FilterListItem> {
     }
 
 
-    private void modifyRow(View row, FilterListItem item){
+    private void modifyRow(final View row, final FilterListItem item){
 
         TextView filterField = (TextView) row.findViewById(R.id.filterField);
         filterField.setText(item.filter.getFilterName());
-        if(item.selected){
+        row.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                item.selected = !item.selected;
+                updateRowColor(row,item.selected);
+            }
+        });
+        updateRowColor(row,item.selected);
+    }
+
+    private void updateRowColor(View row, boolean on){
+        if(on){
             row.setBackgroundColor(Color.BLUE);
         }else{
-            row.setBackgroundColor(Color.CYAN);
+            row.setBackgroundColor(Color.MAGENTA);
         }
     }
 

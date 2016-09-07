@@ -33,6 +33,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.action.ViewActions.clearText;
+import static android.support.test.espresso.onData;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
@@ -137,6 +138,20 @@ public class CreateProfileActivityTest {
         Assert.assertEquals(mActivityRule.getActivity().isAutoApplyFilter(), state);
 
     }
+
+    @Test
+    public void testListChangesColorOnClicked() {
+
+        //Observe the list is one color
+
+        //Click on an item in the list
+//        onData(hasToString(startsWith("FilterMang")))
+//                .inAdapterView(withId(R.id.filterListView)).atPosition(0)
+//                .perform(click());
+
+        //Observe List is another color
+    }
+
     @Test
     public void testGetProfileName() {
 
