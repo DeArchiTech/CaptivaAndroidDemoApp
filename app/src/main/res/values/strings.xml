@@ -3,7 +3,7 @@
  -->
 <resources>
     <string name="app_name">Captiva SDK Sample</string>
-    <string name="AppCopyright">Copyright 2013&#8211;2015 by EMC Corporation</string>
+    <string name="AppCopyright">Copyright 2013&#8211;2015 by Reva Solutions</string>
     <string name="MainPage_Title">SDK Sample</string>
 	<string name="MainPage_TakePicture">Take Picture</string>
     <string name="MainPage_TakeContinuousPictures">Take Continuous Pictures</string>

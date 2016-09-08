@@ -154,29 +154,20 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
 
-            <Spinner
-                android:id="@+id/filterProfileDropDown"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_below="@+id/CreateFilterProfile"
-                android:layout_marginTop="5dp"
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:text="@string/MainPage_filterProfileSelections" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:gravity="center_horizontal"
-                android:padding="2dp"
-                android:text="@string/AppCopyright"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
 
         </RelativeLayout>
 
     </ScrollView>
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:padding="2dp"
+        android:background="@color/orange_dark"
+        android:text="@string/AppCopyright"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 </RelativeLayout>
