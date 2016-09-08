@@ -228,5 +228,5 @@
     <string name="CreateProfilePage_CreateBtn">Create Filter Profile</string>
     <string name="CreateProfilePage_Title">Select the filters for your profile</string>
     <string name="autoApplyFilterLabel">Auto Apply Filters???</string>
-    <string name="CreateProfilePage_ProfileNameInput">Please select a name for your profile</string>
+    <string name="CreateProfilePage_ProfileNameInput">Please input a name for your profile</string>
 </resources>

@@ -144,9 +144,10 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
     private boolean filterNameIsSet(){
 
         View view = findViewById(R.id.createProfileNameInput);
+        String defaultString = getString(R.string.CreateProfilePage_ProfileNameInput);
         if(view !=null){
             EditText editText = (EditText) view;
-            return new CreateProfileHelper().filterNameIsSet(editText);
+            return new CreateProfileHelper().filterNameIsSet(editText , defaultString);
         }
         return false;
     }

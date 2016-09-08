@@ -37,7 +37,6 @@ public class CreateProfileHelperTest extends TestCase{
         this.helper = new CreateProfileHelper();
         this.editText = Mockito.mock(EditText.class);
         this.editable = Mockito.mock(Editable.class);
-        when(this.editable.toString()).thenReturn("ABCDE");
         when(this.editText.getText()).thenReturn(this.editable);
     }
 
@@ -47,9 +46,23 @@ public class CreateProfileHelperTest extends TestCase{
     }
 
     @SmallTest
-    public void testFilerNameIsSet(){
+    public void testFilterNameIsSetNeg(){
 
-        boolean result = this.helper.filterNameIsSet(this.editText);
+        //Fail Scenerio
+        String defaultString = "Please input a name for your profile";
+        when(this.editable.toString()).thenReturn(defaultString);
+        boolean result = this.helper.filterNameIsSet(this.editText, defaultString);
+        Assert.assertFalse(result);
+
+    }
+
+    @SmallTest
+    public void testFilterNameIsSetPos(){
+
+        //Pass Scenerio
+        String defaultString = "Please input a name for your profile";
+        when(this.editable.toString()).thenReturn("ABCDE");
+        boolean result = this.helper.filterNameIsSet(this.editText, defaultString);
         Assert.assertTrue(result);
 
     }

@@ -1,5 +1,6 @@
 package emc.captiva.mobile.sdksampleapp.ActivityHelper;
 
+import android.util.Log;
 import android.widget.EditText;
 
 import java.util.List;
@@ -22,11 +23,11 @@ public class CreateProfileHelper {
         return false;
     }
 
-    public boolean filterNameIsSet(EditText editText){
+    public boolean filterNameIsSet(EditText editText, String defaultString){
 
         if(editText != null){
-            String textInEditableText = editText.getText().toString();
-            return textInEditableText.isEmpty() == false;
+            String text = editText.getText().toString();
+            return (!text.isEmpty()) && (!text.equalsIgnoreCase(defaultString));
         }
         return false;
 
