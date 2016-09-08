@@ -33,7 +33,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.action.ViewActions.clearText;
-import static android.support.test.espresso.onData;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;

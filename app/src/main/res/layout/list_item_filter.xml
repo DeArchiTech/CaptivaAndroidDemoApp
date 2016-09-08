@@ -5,8 +5,9 @@
 
     <TextView
         android:id="@+id/filterField"
-        android:textColor="#000000"
+        android:textColor="@color/black"
+        android:background="@color/grey_cream"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="@dimen/list_item_height" />
 </LinearLayout>

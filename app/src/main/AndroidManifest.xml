@@ -64,7 +64,8 @@
         <activity
             android:name="emc.captiva.mobile.sdksampleapp.CreateFilterProfileActivity"
             android:theme="@android:style/Theme.Holo"
-            android:label="@string/MainPage_CreateFilterProfile">
+            android:label="@string/MainPage_CreateFilterProfile"
+            android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 </manifest>
