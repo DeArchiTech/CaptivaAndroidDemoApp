@@ -13,7 +13,7 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 
-import emc.captiva.mobile.sdksampleapp.ActivityHelper.CreateProfileActivityHelper;
+import emc.captiva.mobile.sdksampleapp.ActivityHelper.CreateProfileHelper;
 import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
 import emc.captiva.mobile.sdksampleapp.Model.Filter;
 
@@ -23,9 +23,9 @@ import static org.mockito.Mockito.when;
  * Created by Davix on 9/8/16.
  */
 
-public class CreateProfileActivityHelperTest extends TestCase{
+public class CreateProfileHelperTest extends TestCase{
 
-    CreateProfileActivityHelper helper;
+    CreateProfileHelper helper;
     @Mock
     EditText editText;
     @Mock
@@ -34,7 +34,7 @@ public class CreateProfileActivityHelperTest extends TestCase{
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        this.helper = new CreateProfileActivityHelper();
+        this.helper = new CreateProfileHelper();
         this.editText = Mockito.mock(EditText.class);
         this.editable = Mockito.mock(Editable.class);
         when(this.editable.toString()).thenReturn("ABCDE");

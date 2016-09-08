@@ -2,7 +2,6 @@ package emc.captiva.mobile.sdksampleapp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import emc.captiva.mobile.sdksampleapp.ActivityHelper.CreateProfileActivityHelper;
+import emc.captiva.mobile.sdksampleapp.ActivityHelper.CreateProfileHelper;
 import emc.captiva.mobile.sdksampleapp.ListAdapter.FilterListAdapter;
 import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
 import emc.captiva.mobile.sdksampleapp.Model.Filter;
@@ -67,13 +66,9 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
         };
     }
 
-    private ArrayList<FilterListItem> initializeFilterList(String[] array, ListView listView){
+    private List<FilterListItem> initializeFilterList(String[] array, ListView listView){
 
-        List<String> filters = Arrays.asList(array);
-        ArrayList<FilterListItem> listItems = new ArrayList<FilterListItem>();
-        for(String item: filters){
-            listItems.add(new FilterListItem(new Filter(item)));
-        }
+        List<FilterListItem> listItems = new UIUtils().initializeFilterListView(array);
         FilterListAdapter adapter = new FilterListAdapter(this,  listItems);
         listView.setAdapter(adapter);
         return listItems;
@@ -108,15 +103,29 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
         return profile;
     }
 
-    public void onSaveButtonClicked(){
+    public void onSaveButtonClicked(View view){
 
-        boolean autoApply = this.autoApplyFilter;
+        if(filterNameIsSet() == false){
+            this.displayCustomToast("Create Profile" , "Failed" , "Filter Name No Set");
+            return;
+        }
+        if(atLeastOneFilterSelected() == false){
+            this.displayCustomToast("Create Profile" , "Failed" , "Filter Item Not Selected");
+            return;
+        }
         TextView textView = (TextView) findViewById(R.id.createProfileTitle);
         FilterProfile profile = createFilterProfile(getProfileName(textView),
-                getSelectedFilters(this.listItems),
-                autoApply);
+                getSelectedFilters(this.listItems), this.autoApplyFilter);
 
-        this.presenter.onCreateProfile(profile,createReadSuccessCallBack(),createReadErrorCallBack(),getRealmInstance());
+        this.callPresenterToCreateProfile(profile,getRealmInstance());
+    }
+
+    public void callPresenterToCreateProfile(FilterProfile profile, Realm realm){
+
+        //Todo Refactor
+        if (this.presenter != null) {
+            this.presenter.onCreateProfile(profile,createReadSuccessCallBack(),createReadErrorCallBack(), realm);
+        }
 
     }
 
@@ -137,14 +146,14 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
         View view = findViewById(R.id.createProfileNameInput);
         if(view !=null){
             EditText editText = (EditText) view;
-            return new CreateProfileActivityHelper().filterNameIsSet(editText);
+            return new CreateProfileHelper().filterNameIsSet(editText);
         }
         return false;
     }
 
     private boolean atLeastOneFilterSelected(){
 
-        return new CreateProfileActivityHelper().atLeastOneFilterSelected(this.listItems);
+        return new CreateProfileHelper().atLeastOneFilterSelected(this.listItems);
 
     }
 

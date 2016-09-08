@@ -96,7 +96,8 @@
             android:background="@color/purple_dark"
             android:text="@string/CreateProfilePage_CreateBtn"
             android:textColor="@color/white"
-            android:layout_weight="0"/>
+            android:onClick="onSaveButtonClicked"
+            android:layout_weight="0.1"/>
 
     </LinearLayout>
 

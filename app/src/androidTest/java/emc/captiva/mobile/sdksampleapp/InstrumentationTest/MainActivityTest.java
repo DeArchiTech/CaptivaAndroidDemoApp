@@ -150,9 +150,4 @@ public class MainActivityTest{
 
     }
 
-    private static int getResourceId(String s) {
-        Context targetContext = InstrumentationRegistry.getTargetContext();
-        String packageName = targetContext.getPackageName();
-        return targetContext.getResources().getIdentifier(s, "id", packageName);
-    }
 }

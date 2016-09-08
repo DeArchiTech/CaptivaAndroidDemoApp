@@ -44,16 +44,14 @@ public class UIUtils {
         dialog.show();
     }
 
-    public void initializeListView(String[] array, ListView listView, Context context){
+    public List<FilterListItem> initializeFilterListView(String[] array){
 
         List<String> filters = Arrays.asList(array);
         ArrayList<FilterListItem> listItems = new ArrayList<FilterListItem>();
         for(String item: filters){
             listItems.add(new FilterListItem(new Filter(item)));
         }
-        FilterListAdapter adapter = new FilterListAdapter(context, listItems);
-        listView.setAdapter(adapter);
-
+        return listItems;
     }
 
 }

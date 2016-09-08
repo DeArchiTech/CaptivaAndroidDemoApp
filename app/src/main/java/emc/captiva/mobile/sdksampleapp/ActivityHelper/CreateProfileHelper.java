@@ -10,7 +10,7 @@ import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
  * Created by Davix on 9/8/16.
  */
 
-public class CreateProfileActivityHelper {
+public class CreateProfileHelper {
 
     public boolean atLeastOneFilterSelected(List<FilterListItem> listItems) {
 
