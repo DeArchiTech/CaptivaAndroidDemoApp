@@ -46,7 +46,7 @@ android {
 
     defaultConfig {
         applicationId "emc.captiva.mobile.sdksampleapp"
-        minSdkVersion 14
+        minSdkVersion 21
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         // This is the highest version that the code has been tested to run on.  The code will run
         // on higher versions, but this is the version that has been tested/certified as the target.

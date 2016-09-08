@@ -1,43 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/createProfileTitle"
-        android:text="@string/CreateProfilePage_Title"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:text="@string/CreateProfilePage_Title"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
         android:id="@+id/createProfileNameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createProfileTitle"
         android:text="@string/CreateProfilePage_ProfileNameInput"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <LinearLayout
+        android:id="@+id/topContainerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/createProfileTitle"/>
+        android:layout_below="@+id/createProfileNameInput"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/CreateProfileButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/CreateProfilePage_CreateBtn"
-        android:layout_below="@+id/createProfileNameInput"/>
+        <TextView
+            android:id="@+id/autoApplyFilterLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/autoApplyFilterLabel"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <ToggleButton
-        android:id="@+id/autoApplyFilter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onToggleClicked"
-        android:layout_below="@+id/CreateProfileButton"/>
+        <ToggleButton
+            android:id="@+id/autoApplyFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/createProfileTitle"
+            android:onClick="onToggleClicked" />
 
-    <ListView
-        android:id="@+id/filterListView"
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/middleContainerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/autoApplyFilter"
-        android:layout_alignParentBottom ="true"/>
+        android:layout_below="@+id/topContainerView"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/filterListView"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/CreateProfileButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/CreateProfilePage_CreateBtn"
+            android:layout_weight="0"/>
+
+    </LinearLayout>
 
 </LinearLayout>
