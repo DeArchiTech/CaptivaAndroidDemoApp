@@ -1,167 +1,182 @@
-<!-- 
-* Copyright 2013-2015 EMC Corporation.  All rights reserved.
- -->
-<RelativeLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"	     
-    tools:context=".MainActivity" 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
+    android:layout_height="match_parent"
     android:background="@android:color/black">
 
-	<Toolbar
-		android:id="@+id/toolBar"
-		android:layout_width="match_parent"
-		android:background=""
-		android:layout_height="wrap_content"></Toolbar>
-	<Button
-		android:id="@+id/LoginButton"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="5dp"
-		android:gravity="center_vertical"
-		android:padding="10dp"
-		android:layout_below="@+id/toolBar"
-		android:drawableRight="@drawable/ic_next"
-		android:background="@drawable/green_button"
-		android:onClick="onLogin"
-		android:textColor="#FFFFFF"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:text="@string/MainPage_Login" />
-	<Button
-		android:id="@+id/LogoutButton"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="5dp"
-		android:layout_below="@+id/LoginButton"
-		android:gravity="center_vertical"
-		android:padding="10dp"
-		android:drawableRight="@drawable/ic_next"
-		android:background="@drawable/green_button"
-		android:onClick="onLogout"
-		android:textColor="#FFFFFF"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:text="@string/MainPage_Logout" />
-	<Button
-	    android:id="@+id/takepicturebtn"
-    	android:layout_width="match_parent"
-	 	android:layout_height="wrap_content"
-	 	android:layout_marginTop="5dp"
-		android:layout_below="@id/LogoutButton"
-	 	android:gravity="center_vertical"
-	  	android:padding="10dp"
-	  	android:drawableRight="@drawable/ic_next"
-	  	android:background="@drawable/green_button"
-	  	android:onClick="onTakePicture"
-	  	android:textColor="#FFFFFF"
-	  	android:textAppearance="?android:attr/textAppearanceMedium"
-	  	android:text="@string/MainPage_TakePicture" />
-    <Button
-        android:id="@+id/takecontinuouspicturesbtn"
-        android:layout_width="match_parent"
+    <Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolBar"
+        android:logo="@drawable/reva_logo"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/takepicturebtn"
-        android:gravity="center_vertical"
-        android:padding="10dp"
-        android:drawableRight="@drawable/ic_next"
-        android:background="@drawable/green_button"
-        android:onClick="onTakeContinuousPictures"
-        android:textColor="#FFFFFF"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/MainPage_TakeContinuousPictures" />
-    <Button
-	    android:id="@+id/enhancepicturebtn"
-    	android:layout_width="match_parent"
-	 	android:layout_height="wrap_content"
-	 	android:layout_marginTop="5dp"
-	 	android:layout_below="@id/takecontinuouspicturesbtn"
-	 	android:gravity="center_vertical"
-	  	android:padding="10dp"
-	  	android:drawableRight="@drawable/ic_next"
-	  	android:background="@drawable/green_button"
-	  	android:onClick="onEnhanceImage"
-	  	android:textColor="#FFFFFF"
-	  	android:textAppearance="?android:attr/textAppearanceMedium"
-	  	android:text="@string/MainPage_EnhanceImage" />	
-	<Button
-	    android:id="@+id/SettingsButton"
-    	android:layout_width="match_parent"
-	 	android:layout_height="wrap_content"
-	 	android:layout_marginTop="5dp"
-	 	android:layout_below="@+id/enhancepicturebtn"
-	 	android:gravity="center_vertical"
-	  	android:padding="10dp"
-	  	android:drawableRight="@drawable/ic_next"
-	  	android:background="@drawable/green_button"
-	  	android:onClick="onSettings"
-	  	android:textColor="#FFFFFF"
-	  	android:textAppearance="?android:attr/textAppearanceMedium"
-	  	android:text="@string/MainPage_Settings" />
+        android:layout_width="match_parent"
+        android:background="@color/orange_light" />
 
-	<Button
-		android:id="@+id/FileStackUpload"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="5dp"
-		android:layout_below="@+id/SettingsButton"
-		android:gravity="center_vertical"
-		android:padding="10dp"
-		android:drawableRight="@drawable/ic_next"
-		android:background="@drawable/green_button"
-		android:onClick="onFileStackUpload"
-		android:textColor="#FFFFFF"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:text="@string/MainPage_FileStackUpload" />
-	<Button
-		android:id="@+id/CaptivaUpload"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="5dp"
-		android:layout_below="@+id/FileStackUpload"
-		android:gravity="center_vertical"
-		android:padding="10dp"
-		android:drawableRight="@drawable/ic_next"
-		android:background="@drawable/green_button"
-		android:onClick="onCaptivaUpload"
-		android:textColor="#FFFFFF"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:text="@string/MainPage_CaptivaUpload" />
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/toolBar">
 
-	<Button
-		android:id="@+id/CreateFilterProfile"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="5dp"
-		android:layout_below="@+id/CaptivaUpload"
-		android:gravity="center_vertical"
-		android:padding="10dp"
-		android:drawableRight="@drawable/ic_next"
-		android:background="@drawable/green_button"
-		android:onClick="onCreateFilterProfile"
-		android:textColor="#FFFFFF"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:text="@string/MainPage_CreateFilterProfile" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black">
 
-	<Spinner
-		android:id="@+id/filterProfileDropDown"
-		android:layout_width="match_parent"
-		android:layout_height="60dp"
-		android:layout_marginTop="5dp"
-		android:layout_below="@+id/CreateFilterProfile"
-		android:gravity="center_vertical"
-		android:padding="10dp"
-		android:text="@string/MainPage_filterProfileSelections"/>
+            <Button
+                android:id="@+id/LoginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/sky_blue"
+                android:drawableRight="@drawable/ic_next"
+                android:gravity="center_vertical"
+                android:onClick="onLogin"
+                android:padding="10dp"
+                android:text="@string/MainPage_Login"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
 
-	<TextView
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_alignParentBottom ="true"
-	    android:gravity="center_horizontal"
-	    android:padding="2dp"
-	    android:text="@string/AppCopyright"
-	    android:textColor="#FFFFFF"
-	    android:textStyle="bold"
-		android:id="@+id/textView" />
+            <Button
+                android:id="@+id/LogoutButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/LoginButton"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/sky_blue"
+                android:drawableRight="@drawable/ic_next"
+                android:gravity="center_vertical"
+                android:onClick="onLogout"
+                android:padding="10dp"
+                android:text="@string/MainPage_Logout"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/takepicturebtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/LogoutButton"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/sky_blue"
+                android:drawableRight="@drawable/ic_next"
+                android:gravity="center_vertical"
+                android:onClick="onTakePicture"
+                android:padding="10dp"
+                android:text="@string/MainPage_TakePicture"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/takecontinuouspicturesbtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/takepicturebtn"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/sky_blue"
+                android:drawableRight="@drawable/ic_next"
+                android:gravity="center_vertical"
+                android:onClick="onTakeContinuousPictures"
+                android:padding="10dp"
+                android:text="@string/MainPage_TakeContinuousPictures"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/enhancepicturebtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/takecontinuouspicturesbtn"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/sky_blue"
+                android:drawableRight="@drawable/ic_next"
+                android:gravity="center_vertical"
+                android:onClick="onEnhanceImage"
+                android:padding="10dp"
+                android:text="@string/MainPage_EnhanceImage"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/SettingsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/enhancepicturebtn"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/sky_blue"
+                android:drawableRight="@drawable/ic_next"
+                android:gravity="center_vertical"
+                android:onClick="onSettings"
+                android:padding="10dp"
+                android:text="@string/MainPage_Settings"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/FileStackUpload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/SettingsButton"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/sky_blue"
+                android:drawableRight="@drawable/ic_next"
+                android:gravity="center_vertical"
+                android:onClick="onFileStackUpload"
+                android:padding="10dp"
+                android:text="@string/MainPage_FileStackUpload"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/CaptivaUpload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/FileStackUpload"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/sky_blue"
+                android:drawableRight="@drawable/ic_next"
+                android:gravity="center_vertical"
+                android:onClick="onCaptivaUpload"
+                android:padding="10dp"
+                android:text="@string/MainPage_CaptivaUpload"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/CreateFilterProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/CaptivaUpload"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/sky_blue"
+                android:drawableRight="@drawable/ic_next"
+                android:gravity="center_vertical"
+                android:onClick="onCreateFilterProfile"
+                android:padding="10dp"
+                android:text="@string/MainPage_CreateFilterProfile"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+
+            <Spinner
+                android:id="@+id/filterProfileDropDown"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/CreateFilterProfile"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:text="@string/MainPage_filterProfileSelections" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center_horizontal"
+                android:padding="2dp"
+                android:text="@string/AppCopyright"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
