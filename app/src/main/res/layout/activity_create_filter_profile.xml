@@ -27,7 +27,9 @@
             android:layout_height="wrap_content"
             android:text="@string/CreateProfilePage_Title"
             android:textColor="@color/black"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold"
+            android:gravity="center"/>
 
         <EditText
             android:id="@+id/createProfileNameInput"
@@ -36,8 +38,9 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/createProfileTitle"
             android:text="@string/CreateProfilePage_ProfileNameInput"
-            android:textColor="@color/black"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textColor="@color/purple_dark"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:gravity="center"/>
 
     </LinearLayout>
 
@@ -56,7 +59,9 @@
             android:layout_height="wrap_content"
             android:text="@string/autoApplyFilterLabel"
             android:textColor="@color/black"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold"
+            android:gravity="center"/>
 
         <ToggleButton
             android:id="@+id/autoApplyFilter"
@@ -65,7 +70,9 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/autoApplyFilterLabel"
             android:textColor="@color/black"
-            android:onClick="onToggleClicked" />
+            android:background="@color/grey_cream"
+            android:onClick="onToggleClicked"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </LinearLayout>
 

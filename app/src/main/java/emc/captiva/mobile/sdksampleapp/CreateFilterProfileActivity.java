@@ -2,12 +2,16 @@ package emc.captiva.mobile.sdksampleapp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import emc.captiva.mobile.sdksampleapp.ActivityHelper.CreateProfileActivityHelper;
 import emc.captiva.mobile.sdksampleapp.ListAdapter.FilterListAdapter;
 import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
 import emc.captiva.mobile.sdksampleapp.Model.Filter;
@@ -125,6 +129,22 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
     private Realm getRealmInstance(){
 
         return new RealmUtil().createRealm(this);
+
+    }
+
+    private boolean filterNameIsSet(){
+
+        View view = findViewById(R.id.createProfileNameInput);
+        if(view !=null){
+            EditText editText = (EditText) view;
+            return new CreateProfileActivityHelper().filterNameIsSet(editText);
+        }
+        return false;
+    }
+
+    private boolean atLeastOneFilterSelected(){
+
+        return new CreateProfileActivityHelper().atLeastOneFilterSelected(this.listItems);
 
     }
 

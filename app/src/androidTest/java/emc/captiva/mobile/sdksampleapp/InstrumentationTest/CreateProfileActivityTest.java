@@ -98,21 +98,6 @@ public class CreateProfileActivityTest {
     }
 
     @Test
-    public void createProfileButtonTest() {
-
-        try {
-            onView(withId(R.string.CreateProfilePage_CreateBtn)).perform(click());
-
-            Thread.sleep(1500);
-
-            onView(withId(android.R.id.button1)).perform(click());
-
-        } catch (Exception e) {
-
-        }
-    }
-
-    @Test
     public void testInputProfileName(){
 
         String profileName = "profileName";
@@ -136,19 +121,6 @@ public class CreateProfileActivityTest {
 
         Assert.assertEquals(mActivityRule.getActivity().isAutoApplyFilter(), state);
 
-    }
-
-    @Test
-    public void testListChangesColorOnClicked() {
-
-        //Observe the list is one color
-
-        //Click on an item in the list
-//        onData(hasToString(startsWith("FilterMang")))
-//                .inAdapterView(withId(R.id.filterListView)).atPosition(0)
-//                .perform(click());
-
-        //Observe List is another color
     }
 
     @Test
@@ -199,5 +171,41 @@ public class CreateProfileActivityTest {
                 ,Matchers.any(Realm.class));
 
     }
+
+    @Test
+    public void createProfileUITest() {
+
+        try {
+            //1)Read db and determine the size of entries in db
+            //2)Input Filter Name
+            //3)Click on toggle button
+            //4)Select 3 filters
+            //5)Click on filter profile button
+            //6)Validate db has +1 entry
+            onView(withId(R.string.CreateProfilePage_CreateBtn)).perform(click());
+
+            Thread.sleep(1500);
+
+            onView(withId(android.R.id.button1)).perform(click());
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Test
+    public void testInputFilterAlert() {
+
+        Assert.assertEquals(true,false);
+
+    }
+
+    @Test
+    public void testNotEnoughFiltersAlert(){
+
+        Assert.assertEquals(true,false);
+
+    }
+
 
 }
