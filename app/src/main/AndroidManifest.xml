@@ -22,11 +22,20 @@
         android:allowBackup="true"
         android:icon="@drawable/app_logo"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
+        android:theme="@style/revaThemeTwo">
+        <activity
+            android:name=".SplashActivity"
+            android:label="@string/app_name"
+            android:theme="@style/revaThemeLaunchScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="emc.captiva.mobile.sdksampleapp.MainActivity"
-            android:theme="@android:style/Theme.Holo"
-            android:label="@string/MainPage_Title">
+            android:theme="@style/revaThemeTwo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -34,36 +43,29 @@
         </activity>
         <activity
             android:name="emc.captiva.mobile.sdksampleapp.EnhanceImageActivity"
-            android:theme="@android:style/Theme.Holo"
             android:label="@string/EnhanceImage_Title">
         </activity>
         <activity
             android:name="emc.captiva.mobile.sdksampleapp.EnhanceImageCropActivity"
-            android:theme="@android:style/Theme.Holo"
             android:label="@string/EnhanceImageCrop_Title">
         </activity>
         <activity
             android:name="emc.captiva.mobile.sdk.QuadrilateralCropActivity"
-            android:theme="@android:style/Theme.Holo"
             android:label="@string/EnhanceImageQuadCrop_Title">
         </activity>
         <activity
-            android:name="emc.captiva.mobile.sdk.CameraActivity"
-            android:theme="@android:style/Theme.Holo">
+            android:name="emc.captiva.mobile.sdk.CameraActivity">
         </activity>
         <activity
             android:name="emc.captiva.mobile.sdksampleapp.ImageInfoActivity"
-            android:theme="@android:style/Theme.Holo"
             android:label="@string/ImageInfo_Title">
         </activity>
         <activity
             android:name="emc.captiva.mobile.sdksampleapp.SettingsActivity"
-            android:theme="@android:style/Theme.Holo"
             android:label="@string/MainPage_Settings">
         </activity>
         <activity
             android:name="emc.captiva.mobile.sdksampleapp.CreateFilterProfileActivity"
-            android:theme="@android:style/Theme.Holo"
             android:label="@string/MainPage_CreateFilterProfile"
             android:windowSoftInputMode="adjustPan">
         </activity>

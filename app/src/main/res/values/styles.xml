@@ -2,7 +2,7 @@
 * Copyright © 2013-2015 EMC Corporation.  All rights reserved.
  -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -17,8 +17,26 @@
     </style>
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+<!--    <style name="AppTheme" parent="AppBaseTheme">
+        &lt;!&ndash; All customizations that are NOT specific to a particular API-level can go here. &ndash;&gt;
+    </style>-->
+
+    android:theme=>
+
+    <style name="revaTheme" parent="@android:style/Theme.Holo.NoActionBar">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:colorPrimary">@color/orange_light</item>
+        <item name="android:colorPrimaryDark">@color/orange_dark</item>
+        <item name="android:statusBarColor">@color/orange_light</item>
     </style>
 
+    <style name="revaThemeTwo" parent="android:Theme.Material.NoActionBar">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:colorPrimary">@color/orange_light</item>
+        <item name="android:colorPrimaryDark">@color/orange_dark</item>
+        <item name="android:statusBarColor">@color/orange_darker</item>
+    </style>
+
+    <style name="revaThemeLaunchScreen" parent="android:Theme.Material.NoActionBar.Fullscreen">
+    </style>
 </resources>
