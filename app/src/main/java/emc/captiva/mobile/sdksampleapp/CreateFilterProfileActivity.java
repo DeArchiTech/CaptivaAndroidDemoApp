@@ -7,7 +7,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import emc.captiva.mobile.sdksampleapp.ActivityHelper.CreateProfileHelper;
@@ -15,7 +14,7 @@ import emc.captiva.mobile.sdksampleapp.ListAdapter.FilterListAdapter;
 import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
 import emc.captiva.mobile.sdksampleapp.Model.Filter;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
-import emc.captiva.mobile.sdksampleapp.Model.FilterProfileRepo;
+import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
 import emc.captiva.mobile.sdksampleapp.Presenter.CreateProfilePresenter;
 import emc.captiva.mobile.sdksampleapp.Util.RealmUtil;
 import emc.captiva.mobile.sdksampleapp.Util.UIUtils;

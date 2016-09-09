@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+<!--    android:logo="@drawable/reva_logo"-->
     <Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/toolBar"
-        android:logo="@drawable/reva_logo"
-        android:layout_alignParentTop="true"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:background="@color/orange_light" />
+        android:background="@color/orange_light"
+        android:navigationIcon="@drawable/reva_logo"/>
 
     <LinearLayout
         android:id="@+id/topContainerView"
@@ -36,10 +36,12 @@
             android:layout_width="0dp"
             android:layout_weight=".50"
             android:layout_height="wrap_content"
+            android:maxEms="20"
             android:layout_toRightOf="@+id/createProfileTitle"
             android:text="@string/CreateProfilePage_ProfileNameInput"
             android:textColor="@color/purple_dark"
             android:textAppearance="?android:attr/textAppearanceSmall"
+            android:maxLines="1"
             android:gravity="center"/>
 
     </LinearLayout>
@@ -85,6 +87,7 @@
 
         <ListView
             android:id="@+id/filterListView"
+            android:background="@color/grey_light"
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="1"/>

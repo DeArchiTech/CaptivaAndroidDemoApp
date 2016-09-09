@@ -29,4 +29,14 @@ public class RealmUtil {
         return realm;
     }
 
+    public Realm createTestRealm(Context context){
+
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder(context)
+                .name("myrealm.realm")
+                .inMemory()
+                .build();
+        Realm realm = Realm.getInstance(realmConfig);
+        return realm;
+    }
+
 }

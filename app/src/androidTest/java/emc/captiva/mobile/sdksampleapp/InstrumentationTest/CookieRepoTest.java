@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import emc.captiva.mobile.sdksampleapp.MainActivity;
-import emc.captiva.mobile.sdksampleapp.Model.CookieRepo;
+import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
 import emc.captiva.mobile.sdksampleapp.Util.StringUtil;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -53,7 +53,8 @@ public class CookieRepoTest {
                 realm.commitTransaction();
 
                 //4)DELETE & ATTEMPT TO READ TEST
-                Assert.assertNotNull(CookieRepo.sessionCookie);
+                realm.close();
+                Assert.assertNotNull(CookieRepo.sessionCookie.getCookie());
 
                 realm.beginTransaction();
                 manager.deleteCookieSync(Realm.getInstance(realmConfig));

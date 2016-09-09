@@ -55,10 +55,14 @@ public class FilterListAdapter extends ArrayAdapter<FilterListItem> {
 
     private void updateRowColor(View row, boolean on){
         if(on){
-            row.setBackgroundColor(Color.BLUE);
+            row.setBackgroundColor(getColor(R.color.blue_light));
         }else{
-            row.setBackgroundColor(Color.MAGENTA);
+            row.setBackgroundColor(getColor(R.color.orange_light));
         }
+    }
+
+    private int getColor(int id){
+        return getContext().getResources().getColor(id);
     }
 
 }

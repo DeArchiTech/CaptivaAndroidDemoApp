@@ -1,7 +1,11 @@
-package emc.captiva.mobile.sdksampleapp.Model;
+package emc.captiva.mobile.sdksampleapp.Repository;
 
+import emc.captiva.mobile.sdksampleapp.Model.Filter;
+import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.Service.CreateProfileService;
+import emc.captiva.mobile.sdksampleapp.Util.FilterRepoUtil;
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
@@ -22,7 +26,7 @@ public class FilterProfileRepo implements CreateProfileService{
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgrealm) {
-                FilterProfileRepo.this.createFilterProfileSync(realm, profile);
+                FilterProfileRepo.this.createFilterProfileSync(bgrealm, profile);
             }
         },onSuccess,onError);
 
@@ -34,8 +38,13 @@ public class FilterProfileRepo implements CreateProfileService{
         FilterProfile dbObj  = bgrealm.createObject(FilterProfile.class);
         dbObj.setAutoMaticallyApplyFilter(profile.isAutoMaticallyApplyFilter());
         dbObj.setId(profile.getId());
-        dbObj.setFilters(profile.getFilters());
+        dbObj.setFilters(createFilterList(profile.getFilters(), bgrealm));
 
+    }
+
+    private RealmList<Filter> createFilterList(RealmList<Filter> input ,Realm bgrealm){
+
+        return new FilterRepoUtil().createReproFilters(input, bgrealm);
     }
 
     @Override

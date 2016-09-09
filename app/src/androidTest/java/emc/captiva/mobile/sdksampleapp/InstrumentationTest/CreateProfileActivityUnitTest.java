@@ -1,9 +1,5 @@
 package emc.captiva.mobile.sdksampleapp.InstrumentationTest;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.assertion.ViewAssertions;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.TextView;
@@ -25,23 +21,15 @@ import emc.captiva.mobile.sdksampleapp.CreateFilterProfileActivity;
 import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
 import emc.captiva.mobile.sdksampleapp.Model.Filter;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
-import emc.captiva.mobile.sdksampleapp.Model.FilterProfileRepo;
 import emc.captiva.mobile.sdksampleapp.Presenter.CreateProfilePresenter;
-import emc.captiva.mobile.sdksampleapp.R;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.action.ViewActions.clearText;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 
 /**
  * Created by david on 9/2/16.
@@ -81,21 +69,6 @@ public class CreateProfileActivityUnitTest {
     @Rule
     public ActivityTestRule<CreateFilterProfileActivity> mActivityRule =
             new ActivityTestRule<>(CreateFilterProfileActivity.class);
-
-    @Test
-    public void testToggle() {
-
-        boolean state = mActivityRule.getActivity().isAutoApplyFilter();
-
-        onView(withId(R.id.autoApplyFilter)).perform(click());
-
-        Assert.assertEquals(mActivityRule.getActivity().isAutoApplyFilter(), !state);
-
-        onView(withId(R.id.autoApplyFilter)).perform(click());
-
-        Assert.assertEquals(mActivityRule.getActivity().isAutoApplyFilter(), state);
-
-    }
 
     @Test
     public void testGetProfileName() {

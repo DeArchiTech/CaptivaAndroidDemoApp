@@ -13,9 +13,9 @@ import org.junit.runner.RunWith;
 
 import emc.captiva.mobile.sdksampleapp.MainActivity;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
-import emc.captiva.mobile.sdksampleapp.Model.FilterProfileRepo;
+import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
+import emc.captiva.mobile.sdksampleapp.Util.RealmUtil;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 /**
  * Created by david on 9/1/16.
@@ -35,17 +35,15 @@ public class FIlterProfileReproTest {
             @Override
             public void run() {
 
+                //1)Create Test Realm
                 Context context = InstrumentationRegistry.getTargetContext();
-                RealmConfiguration realmConfig = new RealmConfiguration.Builder(context)
-                        .name("myrealm.realm")
-                        .inMemory()
-                        .build();
+                Realm realm = new RealmUtil().createRealm(context);
+
 
                 //2)Create manager and Realm Instance
                 FilterProfileRepo manager = new FilterProfileRepo();
                 FilterProfile profile = new FilterProfile();
                 profile.setId(143);
-                Realm realm = Realm.getInstance(realmConfig);
 
                 //3)Test sync call
                 realm.beginTransaction();
@@ -65,17 +63,14 @@ public class FIlterProfileReproTest {
             @Override
             public void run() {
 
+                //1)Create Test Realm
                 Context context = InstrumentationRegistry.getTargetContext();
-                RealmConfiguration realmConfig = new RealmConfiguration.Builder(context)
-                        .name("myrealm.realm")
-                        .inMemory()
-                        .build();
+                Realm realm = new RealmUtil().createRealm(context);
 
                 //2)Create manager and Realm Instance
                 FilterProfileRepo repro = new FilterProfileRepo();
                 FilterProfile profile = new FilterProfile();
                 profile.setId(143);
-                Realm realm = Realm.getInstance(realmConfig);
 
                 //3)Test sync call
                 Assert.assertNull(FilterProfileRepo.profilesCache);
@@ -98,16 +93,12 @@ public class FIlterProfileReproTest {
             @Override
             public void run() {
 
+                //1)Create Test Realm
                 Context context = InstrumentationRegistry.getTargetContext();
-                RealmConfiguration realmConfig = new RealmConfiguration.Builder(context)
-                        .name("myrealm.realm")
-                        .inMemory()
-                        .build();
+                Realm realm = new RealmUtil().createRealm(context);
 
                 //2)Create manager and Realm Instance
                 FilterProfileRepo manager = new FilterProfileRepo();
-                Realm realm = Realm.getInstance(realmConfig);
-
                 //3)Test sync call
                 Assert.assertEquals(FilterProfileRepo.maxIdCache ,0);
 

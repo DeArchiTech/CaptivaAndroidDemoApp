@@ -7,7 +7,7 @@ import java.io.InputStream;
 
 import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
 import emc.captiva.mobile.sdksampleapp.Model.Cookie;
-import emc.captiva.mobile.sdksampleapp.Model.CookieRepo;
+import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
 import emc.captiva.mobile.sdksampleapp.Service.CaptivaImageUploadService;
 import emc.captiva.mobile.sdksampleapp.ServiceBuilder.CaptivaImageServiceBuilder;
 import emc.captiva.mobile.sdksampleapp.Util.StringUtil;

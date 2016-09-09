@@ -7,8 +7,6 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.TextView;
 
-import com.google.dexmaker.dx.io.Code;
-
 import junit.framework.Assert;
 
 import org.junit.Before;
@@ -18,14 +16,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.stubbing.answers.ThrowsException;
 
-import java.util.ArrayList;
 import java.util.List;
 import emc.captiva.mobile.sdksampleapp.CreateFilterProfileActivity;
 import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
-import emc.captiva.mobile.sdksampleapp.Model.Filter;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
+import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
 import emc.captiva.mobile.sdksampleapp.Presenter.CreateProfilePresenter;
 import emc.captiva.mobile.sdksampleapp.R;
 import io.realm.Realm;
@@ -42,7 +38,6 @@ import static org.hamcrest.Matchers.anything;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 
 /**
  * Created by david on 9/2/16.
@@ -57,6 +52,9 @@ public class CreateProfileActivityUITest {
     @Mock
     CreateProfilePresenter presenter;
 
+    @Mock
+    FilterProfileRepo repo;
+
     List<FilterListItem> filterListItem;
     String testString = "ABCD";
 
@@ -65,6 +63,7 @@ public class CreateProfileActivityUITest {
 
         textView = Mockito.mock(TextView.class);
         presenter = Mockito.mock(CreateProfilePresenter.class);
+        repo = Mockito.mock(FilterProfileRepo.class);
         this.testString = "ABCD";
         mActivityRule.getActivity().setPresenter(this.presenter);
         when(textView.getText()).thenReturn(testString);
@@ -91,6 +90,21 @@ public class CreateProfileActivityUITest {
     @Test
     public void listViewHasString() {
         onView(withText("Image Label")).check(ViewAssertions.matches(isDisplayed()));
+    }
+
+    @Test
+    public void testToggle() {
+
+        boolean state = mActivityRule.getActivity().isAutoApplyFilter();
+
+        onView(withId(R.id.autoApplyFilter)).perform(click());
+
+        Assert.assertEquals(mActivityRule.getActivity().isAutoApplyFilter(), !state);
+
+        onView(withId(R.id.autoApplyFilter)).perform(click());
+
+        Assert.assertEquals(mActivityRule.getActivity().isAutoApplyFilter(), state);
+
     }
 
     @Test
@@ -163,26 +177,53 @@ public class CreateProfileActivityUITest {
 
     }
 
+    @Test
+    public void onClickChangeColorTest(){
 
+        //Assert View with so e color
+        //Todo
+
+        onData(anything()).inAdapterView(withId(R.id.filterListView)).atPosition(0).perform(click());
+
+        //Assert View with different color
+
+    }
     @Test
     public void createProfileUITest() {
 
-        try {
-            //1)Read db and determine the size of entries in db
-            //2)Input Filter Name
-            //3)Click on toggle button
-            //4)Select 3 filters
-            //5)Click on filter profile button
-            //6)Validate db has +1 entry
-            onView(withId(R.string.CreateProfilePage_CreateBtn)).perform(click());
+        doNothing().when(presenter).onCreateProfile(Matchers.any(FilterProfile.class)
+                , Matchers.any(Realm.Transaction.OnSuccess.class)
+                , Matchers.any(Realm.Transaction.OnError.class)
+                , Matchers.any(Realm.class));
 
-            Thread.sleep(1500);
+        //2)Input Filter Name
+        Espresso.closeSoftKeyboard();
 
-            onView(withId(android.R.id.button1)).perform(click());
+        String profileName = "Hakuna Matata";
 
-        } catch (Exception e) {
+        onView(withId(R.id.createProfileNameInput)).perform(click()).perform(clearText(), typeText(profileName));
 
-        }
+        Espresso.closeSoftKeyboard();
+
+        //3)Click on toggle button
+        onView(withId(R.id.autoApplyFilter)).perform(click());
+
+        //4)Select 3 filters
+        onData(anything()).inAdapterView(withId(R.id.filterListView)).atPosition(0).perform(click());
+
+        onData(anything()).inAdapterView(withId(R.id.filterListView)).atPosition(1).perform(click());
+
+        onData(anything()).inAdapterView(withId(R.id.filterListView)).atPosition(2).perform(click());
+
+        //5)Click on filter profile create button
+        onView(withId(R.id.CreateProfileButton)).perform(click());
+
+        //6)Verify Presenter gets called
+        verify(presenter).onCreateProfile(Matchers.any(FilterProfile.class)
+                , Matchers.any(Realm.Transaction.OnSuccess.class)
+                , Matchers.any(Realm.Transaction.OnError.class)
+                , Matchers.any(Realm.class));
+
     }
 
 }

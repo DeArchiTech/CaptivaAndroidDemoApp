@@ -31,7 +31,7 @@ import emc.captiva.mobile.sdk.PictureCallback;
 import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
-import emc.captiva.mobile.sdksampleapp.Model.CookieRepo;
+import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
 import emc.captiva.mobile.sdksampleapp.Service.CaptivaImageUploadService;
 import emc.captiva.mobile.sdksampleapp.Service.FilestackImageUploadService;
 import emc.captiva.mobile.sdksampleapp.ServiceBuilder.CaptivaImageServiceBuilder;
@@ -41,8 +41,6 @@ import emc.captiva.mobile.sdksampleapp.Util.RealmUtil;
 import emc.captiva.mobile.sdksampleapp.Util.StringUtil;
 import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import io.realm.exceptions.RealmMigrationNeededException;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -585,20 +583,21 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     private boolean startProcessDialog(){
 
-        if(this.dialog == null){
+        if(this.dialog == null)
             this.dialog = new UIUtils().createProgressDialog(this);
-        }
-        this.dialog.show();
+        if(!this.dialog.isShowing())
+            this.dialog.show();
         return true;
+
     }
 
     private boolean stopProcessDialog(){
 
-        if(this.dialog != null){
+        if(this.dialog.isShowing())
             this.dialog.dismiss();
-            return true;
-        }
-        return false;
+        if(this.dialog != null)
+            this.dialog = null;
+        return true;
     }
 
     private void displayCustomToast(String action , String result, String description) {

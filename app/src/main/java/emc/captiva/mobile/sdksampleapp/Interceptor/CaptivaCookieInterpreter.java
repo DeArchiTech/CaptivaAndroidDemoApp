@@ -2,7 +2,7 @@ package emc.captiva.mobile.sdksampleapp.Interceptor;
 
 import java.io.IOException;
 
-import emc.captiva.mobile.sdksampleapp.Model.CookieRepo;
+import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;

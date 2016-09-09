@@ -1,6 +1,7 @@
-package emc.captiva.mobile.sdksampleapp.Model;
+package emc.captiva.mobile.sdksampleapp.Repository;
 
 
+import emc.captiva.mobile.sdksampleapp.Model.Cookie;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -33,7 +34,7 @@ public class CookieRepo {
         //Persist One Cookie
         Cookie cookie = bgrealm.createObject(Cookie.class);
         cookie.setCookie(cookieString);
-        CookieRepo.this.sessionCookie = cookie;
+        CookieRepo.this.sessionCookie = bgrealm.copyFromRealm(cookie);
 
     }
 
