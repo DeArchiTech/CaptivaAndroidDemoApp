@@ -9,7 +9,7 @@
         android:id="@+id/toolBar"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:background="@color/orange_light"
+        android:background="@color/yellow"
         android:navigationIcon="@drawable/reva_banner_small"/>
 
     <LinearLayout
@@ -79,28 +79,45 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/middleContainerView"
+        android:id="@+id/seconFromBottomContainerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/secondFromTopContainerView"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:layout_weight="1">
 
         <ListView
             android:id="@+id/filterListView"
             android:background="@color/grey_light"
             android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"/>
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"/>
+
+        <ListView
+            android:id="@+id/selectedFilterListView"
+            android:background="@color/grey_light"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomContainerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/secondFromBottomContainerView"
+        android:orientation="vertical"
+        android:layout_weight="0">
 
         <Button
             android:id="@+id/CreateProfileButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"
-            android:background="@color/purple_dark"
+            android:background="@color/grey"
             android:text="@string/CreateProfilePage_CreateBtn"
             android:textColor="@color/white"
-            android:onClick="onSaveButtonClicked"
-            android:layout_weight="0.1"/>
+            android:onClick="onSaveButtonClicked"/>
 
     </LinearLayout>
 

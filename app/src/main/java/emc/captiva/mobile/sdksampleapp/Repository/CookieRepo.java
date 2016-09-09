@@ -73,7 +73,8 @@ public class CookieRepo {
 
         final RealmResults<Cookie> cookies = bgrealm.where(Cookie.class).findAll();
         if(cookies.size() > 0){
-            CookieRepo.sessionCookie=cookies.first();
+            Cookie cookieInRealm = cookies.first();
+            CookieRepo.sessionCookie = bgrealm.copyFromRealm(cookieInRealm);
         }else{
             CookieRepo.sessionCookie=null;
         }

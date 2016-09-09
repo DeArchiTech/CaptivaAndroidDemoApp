@@ -25,7 +25,7 @@ import io.realm.RealmList;
 /**
  * Created by david on 9/2/16.
  */
-public class CreateFilterProfileActivity extends Activity implements CreateProfileView{
+public class CreateFilterProfileActivity extends Activity implements CreateProfileView, View.OnClickListener{
 
     private String action = "Create Profile";
     private CreateProfilePresenter presenter;
@@ -168,6 +168,11 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
     public void onToggleClicked(View view) {
 
         this.autoApplyFilter = !this.autoApplyFilter;
+
+    }
+
+    @Override
+    public void onClick(View view) {
 
     }
 }

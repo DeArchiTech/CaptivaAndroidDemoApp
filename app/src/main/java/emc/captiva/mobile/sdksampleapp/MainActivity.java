@@ -29,6 +29,7 @@ import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdk.CaptureWindow;
 import emc.captiva.mobile.sdk.PictureCallback;
 import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
+import emc.captiva.mobile.sdksampleapp.ActivityHelper.MainActivityHelper;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
 import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
@@ -75,9 +76,17 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         
         // License the application
         CoreHelper.license(this);
+        setUpLoginStatus();
 
     }
-    
+
+    private void setUpLoginStatus() {
+
+        MainActivityHelper helper = new MainActivityHelper();
+        this.loggedIn = helper.userIsLoggedIn();
+
+    }
+
     /**
      * Launches the camera window to take a picture, which saves to the image gallery.
      * @param view      The view for the control event.

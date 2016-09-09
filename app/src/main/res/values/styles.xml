@@ -23,16 +23,18 @@
 
     android:theme=>
 
-    <style name="revaTheme" parent="@android:style/Theme.Holo.NoActionBar">
+<!--
+    <style name="revaThemeOld" parent="@android:style/Theme.Holo.NoActionBar">
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:colorPrimary">@color/orange_light</item>
         <item name="android:colorPrimaryDark">@color/orange_dark</item>
         <item name="android:statusBarColor">@color/orange_light</item>
     </style>
+-->
 
-    <style name="revaThemeTwo" parent="android:Theme.Material.NoActionBar">
+    <style name="revaTheme" parent="android:Theme.Material.NoActionBar">
         <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:colorPrimary">@color/orange_light</item>
+        <item name="android:colorPrimary">@color/yellow</item>
         <item name="android:colorPrimaryDark">@color/orange_dark</item>
         <item name="android:statusBarColor">@color/orange_darker</item>
     </style>
