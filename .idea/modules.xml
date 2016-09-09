@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CaptivaDemoApp.iml" filepath="$PROJECT_DIR$/CaptivaDemoApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SdkSampleApp.iml" filepath="$PROJECT_DIR$/SdkSampleApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

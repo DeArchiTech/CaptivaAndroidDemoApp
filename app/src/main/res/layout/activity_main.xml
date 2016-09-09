@@ -3,13 +3,13 @@
     android:layout_height="match_parent"
     android:background="@android:color/black">
 
-<!--    android:logo="@drawable/reva_logo"-->
+<!--    android:logo="@drawable/reva_banner_small"-->
     <Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/toolBar"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:background="@color/orange_light"
-        android:navigationIcon="@drawable/reva_logo"/>
+        android:navigationIcon="@drawable/reva_banner_small"/>
 
     <ScrollView
         android:layout_width="fill_parent"

@@ -2,7 +2,7 @@
 * Copyright 2013-2015 EMC Corporation.  All rights reserved.
  -->
 <resources>
-    <string name="app_name">Captiva SDK Sample</string>
+    <string name="app_name">Revasolutions Sample Application</string>
     <string name="AppCopyright">Copyright 2013&#8211;2015 by Reva Solutions</string>
     <string name="MainPage_Title">SDK Sample</string>
 	<string name="MainPage_TakePicture">Take Picture</string>
