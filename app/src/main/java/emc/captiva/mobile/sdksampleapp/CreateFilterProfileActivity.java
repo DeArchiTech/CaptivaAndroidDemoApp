@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import emc.captiva.mobile.sdksampleapp.ActivityHelper.CreateProfileHelper;
-import emc.captiva.mobile.sdksampleapp.ListAdapter.FilterListAdapter;
+import emc.captiva.mobile.sdksampleapp.ListAdapter.AvailableFilterListAdapter;
+import emc.captiva.mobile.sdksampleapp.ListAdapter.SelectedFilterListAdapter;
 import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
 import emc.captiva.mobile.sdksampleapp.Model.Filter;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
@@ -19,17 +20,20 @@ import emc.captiva.mobile.sdksampleapp.Presenter.CreateProfilePresenter;
 import emc.captiva.mobile.sdksampleapp.Util.RealmUtil;
 import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
 import emc.captiva.mobile.sdksampleapp.View.CreateProfileView;
+import emc.captiva.mobile.sdksampleapp.View.AvailableFilterListListener;
+import emc.captiva.mobile.sdksampleapp.View.SelectedListClickedListener;
 import io.realm.Realm;
 import io.realm.RealmList;
 
 /**
  * Created by david on 9/2/16.
  */
-public class CreateFilterProfileActivity extends Activity implements CreateProfileView, View.OnClickListener{
+public class CreateFilterProfileActivity extends Activity implements CreateProfileView, AvailableFilterListListener, SelectedListClickedListener{
 
     private String action = "Create Profile";
     private CreateProfilePresenter presenter;
-    private List<FilterListItem> listItems;
+    private AvailableFilterListAdapter availableFilterListAdapter;
+    private SelectedFilterListAdapter selectedFilterListAdapter;
     private boolean autoApplyFilter = false;
 
     @Override
@@ -37,8 +41,10 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_filter_profile);
-        ListView listView = (ListView)findViewById(R.id.filterListView);
-        this.listItems = initializeFilterList(getResources().getStringArray(R.array.Filter_List), listView);
+        ListView availableListView = (ListView)findViewById(R.id.filterListView);
+        ListView selectedListView = (ListView)findViewById(R.id.selectedFilterListView);
+        this.availableFilterListAdapter = createAvailableFilterList(getResources().getStringArray(R.array.Filter_List), availableListView);
+        this.selectedFilterListAdapter = createSelectedFilterList( selectedListView);
         this.presenter = new CreateProfilePresenter(this, new FilterProfileRepo(),this);
 
     }
@@ -65,12 +71,21 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
         };
     }
 
-    private List<FilterListItem> initializeFilterList(String[] array, ListView listView){
+    private AvailableFilterListAdapter createAvailableFilterList(String[] array, ListView listView){
 
         List<FilterListItem> listItems = new UIUtils().initializeFilterListView(array);
-        FilterListAdapter adapter = new FilterListAdapter(this,  listItems);
+        AvailableFilterListAdapter adapter = new AvailableFilterListAdapter(this,  listItems, this);
         listView.setAdapter(adapter);
-        return listItems;
+        return adapter;
+
+    }
+
+    private SelectedFilterListAdapter createSelectedFilterList(ListView listView){
+
+        List<FilterListItem> listItems = new ArrayList<>();
+        SelectedFilterListAdapter adapter = new SelectedFilterListAdapter(this, listItems, this);
+        listView.setAdapter(adapter);
+        return adapter;
 
     }
 
@@ -113,8 +128,9 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
             return;
         }
         TextView textView = (TextView) findViewById(R.id.createProfileTitle);
+        List<FilterListItem> items = this.selectedFilterListAdapter.getItems();
         FilterProfile profile = createFilterProfile(getProfileName(textView),
-                getSelectedFilters(this.listItems), this.autoApplyFilter);
+                getSelectedFilters(items), this.autoApplyFilter);
 
         this.callPresenterToCreateProfile(profile,getRealmInstance());
     }
@@ -153,7 +169,8 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
 
     private boolean atLeastOneFilterSelected(){
 
-        return new CreateProfileHelper().atLeastOneFilterSelected(this.listItems);
+        List<FilterListItem> items = this.selectedFilterListAdapter.getItems();
+        return new CreateProfileHelper().atLeastOneFilterSelected(items);
 
     }
 
@@ -172,7 +189,34 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
     }
 
     @Override
-    public void onClick(View view) {
+    public void selectedListOnClick(FilterListItem item) {
 
+        this.selectedFilterListAdapter.removeItemFromListView(item);
+
+    }
+
+    @Override
+    public void filterListOnClick(FilterListItem item) {
+
+        this.selectedFilterListAdapter.addItemToListView(item);
+
+    }
+
+    //Getter and Setters
+
+    public SelectedFilterListAdapter getSelectedFilterListAdapter() {
+        return selectedFilterListAdapter;
+    }
+
+    public AvailableFilterListAdapter getAvailableFilterListAdapter() {
+        return availableFilterListAdapter;
+    }
+
+    public void setAvailableFilterListAdapter(AvailableFilterListAdapter availableFilterListAdapter) {
+        this.availableFilterListAdapter = availableFilterListAdapter;
+    }
+
+    public void setSelectedFilterListAdapter(SelectedFilterListAdapter selectedFilterListAdapter) {
+        this.selectedFilterListAdapter = selectedFilterListAdapter;
     }
 }

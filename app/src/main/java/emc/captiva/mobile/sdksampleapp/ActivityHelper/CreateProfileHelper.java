@@ -15,12 +15,7 @@ public class CreateProfileHelper {
 
     public boolean atLeastOneFilterSelected(List<FilterListItem> listItems) {
 
-        for(FilterListItem item: listItems){
-
-            if(item.selected == true)
-                return true;
-        }
-        return false;
+        return listItems.isEmpty() == false;
     }
 
     public boolean filterNameIsSet(EditText editText, String defaultString){

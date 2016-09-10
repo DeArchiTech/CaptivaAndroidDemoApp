@@ -11,20 +11,20 @@ import java.util.List;
 
 import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
 import emc.captiva.mobile.sdksampleapp.R;
+import emc.captiva.mobile.sdksampleapp.View.AvailableFilterListListener;
 
 /**
  * Created by david on 9/2/16.
  */
-public class FilterListAdapter extends ArrayAdapter<FilterListItem> {
+public class AvailableFilterListAdapter extends ArrayAdapter<FilterListItem> {
 
     private LayoutInflater inflater;
-    private View.OnClickListener listener;
+    private AvailableFilterListListener listener;
 
-    public FilterListAdapter(Context context, List<FilterListItem> items, View.OnClickListener listener) {
+    public AvailableFilterListAdapter(Context context, List<FilterListItem> items, AvailableFilterListListener listener) {
         super(context,0, items);
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.listener = listener;
-
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -39,7 +39,6 @@ public class FilterListAdapter extends ArrayAdapter<FilterListItem> {
         return v;
     }
 
-
     private void modifyRow(final View row, final FilterListItem item){
 
         TextView filterField = (TextView) row.findViewById(R.id.filterField);
@@ -47,15 +46,10 @@ public class FilterListAdapter extends ArrayAdapter<FilterListItem> {
         row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                item.selected = !item.selected;
-                FilterListAdapter.this.listener.onClick(null);
+                AvailableFilterListAdapter.this.listener.filterListOnClick(item);
             }
         });
 
-    }
-
-    private int getColor(int id){
-        return getContext().getResources().getColor(id);
     }
 
 }

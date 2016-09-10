@@ -8,4 +8,5 @@ import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
 public interface SelectedListClickedListener {
 
     void selectedListOnClick(FilterListItem item);
+
 }

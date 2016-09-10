@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import emc.captiva.mobile.sdksampleapp.CreateFilterProfileActivity;
+import emc.captiva.mobile.sdksampleapp.ListAdapter.AvailableFilterListAdapter;
+import emc.captiva.mobile.sdksampleapp.ListAdapter.SelectedFilterListAdapter;
 import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
 import emc.captiva.mobile.sdksampleapp.Model.Filter;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
@@ -44,6 +46,10 @@ public class CreateProfileActivityUnitTest {
     CreateProfilePresenter presenter;
     @Mock
     FilterProfile profile;
+    @Mock
+    SelectedFilterListAdapter selectedFilterListAdapter;
+    @Mock
+    AvailableFilterListAdapter availableFilterListAdapter;
 
     List<FilterListItem> filterListItem;
     String testString = "ABCD";
@@ -54,6 +60,8 @@ public class CreateProfileActivityUnitTest {
         textView = Mockito.mock(TextView.class);
         presenter = Mockito.mock(CreateProfilePresenter.class);
         profile = Mockito.mock(FilterProfile.class);
+        selectedFilterListAdapter = Mockito.mock(SelectedFilterListAdapter.class);
+        availableFilterListAdapter = Mockito.mock(AvailableFilterListAdapter.class);
 
         filterListItem = new ArrayList<>();
 
@@ -121,6 +129,35 @@ public class CreateProfileActivityUnitTest {
                 , Matchers.any(Realm.class));
 
     }
+
+    @Test
+    public void testAvailableFilterListOnClick(){
+
+        //Adds an item to selected list
+        FilterListItem item = new FilterListItem(new Filter());
+        CreateFilterProfileActivity activity = mActivityRule.getActivity();
+
+        //Swap out the selected filter adapter
+        activity.setSelectedFilterListAdapter(this.selectedFilterListAdapter);
+        activity.filterListOnClick(item);
+        verify(this.selectedFilterListAdapter).addItemToListView(Matchers.any(FilterListItem.class));
+
+    }
+
+    @Test
+    public void testSelectedListOnClick(){
+
+        //Adds an item to selected list
+        FilterListItem item = new FilterListItem(new Filter());
+        CreateFilterProfileActivity activity = mActivityRule.getActivity();
+
+        //Swap out the selected filter adapter
+        activity.setSelectedFilterListAdapter(this.selectedFilterListAdapter);
+        activity.selectedListOnClick(item);
+        verify(this.selectedFilterListAdapter).removeItemFromListView(Matchers.any(FilterListItem.class));
+
+    }
+
 
 
 }
