@@ -55,7 +55,6 @@ public class CreateProfileActivityUITest {
     @Mock
     FilterProfileRepo repo;
 
-    List<FilterListItem> filterListItem;
     String testString = "ABCD";
 
     @Before

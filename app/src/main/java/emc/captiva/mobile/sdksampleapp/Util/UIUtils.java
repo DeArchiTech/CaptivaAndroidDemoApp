@@ -50,4 +50,14 @@ public class UIUtils {
         return listItems;
     }
 
+    public void createAlertDialog(Activity activity, String action, String result, String description
+            , DialogInterface.OnClickListener listener) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setMessage(action + " " + result)
+                .setPositiveButton(description, listener);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 }

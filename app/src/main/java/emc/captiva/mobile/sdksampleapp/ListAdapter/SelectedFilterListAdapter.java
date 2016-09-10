@@ -42,10 +42,6 @@ public class SelectedFilterListAdapter extends ArrayAdapter<FilterListItem> {
         return v;
     }
 
-    private int getColor(int id){
-        return getContext().getResources().getColor(id);
-    }
-
     public List<FilterListItem> getItems() {
         return items;
     }

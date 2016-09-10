@@ -120,11 +120,11 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
     public void onSaveButtonClicked(View view){
 
         if(filterNameIsSet() == false){
-            this.displayCustomToast("Create Profile" , "Failed" , "Filter Name No Set");
+            this.displayCustomToast("Create Profile" , "Failed" , "Filter Name Not Set");
             return;
         }
         if(atLeastOneFilterSelected() == false){
-            this.displayCustomToast("Create Profile" , "Failed" , "Filter Item Not Selected");
+            this.displayCustomToast("Create Profile" , "Failed" , "No Filter Item Selected");
             return;
         }
         TextView textView = (TextView) findViewById(R.id.createProfileTitle);
@@ -196,7 +196,7 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
     }
 
     @Override
-    public void filterListOnClick(FilterListItem item) {
+    public void availableFilterListOnClick(FilterListItem item) {
 
         this.selectedFilterListAdapter.addItemToListView(item);
 

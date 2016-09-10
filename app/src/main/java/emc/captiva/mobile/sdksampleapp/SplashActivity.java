@@ -1,11 +1,13 @@
 package emc.captiva.mobile.sdksampleapp;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
 import emc.captiva.mobile.sdksampleapp.Util.RealmUtil;
+import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
 import io.realm.Realm;
 
 /**
@@ -15,7 +17,7 @@ public class SplashActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         loadCookieFromDB();
@@ -23,7 +25,7 @@ public class SplashActivity extends Activity {
 
     @Override
     protected void onPause() {
-        // TODO Auto-generated method stub
+
         super.onPause();
         finish();
     }
@@ -39,8 +41,7 @@ public class SplashActivity extends Activity {
         return new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                Intent intent = new Intent(SplashActivity.this,MainActivity.class);
-                startActivity(intent);
+                displayCustomToast("Login" , "Successful" , "Cookie Read Successfully");
             }
         };
     }
@@ -49,8 +50,7 @@ public class SplashActivity extends Activity {
         return new Realm.Transaction.OnError(){
             @Override
             public void onError(Throwable error) {
-                Intent intent = new Intent(SplashActivity.this,MainActivity.class);
-                startActivity(intent);
+                displayCustomToast("Login" , "Unsuccessful" , "Cookie Expired, please try to login again");
             }
         };
     }
@@ -58,6 +58,29 @@ public class SplashActivity extends Activity {
     private Realm getRealmInstance() {
 
         return new RealmUtil().createRealm(this);
+    }
+
+    private void displayCustomToast(String action , String result, String description) {
+
+        new UIUtils().createAlertDialog(this, action,result,description, createListener());
+
+    }
+
+    private DialogInterface.OnClickListener createListener() {
+
+        return new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // FIRE ZE MISSILES!
+                SplashActivity.this.startMainActivity();
+            }
+        };
+    }
+
+    private void startMainActivity(){
+
+        Intent intent = new Intent(SplashActivity.this,MainActivity.class);
+        startActivity(intent);
+
     }
 
 }

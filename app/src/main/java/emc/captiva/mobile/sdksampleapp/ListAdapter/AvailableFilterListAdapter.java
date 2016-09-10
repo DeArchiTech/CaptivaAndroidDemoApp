@@ -46,7 +46,7 @@ public class AvailableFilterListAdapter extends ArrayAdapter<FilterListItem> {
         row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AvailableFilterListAdapter.this.listener.filterListOnClick(item);
+                AvailableFilterListAdapter.this.listener.availableFilterListOnClick(item);
             }
         });
 

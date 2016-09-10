@@ -139,7 +139,7 @@ public class CreateProfileActivityUnitTest {
 
         //Swap out the selected filter adapter
         activity.setSelectedFilterListAdapter(this.selectedFilterListAdapter);
-        activity.filterListOnClick(item);
+        activity.availableFilterListOnClick(item);
         verify(this.selectedFilterListAdapter).addItemToListView(Matchers.any(FilterListItem.class));
 
     }

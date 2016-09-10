@@ -7,6 +7,6 @@ import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
  */
 public interface AvailableFilterListListener {
 
-    void filterListOnClick(FilterListItem item);
+    void availableFilterListOnClick(FilterListItem item);
 
 }

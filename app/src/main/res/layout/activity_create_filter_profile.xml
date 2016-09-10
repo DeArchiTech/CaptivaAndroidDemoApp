@@ -38,8 +38,8 @@
             android:layout_height="wrap_content"
             android:maxEms="20"
             android:layout_toRightOf="@+id/createProfileTitle"
-            android:text="@string/CreateProfilePage_ProfileNameInput"
-            android:textColor="@color/purple_dark"
+            android:textColor="@color/black"
+            android:hint="@string/CreateProfilePage_ProfileNameInput"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:maxLines="1"
             android:gravity="center"/>
@@ -108,7 +108,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/secondFromBottomContainerView"
         android:orientation="vertical"
-        android:layout_weight="0">
+        android:layout_weight="0"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <Button
             android:id="@+id/CreateProfileButton"
