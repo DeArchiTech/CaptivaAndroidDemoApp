@@ -20,7 +20,7 @@ public class SplashActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        loadCookieFromDB();
+        //loadCookieFromDB();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class SplashActivity extends Activity {
         };
     }
 
-    private Realm getRealmInstance() {
+    public Realm getRealmInstance() {
 
         return new RealmUtil().createRealm(this);
     }

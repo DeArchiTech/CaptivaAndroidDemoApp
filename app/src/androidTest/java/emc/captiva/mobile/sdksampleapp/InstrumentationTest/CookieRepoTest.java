@@ -42,10 +42,11 @@ public class CookieRepoTest {
                         .name("myrealm.realm")
                         .inMemory()
                         .build();
+                Realm realm = Realm.getInstance(realmConfig);
 
                 //2)Create manager and Realm Instance
                 CookieRepo manager = new CookieRepo();
-                Realm realm = Realm.getInstance(realmConfig);
+
                 realm.beginTransaction();
 
                 //3)Test sync call

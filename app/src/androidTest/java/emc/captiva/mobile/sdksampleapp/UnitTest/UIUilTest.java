@@ -25,17 +25,4 @@ public class UIUilTest extends TestCase {
         super.setUp();
     }
 
-    @SmallTest
-    public void testinitializeListView(){
-
-        //1)Mock ListView
-        //TODO
-        //ListView listView = Mockito.mock
-        //2)Mock Context
-
-        UIUtils utils = new UIUtils();
-        //3)Call Function
-
-    }
-
 }
