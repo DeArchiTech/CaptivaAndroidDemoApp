@@ -10,17 +10,21 @@ import emc.captiva.mobile.sdksampleapp.Util.RealmUtil;
 import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
 import io.realm.Realm;
 
+
 /**
  * Created by david on 9/9/16.
  */
 public class SplashActivity extends Activity {
 
+    long tStart ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        //loadCookieFromDB();
+        tStart = System.currentTimeMillis();
+        loadCookieFromDB();
+
     }
 
     @Override
@@ -41,7 +45,14 @@ public class SplashActivity extends Activity {
         return new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                displayCustomToast("Login" , "Successful" , "Cookie Read Successfully");
+                while(!enoughTimeHasPassed()){
+                    try{
+                        Thread.sleep(2000);
+                    }catch(Exception e){
+
+                    }
+                }
+                SplashActivity.this.startMainActivity();
             }
         };
     }
@@ -50,10 +61,18 @@ public class SplashActivity extends Activity {
         return new Realm.Transaction.OnError(){
             @Override
             public void onError(Throwable error) {
-                displayCustomToast("Login" , "Unsuccessful" , "Cookie Expired, please try to login again");
+                while(!enoughTimeHasPassed()){
+                    try{
+                        Thread.sleep(2000);
+                    }catch(Exception e){
+
+                    }
+                }
             }
         };
     }
+
+
 
     public Realm getRealmInstance() {
 
@@ -62,8 +81,17 @@ public class SplashActivity extends Activity {
 
     private void displayCustomToast(String action , String result, String description) {
 
+
         new UIUtils().createAlertDialog(this, action,result,description, createListener());
 
+    }
+
+    private boolean enoughTimeHasPassed(){
+
+        long timeElasped = System.currentTimeMillis() - tStart;
+        if(timeElasped > 3000)
+            return true;
+        return false;
     }
 
     private DialogInterface.OnClickListener createListener() {
