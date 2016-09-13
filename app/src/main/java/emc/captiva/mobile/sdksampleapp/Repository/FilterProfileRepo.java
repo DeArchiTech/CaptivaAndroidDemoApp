@@ -16,8 +16,16 @@ public class FilterProfileRepo implements CreateProfileService{
     public static int defaultId = 0;
     public static  RealmResults<FilterProfile> profilesCache;
     public static Number maxIdCache = 0;
-
+    public Realm realm;
     //Write Profile To Disk
+
+    public FilterProfileRepo(Realm realm) {
+        this.realm = realm;
+    }
+
+    public FilterProfileRepo() {
+    }
+
     @Override
     public void createAndPersistProfile(final FilterProfile profile, final Realm realm,
                                         Realm.Transaction.OnSuccess onSuccess,
@@ -51,6 +59,17 @@ public class FilterProfileRepo implements CreateProfileService{
     public void readProfiles(final Realm realm, Realm.Transaction.OnSuccess onSuccess, Realm.Transaction.OnError onError) {
 
         realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgrealm) {
+                FilterProfileRepo.this.readListOfProfileSync(realm);
+            }
+        },onSuccess,onError);
+
+    }
+
+    public void readProfiles(Realm.Transaction.OnSuccess onSuccess, Realm.Transaction.OnError onError) {
+
+        this.realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgrealm) {
                 FilterProfileRepo.this.readListOfProfileSync(realm);

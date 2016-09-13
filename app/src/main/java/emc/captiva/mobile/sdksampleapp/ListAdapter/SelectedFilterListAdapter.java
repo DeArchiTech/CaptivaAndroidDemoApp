@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import java.util.List;
 import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
 import emc.captiva.mobile.sdksampleapp.R;
@@ -18,10 +17,12 @@ public class SelectedFilterListAdapter extends ArrayAdapter<FilterListItem> {
 
     private LayoutInflater inflater;
     private SelectedListClickedListener listener;
+    private List<FilterListItem> listItems;
 
     public SelectedFilterListAdapter(Context context, List<FilterListItem> items, SelectedListClickedListener listener) {
         super(context,0, items);
         this.listener = listener;
+        this.listItems = items;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -51,19 +52,16 @@ public class SelectedFilterListAdapter extends ArrayAdapter<FilterListItem> {
     }
 
     public List<FilterListItem> getItems(){
-        return null;
+        return this.listItems;
     }
 
     public void addItemToListView(FilterListItem item){
-       // this.items.add(item);
         this.add(item);
         this.notifyDataSetChanged();
 
     }
 
     public void removeItemFromListView(FilterListItem item){
-
-     //   this.items.remove(item);
         this.remove(item);
         this.notifyDataSetChanged();
     }

@@ -202,20 +202,6 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
 
     }
 
-    //Getter and Setters
-
-    public SelectedFilterListAdapter getSelectedFilterListAdapter() {
-        return selectedFilterListAdapter;
-    }
-
-    public AvailableFilterListAdapter getAvailableFilterListAdapter() {
-        return availableFilterListAdapter;
-    }
-
-    public void setAvailableFilterListAdapter(AvailableFilterListAdapter availableFilterListAdapter) {
-        this.availableFilterListAdapter = availableFilterListAdapter;
-    }
-
     public void setSelectedFilterListAdapter(SelectedFilterListAdapter selectedFilterListAdapter) {
         this.selectedFilterListAdapter = selectedFilterListAdapter;
     }

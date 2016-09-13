@@ -14,6 +14,13 @@ public class FilterProfile extends RealmObject {
     private boolean autoMaticallyApplyFilter;
     private String profileName;
 
+    public FilterProfile() {
+    }
+
+    public FilterProfile(String profileName) {
+        this.profileName = profileName;
+    }
+
     public boolean isAutoMaticallyApplyFilter() {
         return autoMaticallyApplyFilter;
     }

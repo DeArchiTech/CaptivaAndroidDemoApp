@@ -29,10 +29,11 @@ import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdk.CaptureWindow;
 import emc.captiva.mobile.sdk.PictureCallback;
 import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
-import emc.captiva.mobile.sdksampleapp.ActivityHelper.MainActivityHelper;
+import emc.captiva.mobile.sdksampleapp.ActivityHelper.MainActivityPresenter;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
 import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
+import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
 import emc.captiva.mobile.sdksampleapp.Service.CaptivaImageUploadService;
 import emc.captiva.mobile.sdksampleapp.Service.FilestackImageUploadService;
 import emc.captiva.mobile.sdksampleapp.ServiceBuilder.CaptivaImageServiceBuilder;
@@ -82,8 +83,10 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     private void setUpLoginStatus() {
 
-        MainActivityHelper helper = new MainActivityHelper();
-        this.loggedIn = helper.userIsLoggedIn();
+        FilterProfileRepo repo = new FilterProfileRepo(getRealmInstance());
+        MainActivityPresenter presenter = new MainActivityPresenter(repo,this);
+        presenter.readProfileList(this,this);
+        this.loggedIn = presenter.userIsLoggedIn();
 
     }
 
@@ -609,7 +612,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         return true;
     }
 
-    private void displayCustomToast(String action , String result, String description) {
+    public void displayCustomToast(String action , String result, String description) {
 
         new UIUtils().createAlertDialog(this, action,result,description);
 

@@ -227,7 +227,6 @@ public class CreateProfileActivityUITest {
                 , Matchers.any(Realm.Transaction.OnSuccess.class)
                 , Matchers.any(Realm.Transaction.OnError.class)
                 , Matchers.any(Realm.class));
-
     }
 
     @Test

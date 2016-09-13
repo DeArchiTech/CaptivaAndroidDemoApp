@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black">
+    android:background="@android:color/white">
 
 <!--    android:logo="@drawable/reva_banner_small"-->
     <Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,6 +14,7 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="@color/orange_light"
         android:layout_below="@+id/toolBar">
 
         <RelativeLayout
@@ -21,12 +22,21 @@
             android:layout_height="match_parent"
             android:background="@android:color/black">
 
+            <Spinner
+                android:id="@+id/filterSpinner"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spinner_height"
+                android:background="@color/orange_light"
+                android:textColor="@color/black"
+                android:prompt="@string/mainPage_spinner_prompt" />
+
             <Button
                 android:id="@+id/LoginButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/sky_blue"
+                android:layout_below="@+id/filterSpinner"
+                android:background="@drawable/orange_button"
                 android:drawableRight="@drawable/ic_next"
                 android:gravity="center_vertical"
                 android:onClick="onLogin"
@@ -41,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/LoginButton"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/sky_blue"
+                android:background="@drawable/orange_button"
                 android:drawableRight="@drawable/ic_next"
                 android:gravity="center_vertical"
                 android:onClick="onLogout"
@@ -56,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/LogoutButton"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/sky_blue"
+                android:background="@drawable/orange_button"
                 android:drawableRight="@drawable/ic_next"
                 android:gravity="center_vertical"
                 android:onClick="onTakePicture"
@@ -71,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/takepicturebtn"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/sky_blue"
+                android:background="@drawable/orange_button"
                 android:drawableRight="@drawable/ic_next"
                 android:gravity="center_vertical"
                 android:onClick="onTakeContinuousPictures"
@@ -86,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/takecontinuouspicturesbtn"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/sky_blue"
+                android:background="@drawable/orange_button"
                 android:drawableRight="@drawable/ic_next"
                 android:gravity="center_vertical"
                 android:onClick="onEnhanceImage"
@@ -101,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/enhancepicturebtn"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/sky_blue"
+                android:background="@drawable/orange_button"
                 android:drawableRight="@drawable/ic_next"
                 android:gravity="center_vertical"
                 android:onClick="onSettings"
@@ -116,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/SettingsButton"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/sky_blue"
+                android:background="@drawable/orange_button"
                 android:drawableRight="@drawable/ic_next"
                 android:gravity="center_vertical"
                 android:onClick="onFileStackUpload"
@@ -131,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/FileStackUpload"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/sky_blue"
+                android:background="@drawable/orange_button"
                 android:drawableRight="@drawable/ic_next"
                 android:gravity="center_vertical"
                 android:onClick="onCaptivaUpload"
@@ -146,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/CaptivaUpload"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/sky_blue"
+                android:background="@drawable/orange_button"
                 android:drawableRight="@drawable/ic_next"
                 android:gravity="center_vertical"
                 android:onClick="onCreateFilterProfile"
