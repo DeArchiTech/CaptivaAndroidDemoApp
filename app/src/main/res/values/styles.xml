@@ -40,5 +40,6 @@
     </style>
 
     <style name="revaThemeLaunchScreen" parent="android:Theme.Material.NoActionBar.Fullscreen">
+        <item name="android:windowBackground">@drawable/reva_solutions_banner_big</item>
     </style>
 </resources>

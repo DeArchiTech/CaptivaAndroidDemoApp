@@ -185,10 +185,10 @@
     <string name="GPREF_QUAD_CROP_SHADE_BACKGROUND_SUMMARY">When true, the region being excluded by the crop will be shaded.</string>
     <string name="GPREF_APPLICATION_SETTINGS_KEY">GPREF_APPLICATION_SETTINGS</string>
     <string name="GPREF_APPLICATION_SETTINGS_TITLE">Application Settings</string>
-    <string name="GPREF_APPLICATIONID">GPREF_APPLICATIONID</string>
+    <string name="GPREF_APPLICATIONID">RevaApp</string>
 	<string name="GPREF_APPLICATIONID_TITLE">Application Identifier</string>
 	<string name="GPREF_APPLICATIONID_SUMMARY">Application identifier used for licensing.</string>			
-	<string name="GPREF_LICENSE">GPREF_LICENSE</string>
+	<string name="GPREF_LICENSE">9b3b-c5ae-789b</string>
 	<string name="GPREF_LICENSE_TITLE">Application license</string>
 	<string name="GPREF_LICENSE_SUMMARY">Application license code tied to the application identifier to be added.</string>
     <string name="GPREF_CAPTURE_CUSTOM">GPREF_CUSTOM_GROUP</string>

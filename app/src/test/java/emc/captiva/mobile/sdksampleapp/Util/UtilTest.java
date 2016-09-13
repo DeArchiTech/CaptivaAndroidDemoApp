@@ -17,7 +17,6 @@ import static org.junit.Assert.*;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
-
 public class UtilTest {
 
     @Test

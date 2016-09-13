@@ -5,9 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import emc.captiva.mobile.sdksampleapp.Presenter.SplashActivityPresenter;
 import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
 import emc.captiva.mobile.sdksampleapp.Util.RealmUtil;
 import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
+import emc.captiva.mobile.sdksampleapp.Util.Util;
 import io.realm.Realm;
 
 
@@ -17,13 +19,22 @@ import io.realm.Realm;
 public class SplashActivity extends Activity {
 
     long tStart ;
+    long desiredWaitTIme = 3000;
+    SplashActivityPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         tStart = System.currentTimeMillis();
-        loadCookieFromDB();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.presenter = new SplashActivityPresenter(getRealmInstance(), new CookieRepo());
+        this.presenter.loadCookieFromDb(createSuccessCallBack(), createErrorCallBack());
 
     }
 
@@ -33,26 +44,12 @@ public class SplashActivity extends Activity {
         super.onPause();
         finish();
     }
-    
-    private void loadCookieFromDB(){
-
-        CookieRepo repo = new CookieRepo();
-        repo.readCookieAsync(getRealmInstance(), createSuccessCallBack(), createErrorCallBack());
-       
-    }
 
     private Realm.Transaction.OnSuccess createSuccessCallBack() {
         return new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                while(!enoughTimeHasPassed()){
-                    try{
-                        Thread.sleep(2000);
-                    }catch(Exception e){
-
-                    }
-                }
-                SplashActivity.this.startMainActivity();
+                displayCustomToast("Login" , "Successful" , "OK");
             }
         };
     }
@@ -61,44 +58,31 @@ public class SplashActivity extends Activity {
         return new Realm.Transaction.OnError(){
             @Override
             public void onError(Throwable error) {
-                while(!enoughTimeHasPassed()){
-                    try{
-                        Thread.sleep(2000);
-                    }catch(Exception e){
-
-                    }
-                }
+                displayCustomToast("Login" , "Unsuccessful" , "Cookie Expired, please try to login again");
             }
         };
     }
 
-
-
-    public Realm getRealmInstance() {
+    public Realm getRealmInstance(){
 
         return new RealmUtil().createRealm(this);
     }
 
     private void displayCustomToast(String action , String result, String description) {
 
-
         new UIUtils().createAlertDialog(this, action,result,description, createListener());
 
     }
 
     private boolean enoughTimeHasPassed(){
-
-        long timeElasped = System.currentTimeMillis() - tStart;
-        if(timeElasped > 3000)
-            return true;
-        return false;
+        long current = System.currentTimeMillis();
+        return new Util().enoughtTimeHasPassed(current, tStart, this.desiredWaitTIme);
     }
 
     private DialogInterface.OnClickListener createListener() {
 
         return new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // FIRE ZE MISSILES!
                 SplashActivity.this.startMainActivity();
             }
         };

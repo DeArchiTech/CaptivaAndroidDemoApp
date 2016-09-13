@@ -24,7 +24,7 @@
         android:label="@string/app_name"
         android:theme="@style/revaTheme">
         <activity
-            android:name=".SplashActivity"
+            android:name="emc.captiva.mobile.sdksampleapp.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/revaThemeLaunchScreen">
             <intent-filter>
