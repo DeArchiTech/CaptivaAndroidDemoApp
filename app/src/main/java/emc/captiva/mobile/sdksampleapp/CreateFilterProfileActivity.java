@@ -82,7 +82,7 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
 
     private SelectedFilterListAdapter createSelectedFilterList(ListView listView){
 
-        List<FilterListItem> listItems = new ArrayList<>();
+        List<FilterListItem> listItems = new ArrayList<FilterListItem>();
         SelectedFilterListAdapter adapter = new SelectedFilterListAdapter(this, listItems, this);
         listView.setAdapter(adapter);
         return adapter;

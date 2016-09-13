@@ -28,13 +28,18 @@ import io.realm.Realm;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.action.ViewActions.clearText;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
@@ -77,18 +82,18 @@ public class CreateProfileActivityUITest {
     public void allViewsAreThere() {
 
         onView(ViewMatchers.withId(R.id.createProfileTitle))
-                .check(ViewAssertions.matches(ViewMatchers.withText(R.string.CreateProfilePage_Title)));
+                .check(matches(ViewMatchers.withText(R.string.CreateProfilePage_Title)));
         onView(withId(R.id.CreateProfileButton))
-                .check(ViewAssertions.matches(ViewMatchers.withText(R.string.CreateProfilePage_CreateBtn)));
+                .check(matches(ViewMatchers.withText(R.string.CreateProfilePage_CreateBtn)));
 
-        onView(withId(R.id.createProfileNameInput)).check(ViewAssertions.matches(isDisplayed()));
+        onView(withId(R.id.createProfileNameInput)).check(matches(isDisplayed()));
 
-        onView(withId(R.id.autoApplyFilter)).check(ViewAssertions.matches(isDisplayed()));
+        onView(withId(R.id.autoApplyFilter)).check(matches(isDisplayed()));
     }
 
     @Test
     public void listViewHasString() {
-        onView(withText("Image Label")).check(ViewAssertions.matches(isDisplayed()));
+        onView(withText("Image Label")).check(matches(isDisplayed()));
     }
 
     @Test
@@ -223,6 +228,38 @@ public class CreateProfileActivityUITest {
                 , Matchers.any(Realm.Transaction.OnError.class)
                 , Matchers.any(Realm.class));
 
+    }
+
+    @Test
+    public void testAddingItemToSelectedFilters(){
+
+        Espresso.closeSoftKeyboard();
+
+        onData(anything()).inAdapterView(withId(R.id.filterListView)).atPosition(0).perform(click());
+
+        onData(instanceOf(FilterListItem.class))
+                .inAdapterView(allOf(withId(R.id.selectedFilterListView), isDisplayed()))
+                .atPosition(0)
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testRemovingItemsFromSelectedFilters(){
+
+        //Mock For Add
+        Espresso.closeSoftKeyboard();
+
+        onData(anything()).inAdapterView(withId(R.id.filterListView)).atPosition(0).perform(click());
+
+        onData(instanceOf(FilterListItem.class))
+                .inAdapterView(allOf(withId(R.id.selectedFilterListView), isDisplayed()))
+                .atPosition(0)
+                .check(matches(isDisplayed()));
+
+        //Attempt To Remove
+        onData(anything()).inAdapterView(withId(R.id.selectedFilterListView)).atPosition(0).perform(click());
+
+        //Todo Refactor: Check if position has no content
     }
 
 }

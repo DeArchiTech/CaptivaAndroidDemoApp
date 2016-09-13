@@ -188,7 +188,17 @@
     <string name="GPREF_APPLICATIONID">RevaApp</string>
 	<string name="GPREF_APPLICATIONID_TITLE">Application Identifier</string>
 	<string name="GPREF_APPLICATIONID_SUMMARY">Application identifier used for licensing.</string>			
-	<string name="GPREF_LICENSE">9b3b-c5ae-789b</string>
+	<string name="GPREF_LICENSE">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>> Product=Captiva Mobile SDK, CreateDate=2016-09-02 1
+1:02:03+05:30, KeyId=9b3b-c5ae-789b, Expires After 90 days,
+Sales Order No=NFR, Customer Name=Reva Solutions_131221, App
+lication Name=RevaApp >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*!0319523485640556633/
+dUl4S4xCW2o7dBgMWlxWSmUCm6XIjIlPrEsAwoem6Q9WKFYcSVpqJU5MCIXe
+zce77cfL5IsFGHfb76H467yNnJsqNvHOidLWcy4CDMiIRQckjzxpXA0ceklH
+*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>></string>
 	<string name="GPREF_LICENSE_TITLE">Application license</string>
 	<string name="GPREF_LICENSE_SUMMARY">Application license code tied to the application identifier to be added.</string>
     <string name="GPREF_CAPTURE_CUSTOM">GPREF_CUSTOM_GROUP</string>

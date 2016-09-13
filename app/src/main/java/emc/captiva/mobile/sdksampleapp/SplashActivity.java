@@ -28,10 +28,12 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         tStart = System.currentTimeMillis();
+
     }
 
     @Override
     protected void onResume() {
+
         super.onResume();
         this.presenter = new SplashActivityPresenter(getRealmInstance(), new CookieRepo());
         this.presenter.loadCookieFromDb(createSuccessCallBack(), createErrorCallBack());
@@ -43,6 +45,7 @@ public class SplashActivity extends Activity {
 
         super.onPause();
         finish();
+
     }
 
     private Realm.Transaction.OnSuccess createSuccessCallBack() {
