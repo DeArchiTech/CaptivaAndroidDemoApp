@@ -87,21 +87,11 @@ public class CreateProfileActivityUnitTest {
     }
 
     @Test
-    public void testGetSelectedFilters() {
-
-        FilterListItem selected = new FilterListItem(new Filter("ccc"));
-        selected.selected = true;
-        filterListItem.add(selected);
-        List<FilterListItem> result = mActivityRule.getActivity().getSelectedFilters(filterListItem);
-        Assert.assertEquals(result.size(), 1);
-
-    }
-
-    @Test
     public void testCreateProfileObject() {
 
         String profileName = mActivityRule.getActivity().getProfileName(textView);
-        List<FilterListItem> filterList = mActivityRule.getActivity().getSelectedFilters(filterListItem);
+        List<FilterListItem> filterList = new ArrayList<FilterListItem>();
+        filterList.add(new FilterListItem(new Filter("")));
         boolean applyFilterAuto = true;
         FilterProfile profile = mActivityRule.getActivity().createFilterProfile(profileName, filterList, applyFilterAuto);
 

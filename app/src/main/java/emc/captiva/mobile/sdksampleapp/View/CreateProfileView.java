@@ -13,6 +13,5 @@ import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 public interface CreateProfileView{
 
     String getProfileName(TextView textView);
-    List<FilterListItem> getSelectedFilters(List<FilterListItem> filterList);
     FilterProfile createFilterProfile(String profileName, List<FilterListItem> items, boolean applyFilterAuto);
 }

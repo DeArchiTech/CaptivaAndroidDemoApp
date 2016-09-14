@@ -95,16 +95,6 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
     }
 
     @Override
-    public List<FilterListItem> getSelectedFilters(List<FilterListItem> filterList) {
-        List<FilterListItem> result = new ArrayList<FilterListItem>();
-        for(FilterListItem item : filterList){
-            if(item.selected)
-                result.add(item);
-        }
-        return result;
-    }
-
-    @Override
     public FilterProfile createFilterProfile(String profileName, List<FilterListItem> items, boolean applyFilterAuto) {
         FilterProfile profile = new FilterProfile();
         profile.setProfileName(profileName);
@@ -127,10 +117,10 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
             this.displayCustomToast("Create Profile" , "Failed" , "No Filter Item Selected");
             return;
         }
-        TextView textView = (TextView) findViewById(R.id.createProfileTitle);
+        TextView textView = (TextView) findViewById(R.id.createProfileNameInput);
         List<FilterListItem> items = this.selectedFilterListAdapter.getItems();
         FilterProfile profile = createFilterProfile(getProfileName(textView),
-                getSelectedFilters(items), this.autoApplyFilter);
+                items, this.autoApplyFilter);
 
         this.callPresenterToCreateProfile(profile,getRealmInstance());
     }

@@ -1,6 +1,6 @@
 package emc.captiva.mobile.sdksampleapp.CallBacks;
-
 import emc.captiva.mobile.sdksampleapp.ActivityHelper.MainActivityPresenter;
+import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
 import io.realm.Realm;
 
 /**
@@ -18,6 +18,6 @@ public class ReadProfileSuccessCB implements Realm.Transaction.OnSuccess {
     @Override
     public void onSuccess() {
 
-        this.presenter.loadProfileIntoSpinner();
+        this.presenter.loadProfileIntoSpinner(FilterProfileRepo.profilesCache);
     }
 }

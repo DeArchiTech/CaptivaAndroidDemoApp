@@ -56,6 +56,7 @@ public class SelectedFilterListAdapter extends ArrayAdapter<FilterListItem> {
     }
 
     public void addItemToListView(FilterListItem item){
+        this.listItems.add(item);
         this.add(item);
         this.notifyDataSetChanged();
 

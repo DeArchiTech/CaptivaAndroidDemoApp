@@ -22,7 +22,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import emc.captiva.mobile.sdk.CaptureException;
 import emc.captiva.mobile.sdk.CaptureImage;
@@ -30,6 +32,8 @@ import emc.captiva.mobile.sdk.CaptureWindow;
 import emc.captiva.mobile.sdk.PictureCallback;
 import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
 import emc.captiva.mobile.sdksampleapp.ActivityHelper.MainActivityPresenter;
+import emc.captiva.mobile.sdksampleapp.CallBacks.ReadProfileErrorCB;
+import emc.captiva.mobile.sdksampleapp.CallBacks.ReadProfileSuccessCB;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
 import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
@@ -66,6 +70,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
     CustomWindow _customWindow;
     private boolean loggedIn = false;
     private ProgressDialog dialog;
+    private MainActivityPresenter presenter;
     /* (non-Javadoc)
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
@@ -74,19 +79,22 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         // License the application
         CoreHelper.license(this);
-        setUpLoginStatus();
+
+        FilterProfileRepo repo = new FilterProfileRepo(getRealmInstance());
+        this.presenter = new MainActivityPresenter(repo, this);
+        this.loggedIn = presenter.userIsLoggedIn();
+        this.loadFilterProfiles();
 
     }
 
-    private void setUpLoginStatus() {
+    private void loadFilterProfiles(){
 
-        FilterProfileRepo repo = new FilterProfileRepo(getRealmInstance());
-        MainActivityPresenter presenter = new MainActivityPresenter(repo,this);
-        presenter.readProfileList(this,this);
-        this.loggedIn = presenter.userIsLoggedIn();
+        ReadProfileSuccessCB successCB = new ReadProfileSuccessCB(this.presenter);
+        ReadProfileErrorCB errorCB = new ReadProfileErrorCB(this.presenter);
+        this.presenter.readProfileList(successCB, errorCB);
 
     }
 
@@ -655,5 +663,14 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         return new RealmUtil().createRealm(this);
 
     }
+
+    public void updateSpinnerList(String[] items){
+
+        Spinner spinner = (Spinner) findViewById(R.id.filterSpinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        spinner.setAdapter(adapter);
+
+    }
+
 }
 

@@ -1,5 +1,7 @@
 package emc.captiva.mobile.sdksampleapp.Repository;
 
+import java.util.List;
+
 import emc.captiva.mobile.sdksampleapp.Model.Filter;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.Service.CreateProfileService;
@@ -14,7 +16,7 @@ import io.realm.RealmResults;
 public class FilterProfileRepo implements CreateProfileService{
 
     public static int defaultId = 0;
-    public static  RealmResults<FilterProfile> profilesCache;
+    public static List<FilterProfile> profilesCache;
     public static Number maxIdCache = 0;
     public Realm realm;
     //Write Profile To Disk
@@ -47,6 +49,7 @@ public class FilterProfileRepo implements CreateProfileService{
         dbObj.setAutoMaticallyApplyFilter(profile.isAutoMaticallyApplyFilter());
         dbObj.setId(profile.getId());
         dbObj.setFilters(createFilterList(profile.getFilters(), bgrealm));
+        dbObj.setProfileName(profile.getProfileName());
 
     }
 
@@ -61,7 +64,7 @@ public class FilterProfileRepo implements CreateProfileService{
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgrealm) {
-                FilterProfileRepo.this.readListOfProfileSync(realm);
+                FilterProfileRepo.this.readListOfProfileSync(bgrealm);
             }
         },onSuccess,onError);
 
@@ -72,7 +75,7 @@ public class FilterProfileRepo implements CreateProfileService{
         this.realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgrealm) {
-                FilterProfileRepo.this.readListOfProfileSync(realm);
+                FilterProfileRepo.this.readListOfProfileSync(bgrealm);
             }
         },onSuccess,onError);
 
@@ -81,8 +84,8 @@ public class FilterProfileRepo implements CreateProfileService{
     public void readListOfProfileSync(Realm bgrealm){
 
         //Read list Of profile
-        this.profilesCache = bgrealm.where(FilterProfile.class).findAll();
-
+        RealmResults<FilterProfile> results = bgrealm.where(FilterProfile.class).findAll();
+        this.profilesCache = bgrealm.copyFromRealm(results);
     }
 
     public void readMaxId(final Realm realm ,Realm.Transaction.OnSuccess onSuccess,
@@ -91,7 +94,7 @@ public class FilterProfileRepo implements CreateProfileService{
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgrealm) {
-                FilterProfileRepo.this.readMaxIdSync(realm);
+                FilterProfileRepo.this.readMaxIdSync(bgrealm);
             }
         },onSuccess,onError);
 

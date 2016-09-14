@@ -20,6 +20,7 @@ import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
 import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;

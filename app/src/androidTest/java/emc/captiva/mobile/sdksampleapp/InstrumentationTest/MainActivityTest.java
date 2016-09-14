@@ -6,19 +6,33 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import emc.captiva.mobile.sdksampleapp.MainActivity;
 import emc.captiva.mobile.sdksampleapp.R;
+import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest{
+
+    boolean listNotUpdated = false;
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule =
@@ -28,26 +42,28 @@ public class MainActivityTest{
     public void allButtonsViewAreThere(){
 
         onView(ViewMatchers.withId(R.id.takepicturebtn))
-                .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_TakePicture)));
+                .check(matches(ViewMatchers.withText(R.string.MainPage_TakePicture)));
         onView(withId(R.id.takecontinuouspicturesbtn))
-                .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_TakeContinuousPictures)));
+                .check(matches(ViewMatchers.withText(R.string.MainPage_TakeContinuousPictures)));
         onView(withId(R.id.SettingsButton))
-                .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_Settings)));
+                .check(matches(ViewMatchers.withText(R.string.MainPage_Settings)));
         onView(withId(R.id.enhancepicturebtn))
-                .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_EnhanceImage)));
+                .check(matches(ViewMatchers.withText(R.string.MainPage_EnhanceImage)));
 
 
         //Self Added Buttons
         onView(withId(R.id.LoginButton))
-                .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_Login)));
+                .check(matches(ViewMatchers.withText(R.string.MainPage_Login)));
         onView(withId(R.id.FileStackUpload))
-                .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_FileStackUpload)));
+                .check(matches(ViewMatchers.withText(R.string.MainPage_FileStackUpload)));
         onView(withId(R.id.CaptivaUpload))
-                .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_CaptivaUpload)));
+                .check(matches(ViewMatchers.withText(R.string.MainPage_CaptivaUpload)));
         onView(withId(R.id.LogoutButton))
-                .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_Logout)));
+                .check(matches(ViewMatchers.withText(R.string.MainPage_Logout)));
         onView(withId(R.id.CreateFilterProfile))
-                .check(ViewAssertions.matches(ViewMatchers.withText(R.string.MainPage_CreateFilterProfile)));
+                .check(matches(ViewMatchers.withText(R.string.MainPage_CreateFilterProfile)));
+        onView(withId(R.id.filterSpinner))
+                .check(matches(isDisplayed()));
     }
 
     @Test
@@ -149,5 +165,36 @@ public class MainActivityTest{
         }
 
     }
+
+    @Test
+    public void testUpdateSpinnerList(){
+
+        String selectionText = "ABD";
+
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+
+                String[] items = new String[3];
+                String selectionText = "ABD";
+                items[0] = selectionText;
+                items[1] = "BCD";
+                items[2] = "CDD";
+
+                mActivityRule.getActivity().updateSpinnerList(items);
+                listNotUpdated = true;
+            }
+
+        });
+
+        while(!listNotUpdated){
+
+        }
+        onView(withId(R.id.filterSpinner)).perform(click());
+        onData(allOf(is(instanceOf(String.class)), is(selectionText))).perform(click());
+        onView(withId(R.id.filterSpinner)).check(matches(withSpinnerText(containsString(selectionText))));
+
+    }
+
 
 }
