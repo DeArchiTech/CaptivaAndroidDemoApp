@@ -51,15 +51,7 @@ public class MainActivityPresenter {
 
     public void loadProfileIntoSpinner(List<FilterProfile> list){
 
-        List<String> stringList = new ArrayList<>();
-        for(FilterProfile profile: list){
-            String name = profile.getProfileName();
-            if(name != null){
-                stringList.add(profile.getProfileName());
-            }
-        }
-        String[] spinnerStrings = stringList.toArray(new String[0]);
-        this.activity.updateSpinnerList(spinnerStrings);
+        this.activity.updateSpinnerList(list);
     }
 
     public void displayCustomToast(String action , String result, String description) {
@@ -68,4 +60,12 @@ public class MainActivityPresenter {
 
     }
 
+    public int getIdFromAdapterObject(Object item) {
+
+        if(item instanceof FilterProfile){
+            FilterProfile profile = (FilterProfile)item;
+            return profile.getId();
+        }
+        return MainActivity.invalidId;
+    }
 }

@@ -1,22 +1,13 @@
 package emc.captiva.mobile.sdksampleapp.InstrumentationTest;
-import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import emc.captiva.mobile.sdksampleapp.MainActivity;
 import emc.captiva.mobile.sdksampleapp.R;
-import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -195,6 +186,5 @@ public class MainActivityTest{
         onView(withId(R.id.filterSpinner)).check(matches(withSpinnerText(containsString(selectionText))));
 
     }
-
 
 }

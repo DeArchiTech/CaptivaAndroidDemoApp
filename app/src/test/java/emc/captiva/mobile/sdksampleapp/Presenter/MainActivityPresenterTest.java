@@ -12,9 +12,11 @@ import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import emc.captiva.mobile.sdksampleapp.ActivityHelper.MainActivityPresenter;
 import emc.captiva.mobile.sdksampleapp.BuildConfig;
+import emc.captiva.mobile.sdksampleapp.MainActivity;
 import emc.captiva.mobile.sdksampleapp.Model.Cookie;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
@@ -88,4 +90,20 @@ public class MainActivityPresenterTest{
         Assert.assertEquals(result.size() , count);
     }
 
+    @Test
+    public void TestGetIdFromAdapterObject(){
+
+        //1)Create Object
+        FilterProfile profile = new FilterProfile();
+        int profileID = 123;
+        profile.setProfileName("ABCD");
+        profile.setId(profileID);
+        Object object = profile;
+        //2)Call Method
+        int result = this.mainActivityPresenter.getIdFromAdapterObject(object);
+        //3)Assert Result
+        Assert.assertTrue(result != MainActivity.invalidId);
+        Assert.assertEquals(profileID, result);
+
+    }
 }

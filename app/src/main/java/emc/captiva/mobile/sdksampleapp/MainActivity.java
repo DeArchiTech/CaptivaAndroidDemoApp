@@ -9,7 +9,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -22,6 +24,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -36,6 +39,9 @@ import emc.captiva.mobile.sdksampleapp.CallBacks.ReadProfileErrorCB;
 import emc.captiva.mobile.sdksampleapp.CallBacks.ReadProfileSuccessCB;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
+import emc.captiva.mobile.sdksampleapp.ListAdapter.ProfileDropDownAdapter;
+import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
+import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
 import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
 import emc.captiva.mobile.sdksampleapp.Service.CaptivaImageUploadService;
@@ -61,8 +67,6 @@ import retrofit2.Response;
 public class MainActivity extends Activity implements PictureCallback, ContinuousCaptureCallback, Realm.Transaction.OnSuccess,Realm.Transaction.OnError {
 	static boolean _newLoad = true;
     private static String TAG = MainActivity.class.getSimpleName();
-
-
     private final int CHOOSE_IMAGE = 1;
     private int _captureCount = 0;
     static String USE_QUADVIEW = "UseQuadView";
@@ -71,6 +75,9 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
     private boolean loggedIn = false;
     private ProgressDialog dialog;
     private MainActivityPresenter presenter;
+    public static int invalidId = -1;
+    private int profile_id = invalidId;
+
     /* (non-Javadoc)
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
@@ -664,12 +671,28 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     }
 
-    public void updateSpinnerList(String[] items){
+    public void updateSpinnerList(List<FilterProfile> items){
 
         Spinner spinner = (Spinner) findViewById(R.id.filterSpinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        ProfileDropDownAdapter adapter = new ProfileDropDownAdapter(this, items);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Object item = parent.getSelectedItem();
+                MainActivity.this.profile_id = getIdFromAdapterObject(item);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+
+    private int getIdFromAdapterObject(Object item){
+        return this.presenter.getIdFromAdapterObject(item);
     }
 
 }
