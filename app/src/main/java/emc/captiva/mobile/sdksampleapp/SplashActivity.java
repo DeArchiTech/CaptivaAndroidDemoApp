@@ -52,7 +52,14 @@ public class SplashActivity extends Activity {
         return new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                displayCustomToast("Login" , "Successful" , "OK");
+                while(!enoughTimeHasPassed()){
+                    try{
+                        Thread.sleep(desiredWaitTIme);
+                    }catch(Exception e){
+
+                    }
+                    SplashActivity.this.startMainActivity();
+                }
             }
         };
     }

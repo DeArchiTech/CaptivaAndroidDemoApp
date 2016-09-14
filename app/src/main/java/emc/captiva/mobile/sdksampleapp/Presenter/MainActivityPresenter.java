@@ -1,18 +1,16 @@
-package emc.captiva.mobile.sdksampleapp.ActivityHelper;
+package emc.captiva.mobile.sdksampleapp.Presenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import emc.captiva.mobile.sdksampleapp.Constant;
 import emc.captiva.mobile.sdksampleapp.MainActivity;
 import emc.captiva.mobile.sdksampleapp.Model.Cookie;
-import emc.captiva.mobile.sdksampleapp.Model.Filter;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
 import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
 import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
 import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmResults;
 
 /**
  * Created by david on 9/9/16.
@@ -51,7 +49,8 @@ public class MainActivityPresenter {
 
     public void loadProfileIntoSpinner(List<FilterProfile> list){
 
-        this.activity.updateSpinnerList(list);
+        List<FilterProfile> validList = getListWithValidName(list);
+        this.activity.updateSpinnerList(validList);
     }
 
     public void displayCustomToast(String action , String result, String description) {
@@ -66,6 +65,16 @@ public class MainActivityPresenter {
             FilterProfile profile = (FilterProfile)item;
             return profile.getId();
         }
-        return MainActivity.invalidId;
+        return Constant.invalidId;
+    }
+
+    public List<FilterProfile> getListWithValidName(List<FilterProfile> profiles) {
+
+        List<FilterProfile> result = new ArrayList<FilterProfile>();
+        for(FilterProfile item : profiles){
+            if(item.getProfileName() != null)
+                result.add(item);
+        }
+        return result;
     }
 }

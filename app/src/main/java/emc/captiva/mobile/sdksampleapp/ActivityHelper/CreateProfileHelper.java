@@ -13,19 +13,6 @@ import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
 
 public class CreateProfileHelper {
 
-    public boolean atLeastOneFilterSelected(List<FilterListItem> listItems) {
 
-        return listItems.isEmpty() == false;
-    }
-
-    public boolean filterNameIsSet(EditText editText, String defaultString){
-
-        if(editText != null){
-            String text = editText.getText().toString();
-            return (!text.isEmpty()) && (!text.equalsIgnoreCase(defaultString));
-        }
-        return false;
-
-    }
 
 }

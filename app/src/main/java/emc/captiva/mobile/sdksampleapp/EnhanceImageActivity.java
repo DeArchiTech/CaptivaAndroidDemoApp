@@ -32,6 +32,8 @@ import emc.captiva.mobile.sdk.CaptureException;
 import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdk.QuadrilateralCropCallback;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
+import emc.captiva.mobile.sdksampleapp.Model.Filter;
+import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.Service.CaptivaImageUploadService;
 import emc.captiva.mobile.sdksampleapp.ServiceBuilder.CaptivaImageServiceBuilder;
 import emc.captiva.mobile.sdksampleapp.Util.ImageFileUtil;
@@ -55,7 +57,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 	private Menu _menu = null;
 	private RelativeLayout _enhanceLayout = null;
 	private ProgressDialog dialog;
-
+	private int profile_id = Constant.invalidId;
 	/**
 	 * Called when the quadrilateral crop operation is complete.
 	 * @param cropped    True if the image was cropped, false if the operation was canceled.
@@ -213,6 +215,10 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 
 		return true;
     }
+
+	public void applyFiltersFromProfileSettings(FilterProfile profile){
+		//Todo Implement
+	}
 
 	private void uploadImage(){
 
@@ -386,6 +392,15 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		} else {
 		    _imgEdited = false;
 		}
+		this.profile_id = getProfileId(getIntent().getExtras());
+
+	}
+
+	private int getProfileId(Bundle bundle){
+
+		String key = getString(R.string.intent_profile_key);
+		return bundle.getInt(key);
+
 	}
 	
 	/**
@@ -428,6 +443,12 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 	private void startEdit() {
 		_imgEdited = true;
 		_undoButton.setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt(getString(R.string.intent_profile_key), this.profile_id);
 	}
 
 	/**
@@ -658,7 +679,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		return false;
 	}
 
-	private void displayCustomToast(String action , String result, String description) {
+	public void displayCustomToast(String action , String result, String description) {
 
 		new UIUtils().createAlertDialog(this, action,result,description);
 

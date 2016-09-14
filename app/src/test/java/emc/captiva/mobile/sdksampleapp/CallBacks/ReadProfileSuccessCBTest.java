@@ -10,7 +10,7 @@ import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 
-import emc.captiva.mobile.sdksampleapp.ActivityHelper.MainActivityPresenter;
+import emc.captiva.mobile.sdksampleapp.Presenter.MainActivityPresenter;
 import emc.captiva.mobile.sdksampleapp.BuildConfig;
 
 

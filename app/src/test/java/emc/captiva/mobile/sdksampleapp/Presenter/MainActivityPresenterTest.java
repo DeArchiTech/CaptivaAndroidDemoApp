@@ -12,18 +12,15 @@ import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import emc.captiva.mobile.sdksampleapp.ActivityHelper.MainActivityPresenter;
 import emc.captiva.mobile.sdksampleapp.BuildConfig;
+import emc.captiva.mobile.sdksampleapp.Constant;
 import emc.captiva.mobile.sdksampleapp.MainActivity;
 import emc.captiva.mobile.sdksampleapp.Model.Cookie;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
 import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
 import io.realm.Realm;
-import io.realm.RealmResults;
-
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 
@@ -102,8 +99,23 @@ public class MainActivityPresenterTest{
         //2)Call Method
         int result = this.mainActivityPresenter.getIdFromAdapterObject(object);
         //3)Assert Result
-        Assert.assertTrue(result != MainActivity.invalidId);
+        Assert.assertTrue(result != Constant.invalidId);
         Assert.assertEquals(profileID, result);
 
+    }
+
+    @Test
+    public void TestGetListWithValidName(){
+
+        //1)Create Object
+        List<FilterProfile> profiles = new ArrayList<>();
+        for(int i =0 ; i< 10 ; i++){
+            profiles.add(new FilterProfile());
+        }
+        profiles.add(new FilterProfile("ValidName"));
+        //2)Call Method
+        List<FilterProfile> resultList = this.mainActivityPresenter.getListWithValidName(profiles);
+        //3)Validate Result
+        Assert.assertEquals(1 , resultList.size());
     }
 }

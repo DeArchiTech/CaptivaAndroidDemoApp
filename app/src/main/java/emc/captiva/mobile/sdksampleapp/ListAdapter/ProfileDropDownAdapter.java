@@ -8,11 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.List;
-
-import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.R;
-import emc.captiva.mobile.sdksampleapp.View.AvailableFilterListListener;
 
 /**
  * Created by Davix on 9/14/16.
@@ -23,7 +20,7 @@ public class ProfileDropDownAdapter extends ArrayAdapter<FilterProfile> {
     private LayoutInflater inflater;
 
     public ProfileDropDownAdapter(Context context, List<FilterProfile> items) {
-        super(context,0, items);
+        super(context,R.layout.profile_spinner_item, items);
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 

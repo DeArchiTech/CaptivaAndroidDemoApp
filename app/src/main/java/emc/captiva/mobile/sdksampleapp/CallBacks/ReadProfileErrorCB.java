@@ -1,6 +1,6 @@
 package emc.captiva.mobile.sdksampleapp.CallBacks;
 
-import emc.captiva.mobile.sdksampleapp.ActivityHelper.MainActivityPresenter;
+import emc.captiva.mobile.sdksampleapp.Presenter.MainActivityPresenter;
 import io.realm.Realm;
 /**
  * Created by Davix on 9/13/16.

@@ -131,4 +131,39 @@ public class FIlterProfileReproTest {
 
         });
     }
+
+    @Test
+    public void readIDSyncTest() throws Exception{
+
+        //Run on the same thread that has looper
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+
+                //1)Create Test Realm
+                Context context = InstrumentationRegistry.getTargetContext();
+                Realm realm = new RealmUtil().createRealm(context);
+
+                //2)Create manager and Realm Instance
+                FilterProfileRepo manager = new FilterProfileRepo();
+                //3)Test sync call
+                Assert.assertEquals(FilterProfileRepo.maxIdCache ,0);
+
+                int id = 455;
+
+                FilterProfile profile = new FilterProfile();
+
+                realm.beginTransaction();
+                profile.setId(id);
+                manager.createFilterProfileSync(realm , profile);
+                realm.commitTransaction();
+
+                manager.loadProfileFromIdSync(realm,id);
+                Assert.assertNotNull(FilterProfileRepo.lastProfileLoaded);
+                Assert.assertEquals(FilterProfileRepo.lastProfileLoaded.getId(), id);
+
+            }
+
+        });
+    }
 }

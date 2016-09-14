@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -25,7 +24,6 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
@@ -34,13 +32,12 @@ import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdk.CaptureWindow;
 import emc.captiva.mobile.sdk.PictureCallback;
 import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
-import emc.captiva.mobile.sdksampleapp.ActivityHelper.MainActivityPresenter;
+import emc.captiva.mobile.sdksampleapp.Presenter.MainActivityPresenter;
 import emc.captiva.mobile.sdksampleapp.CallBacks.ReadProfileErrorCB;
 import emc.captiva.mobile.sdksampleapp.CallBacks.ReadProfileSuccessCB;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
 import emc.captiva.mobile.sdksampleapp.ListAdapter.ProfileDropDownAdapter;
-import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
 import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
@@ -75,8 +72,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
     private boolean loggedIn = false;
     private ProgressDialog dialog;
     private MainActivityPresenter presenter;
-    public static int invalidId = -1;
-    private int profile_id = invalidId;
+    private int profile_id = Constant.invalidId;
 
     /* (non-Javadoc)
      * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -602,6 +598,8 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
             String filepath = CoreHelper.getFilePathFromContentUri(this, uri);
             Intent intent = new Intent(this, EnhanceImageActivity.class);
             intent.putExtra("Filename", filepath);
+            if(MainActivity.this.profile_id != Constant.invalidId)
+                intent.putExtra(getString(R.string.intent_profile_key), MainActivity.this.profile_id);
             _newLoad = true;
             startActivity(intent);
         }

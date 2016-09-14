@@ -1,5 +1,5 @@
 package emc.captiva.mobile.sdksampleapp.CallBacks;
-import emc.captiva.mobile.sdksampleapp.ActivityHelper.MainActivityPresenter;
+import emc.captiva.mobile.sdksampleapp.Presenter.MainActivityPresenter;
 import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
 import io.realm.Realm;
 

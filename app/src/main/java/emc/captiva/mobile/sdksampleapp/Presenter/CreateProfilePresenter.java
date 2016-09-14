@@ -1,7 +1,11 @@
 package emc.captiva.mobile.sdksampleapp.Presenter;
 
 import android.content.Context;
+import android.widget.EditText;
 
+import java.util.List;
+
+import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.R;
 import emc.captiva.mobile.sdksampleapp.Service.CreateProfileService;
@@ -43,6 +47,21 @@ public class CreateProfilePresenter {
                                 Realm.Transaction.OnError onError,
                                 Realm realm) {
         service.createAndPersistProfile(profile,realm,onSuccess,onError);
+
+    }
+
+    public boolean atLeastOneFilterSelected(List<FilterListItem> listItems) {
+
+        return listItems.isEmpty() == false;
+    }
+
+    public boolean filterNameIsSet(EditText editText, String defaultString){
+
+        if(editText != null){
+            String text = editText.getText().toString();
+            return (!text.isEmpty()) && (!text.equalsIgnoreCase(defaultString));
+        }
+        return false;
 
     }
 

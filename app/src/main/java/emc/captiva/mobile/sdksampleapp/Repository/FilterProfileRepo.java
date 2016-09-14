@@ -17,6 +17,7 @@ public class FilterProfileRepo implements CreateProfileService{
 
     public static int defaultId = 0;
     public static List<FilterProfile> profilesCache;
+    public static FilterProfile lastProfileLoaded;
     public static Number maxIdCache = 0;
     public Realm realm;
     //Write Profile To Disk
@@ -86,6 +87,24 @@ public class FilterProfileRepo implements CreateProfileService{
         //Read list Of profile
         RealmResults<FilterProfile> results = bgrealm.where(FilterProfile.class).findAll();
         this.profilesCache = bgrealm.copyFromRealm(results);
+    }
+
+    public void loadProfileAsync(final int id ,Realm.Transaction.OnSuccess onSuccess, Realm.Transaction.OnError onError) {
+
+        this.realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgrealm) {
+                FilterProfileRepo.this.loadProfileFromIdSync(bgrealm,id);
+            }
+        },onSuccess,onError);
+
+    }
+
+    public void loadProfileFromIdSync(Realm bgrealm, int id){
+
+        FilterProfile result = bgrealm.where(FilterProfile.class).equalTo("id", id).findFirst();
+        FilterProfileRepo.lastProfileLoaded = result;
+
     }
 
     public void readMaxId(final Realm realm ,Realm.Transaction.OnSuccess onSuccess,

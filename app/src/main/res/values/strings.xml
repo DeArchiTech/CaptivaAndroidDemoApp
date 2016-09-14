@@ -240,4 +240,6 @@ zce77cfL5IsFGHfb76H467yNnJsqNvHOidLWcy4CDMiIRQckjzxpXA0ceklH
     <string name="autoApplyFilterLabel">Auto Apply Filters???</string>
     <string name="CreateProfilePage_ProfileNameInput">Please input a name for your profile</string>
     <string name="mainPage_spinner_prompt">Please select a profile</string>
+    <!-- Intent Keys -->
+    <string name="intent_profile_key">ProfileKey</string>
 </resources>

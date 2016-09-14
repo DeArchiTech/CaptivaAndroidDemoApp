@@ -11,11 +11,13 @@ public class FilterRepoUtil {
     public RealmList<Filter> createReproFilters(RealmList<Filter> originalFilters, Realm realm){
 
         RealmList<Filter> result = new RealmList<>();
-        for(Filter item: originalFilters){
+        if(originalFilters!=null){
+            for(Filter item: originalFilters){
 
-            Filter newItem = realm.createObject(Filter.class);
-            newItem.setFilterName(item.filterName);
-            result.add(newItem);
+                Filter newItem = realm.createObject(Filter.class);
+                newItem.setFilterName(item.filterName);
+                result.add(newItem);
+            }
         }
         return result;
     }

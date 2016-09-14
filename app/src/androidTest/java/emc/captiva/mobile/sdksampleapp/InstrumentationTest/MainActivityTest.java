@@ -6,7 +6,11 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
+
 import emc.captiva.mobile.sdksampleapp.MainActivity;
+import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.R;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -160,19 +164,17 @@ public class MainActivityTest{
     @Test
     public void testUpdateSpinnerList(){
 
-        String selectionText = "ABD";
+        final String selectionText = "ABD";
 
         InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
             @Override
             public void run() {
 
-                String[] items = new String[3];
-                String selectionText = "ABD";
-                items[0] = selectionText;
-                items[1] = "BCD";
-                items[2] = "CDD";
-
-                mActivityRule.getActivity().updateSpinnerList(items);
+                ArrayList<FilterProfile> list = new ArrayList<FilterProfile>();
+                for(int i =0 ; i < 3 ; i++){
+                    list.add(new FilterProfile(selectionText));
+                }
+                mActivityRule.getActivity().updateSpinnerList(list);
                 listNotUpdated = true;
             }
 

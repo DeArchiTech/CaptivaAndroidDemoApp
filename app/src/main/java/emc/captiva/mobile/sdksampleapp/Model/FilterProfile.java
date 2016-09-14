@@ -52,4 +52,11 @@ public class FilterProfile extends RealmObject {
     public void setProfileName(String profileName) {
         this.profileName = profileName;
     }
+
+    @Override
+    public String toString() {
+        if(getProfileName() == null)
+            return super.toString();
+        return getProfileName();
+    }
 }

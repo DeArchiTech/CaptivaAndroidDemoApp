@@ -5,11 +5,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import emc.captiva.mobile.sdksampleapp.ActivityHelper.CreateProfileHelper;
 import emc.captiva.mobile.sdksampleapp.ListAdapter.AvailableFilterListAdapter;
 import emc.captiva.mobile.sdksampleapp.ListAdapter.SelectedFilterListAdapter;
 import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
@@ -152,7 +149,7 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
         String defaultString = getString(R.string.CreateProfilePage_ProfileNameInput);
         if(view !=null){
             EditText editText = (EditText) view;
-            return new CreateProfileHelper().filterNameIsSet(editText , defaultString);
+            return this.presenter.filterNameIsSet(editText , defaultString);
         }
         return false;
     }
@@ -160,7 +157,7 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
     private boolean atLeastOneFilterSelected(){
 
         List<FilterListItem> items = this.selectedFilterListAdapter.getItems();
-        return new CreateProfileHelper().atLeastOneFilterSelected(items);
+        return this.presenter.atLeastOneFilterSelected(items);
 
     }
 
