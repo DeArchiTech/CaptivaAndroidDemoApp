@@ -7,7 +7,9 @@ package emc.captiva.mobile.sdksampleapp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
@@ -34,10 +36,14 @@ import emc.captiva.mobile.sdk.QuadrilateralCropCallback;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
 import emc.captiva.mobile.sdksampleapp.Model.Filter;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
+import emc.captiva.mobile.sdksampleapp.Presenter.EnhanceImagePresenter;
+import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
 import emc.captiva.mobile.sdksampleapp.Service.CaptivaImageUploadService;
 import emc.captiva.mobile.sdksampleapp.ServiceBuilder.CaptivaImageServiceBuilder;
 import emc.captiva.mobile.sdksampleapp.Util.ImageFileUtil;
+import emc.captiva.mobile.sdksampleapp.Util.RealmUtil;
 import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
+import io.realm.Realm;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,6 +64,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 	private RelativeLayout _enhanceLayout = null;
 	private ProgressDialog dialog;
 	private int profile_id = Constant.invalidId;
+	private EnhanceImagePresenter presenter;
 	/**
 	 * Called when the quadrilateral crop operation is complete.
 	 * @param cropped    True if the image was cropped, false if the operation was canceled.
@@ -215,10 +222,6 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 
 		return true;
     }
-
-	public void applyFiltersFromProfileSettings(FilterProfile profile){
-		//Todo Implement
-	}
 
 	private void uploadImage(){
 
@@ -393,6 +396,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		    _imgEdited = false;
 		}
 		this.profile_id = getProfileId(getIntent().getExtras());
+		this.presenter = new EnhanceImagePresenter(this,new FilterProfileRepo(getRealmInstance()));
 
 	}
 
@@ -684,4 +688,26 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		new UIUtils().createAlertDialog(this, action,result,description);
 
 	}
+
+	private Realm getRealmInstance(){
+
+		return new RealmUtil().createRealm(this);
+
+	}
+
+	public void applyFiltersFromProfileSettings(FilterProfile profile){
+
+		List<MenuItem> menuList = new ArrayList<MenuItem>();
+		List<Filter> filterList = profile.getFilters();
+		if(filterList!=null){
+			for(Filter item : filterList){
+				MenuItem menu = this.presenter.createMenuOptionFromFilterString(item.filterName);
+				menuList.add(menu);
+			}
+		}
+		for(MenuItem item: menuList){
+			onOptionsItemSelected(item);
+		}
+	}
+
 }

@@ -1,7 +1,10 @@
 package emc.captiva.mobile.sdksampleapp.Presenter;
+import android.view.MenuItem;
 import emc.captiva.mobile.sdksampleapp.EnhanceImageActivity;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
+import emc.captiva.mobile.sdksampleapp.R;
 import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
+import emc.captiva.mobile.sdksampleapp.Util.FilterToMenuUtil;
 import io.realm.Realm;
 
 /**
@@ -37,4 +40,9 @@ public class EnhanceImagePresenter implements Realm.Transaction.OnError, Realm.T
         }
 
     }
+
+    public MenuItem createMenuOptionFromFilterString(String item){
+        return new FilterToMenuUtil().getMenuFromFilterString(item);
+    }
+
 }
