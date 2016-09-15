@@ -140,19 +140,21 @@ public class FIlterProfileReproTest {
                 FilterProfileRepo manager = new FilterProfileRepo();
                 //3)Test sync call
                 Assert.assertEquals(FilterProfileRepo.maxIdCache ,0);
-
-                int id = 455;
+                String profileName = "Profile Name";
 
                 FilterProfile profile = new FilterProfile();
-
+                profile.setProfileName(profileName);
                 realm.beginTransaction();
-                profile.setId(id);
                 manager.createFilterProfileSync(realm , profile);
                 realm.commitTransaction();
 
+                int id = manager.getNextId(realm) -1 ;
+
+                Assert.assertNull(FilterProfileRepo.lastProfileLoaded);
                 manager.loadProfileFromIdSync(realm,id);
                 Assert.assertNotNull(FilterProfileRepo.lastProfileLoaded);
                 Assert.assertEquals(FilterProfileRepo.lastProfileLoaded.getId(), id);
+                Assert.assertEquals(FilterProfileRepo.lastProfileLoaded.getProfileName(), profileName);
 
             }
 

@@ -42,4 +42,7 @@
     <style name="revaThemeLaunchScreen" parent="android:Theme.Material.NoActionBar.Fullscreen">
         <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
+
+    <style name="enhanceActivityTheme" parent="android:Theme.Holo">
+    </style>
 </resources>

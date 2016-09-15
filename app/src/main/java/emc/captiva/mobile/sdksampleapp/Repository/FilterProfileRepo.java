@@ -46,11 +46,11 @@ public class FilterProfileRepo implements CreateProfileService{
     public void createFilterProfileSync(Realm bgrealm,final FilterProfile profile){
 
         //Persist Profile
-        FilterProfile dbObj  = bgrealm.createObject(FilterProfile.class);
-        dbObj.setAutoMaticallyApplyFilter(profile.isAutoMaticallyApplyFilter());
-        dbObj.setId(getNextId(bgrealm));
-        dbObj.setFilters(createFilterList(profile.getFilters(), bgrealm));
-        dbObj.setProfileName(profile.getProfileName());
+        FilterProfile dbOj  = bgrealm.createObject(FilterProfile.class);
+        dbOj.setAutoMaticallyApplyFilter(profile.isAutoMaticallyApplyFilter());
+        dbOj.setId(getNextId(bgrealm));
+        dbOj.setFilters(createFilterList(profile.getFilters(), bgrealm));
+        dbOj.setProfileName(profile.getProfileName());
 
     }
 

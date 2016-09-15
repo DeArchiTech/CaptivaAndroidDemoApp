@@ -208,4 +208,5 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
 }

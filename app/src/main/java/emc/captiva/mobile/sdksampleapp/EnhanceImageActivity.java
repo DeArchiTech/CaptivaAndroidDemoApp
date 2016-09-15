@@ -65,6 +65,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 	private ProgressDialog dialog;
 	private int profile_id = Constant.invalidId;
 	private EnhanceImagePresenter presenter;
+	private static int onResumeCalledCount = 0 ;
 	/**
 	 * Called when the quadrilateral crop operation is complete.
 	 * @param cropped    True if the image was cropped, false if the operation was canceled.
@@ -324,11 +325,18 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
             CoreHelper.displayError(this, e, listener);                       
         }
 	}
-	
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		EnhanceImageActivity.onResumeCalledCount++;
+		this.presenter.loadFilterProfile(this.profile_id,this.presenter,this.presenter);
+	}
+
 	/*
-	 * (non-Javadoc) 
-	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-	 */
+         * (non-Javadoc)
+         * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+         */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    // Inflate the menu.
@@ -342,6 +350,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 	 */
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
+
 		super.onWindowFocusChanged(hasFocus);
 		
 		// If we don't have the focus, then no need to do anything.
@@ -366,6 +375,17 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		} 
 		else {
 			cancelEdit();
+		}
+		this.presenter.loadFilterProfile(this.profile_id, this.presenter,this.presenter);
+
+	}
+
+	public void attemptToApplyFilters(List<MenuItem> menuItemList){
+
+		if(menuItemList!= null && !menuItemList.isEmpty()){
+			for(MenuItem item : menuItemList){
+				onOptionsItemSelected(item);
+			}
 		}
 	}
 
@@ -397,7 +417,6 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		}
 		this.profile_id = getProfileId(getIntent().getExtras());
 		this.presenter = new EnhanceImagePresenter(this,new FilterProfileRepo(getRealmInstance()));
-		this.presenter.loadFilterProfile(this.profile_id, this.presenter,this.presenter);
 
 	}
 
@@ -697,21 +716,6 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 
 		return new RealmUtil().createRealm(this);
 
-	}
-
-	public void applyFiltersFromProfileSettings(FilterProfile profile){
-
-		List<MenuItem> menuList = new ArrayList<MenuItem>();
-		List<Filter> filterList = profile.getFilters();
-		if(filterList!=null){
-			for(Filter item : filterList){
-				MenuItem menu = this.presenter.createMenuOptionFromFilterString(item.filterName);
-				menuList.add(menu);
-			}
-		}
-		for(MenuItem item: menuList){
-			onOptionsItemSelected(item);
-		}
 	}
 
 }

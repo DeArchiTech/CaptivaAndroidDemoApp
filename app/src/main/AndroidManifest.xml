@@ -22,12 +22,15 @@
         android:allowBackup="true"
         android:icon="@drawable/app_logo"
         android:label="@string/app_name"
-        android:theme="@style/revaTheme">
+        android:theme="@style/revaTheme"
+        android:name="emc.captiva.mobile.sdksampleapp.Revaapplication"
+        android:screenOrientation="portrait">
         <activity
             android:name="emc.captiva.mobile.sdksampleapp.SplashActivity"
             android:label="@string/app_name"
-            android:theme="@style/revaThemeLaunchScreen">
-            <intent-filter>
+            android:theme="@style/revaThemeLaunchScreen"
+            android:screenOrientation="portrait">
+        <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -35,15 +38,18 @@
         </activity>
         <activity
             android:name="emc.captiva.mobile.sdksampleapp.MainActivity"
-            android:theme="@style/revaTheme">
-            <intent-filter>
+            android:theme="@style/revaTheme"
+            android:screenOrientation="portrait">
+        <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name="emc.captiva.mobile.sdksampleapp.EnhanceImageActivity"
-            android:label="@string/EnhanceImage_Title">
+            android:label="@string/EnhanceImage_Title"
+            android:theme="@style/enhanceActivityTheme"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="emc.captiva.mobile.sdksampleapp.EnhanceImageCropActivity"
@@ -67,7 +73,7 @@
         <activity
             android:name="emc.captiva.mobile.sdksampleapp.CreateFilterProfileActivity"
             android:label="@string/MainPage_CreateFilterProfile"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="stateHidden">
         </activity>
     </application>
 </manifest>

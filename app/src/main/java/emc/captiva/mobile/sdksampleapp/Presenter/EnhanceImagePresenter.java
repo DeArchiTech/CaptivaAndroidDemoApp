@@ -1,8 +1,12 @@
 package emc.captiva.mobile.sdksampleapp.Presenter;
 import android.view.MenuItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import emc.captiva.mobile.sdksampleapp.EnhanceImageActivity;
+import emc.captiva.mobile.sdksampleapp.Model.Filter;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
-import emc.captiva.mobile.sdksampleapp.R;
 import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
 import emc.captiva.mobile.sdksampleapp.Util.FilterToMenuUtil;
 import io.realm.Realm;
@@ -36,13 +40,27 @@ public class EnhanceImagePresenter implements Realm.Transaction.OnError, Realm.T
 
         FilterProfile profileLoaded = FilterProfileRepo.lastProfileLoaded;
         if(profileLoaded != null){
-            this.activity.applyFiltersFromProfileSettings(profileLoaded);
+            List<MenuItem> menuItems = this.createSequenceOfFilters(profileLoaded);
+            this.activity.attemptToApplyFilters(menuItems);
         }
 
     }
 
-    public MenuItem createMenuOptionFromFilterString(String item){
+    private MenuItem createMenuOptionFromFilterString(String item){
         return new FilterToMenuUtil().getMenuFromFilterString(item);
+    }
+
+    public List<MenuItem> createSequenceOfFilters(FilterProfile profile){
+
+        List<MenuItem> menuList = new ArrayList<MenuItem>();
+        List<Filter> filterList = profile.getFilters();
+        if(filterList!=null){
+            for(Filter item : filterList){
+                MenuItem menu = this.createMenuOptionFromFilterString(item.filterName);
+                menuList.add(menu);
+            }
+        }
+        return menuList;
     }
 
 }

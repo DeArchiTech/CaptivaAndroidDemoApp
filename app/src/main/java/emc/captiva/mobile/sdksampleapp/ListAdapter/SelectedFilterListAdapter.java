@@ -56,15 +56,19 @@ public class SelectedFilterListAdapter extends ArrayAdapter<FilterListItem> {
     }
 
     public void addItemToListView(FilterListItem item){
+
         this.listItems.add(item);
-        this.add(item);
         this.notifyDataSetChanged();
 
     }
 
     public void removeItemFromListView(FilterListItem item){
-        this.remove(item);
-        this.notifyDataSetChanged();
+
+        if(this.listItems.size() > 0){
+            this.remove(item);
+            this.notifyDataSetChanged();
+        }
+
     }
 
 }

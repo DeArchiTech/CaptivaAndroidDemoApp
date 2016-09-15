@@ -55,7 +55,7 @@ public class EnhanceImagePresenterTest {
         FilterProfile profile = Mockito.mock(FilterProfile.class);
         FilterProfileRepo.lastProfileLoaded = profile;
         this.presenter.onSuccess();
-        verify(this.activity).applyFiltersFromProfileSettings(profile);
+        verify(this.presenter).createSequenceOfFilters(Matchers.any(FilterProfile.class));
 
     }
 

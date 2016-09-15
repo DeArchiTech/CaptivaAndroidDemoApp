@@ -15,6 +15,7 @@ import java.util.List;
 
 import emc.captiva.mobile.sdksampleapp.BuildConfig;
 import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
+import emc.captiva.mobile.sdksampleapp.Model.Filter;
 import emc.captiva.mobile.sdksampleapp.View.SelectedListClickedListener;
 
 import static org.junit.Assert.*;
@@ -27,11 +28,12 @@ import static org.junit.Assert.*;
 public class SelectedFilterListAdapterTest {
 
     SelectedFilterListAdapter adapter;
+    List<FilterListItem> items;
 
     @Before
     public void setup(){
 
-        List<FilterListItem> items = new ArrayList<>();
+        this.items = new ArrayList<>();
         SelectedListClickedListener listener = new SelectedListClickedListener() {
             @Override
             public void selectedListOnClick(FilterListItem item) {
@@ -47,6 +49,34 @@ public class SelectedFilterListAdapterTest {
 
         List<FilterListItem> result = adapter.getItems();
         Assert.assertNotNull(result);
+    }
+
+    @Test
+    public void testAddItem(){
+
+        int originalItemCount = this.items.size();
+        adapter.addItemToListView(new FilterListItem(new Filter()));
+        Assert.assertEquals(adapter.getCount() , originalItemCount +1);
+
+    }
+
+    @Test
+    public void testRemoveItem(){
+
+        int originalItemCount = this.items.size();
+        adapter.removeItemFromListView(new FilterListItem(new Filter()));
+        Assert.assertEquals(originalItemCount, adapter.getCount());
+
+        adapter.addItemToListView(new FilterListItem(new Filter()));
+        adapter.addItemToListView(new FilterListItem(new Filter()));
+
+        FilterListItem itemToRemove = new FilterListItem(new Filter());
+        adapter.addItemToListView(itemToRemove);
+
+        int newCount = this.adapter.getCount();
+        adapter.removeItemFromListView(itemToRemove);
+        Assert.assertEquals(adapter.getCount() , newCount -1);
+
     }
 
 }
