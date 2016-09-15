@@ -48,7 +48,7 @@ public class FilterProfileRepo implements CreateProfileService{
         //Persist Profile
         FilterProfile dbObj  = bgrealm.createObject(FilterProfile.class);
         dbObj.setAutoMaticallyApplyFilter(profile.isAutoMaticallyApplyFilter());
-        dbObj.setId(profile.getId());
+        dbObj.setId(getNextId(bgrealm));
         dbObj.setFilters(createFilterList(profile.getFilters(), bgrealm));
         dbObj.setProfileName(profile.getProfileName());
 
@@ -103,27 +103,13 @@ public class FilterProfileRepo implements CreateProfileService{
     public void loadProfileFromIdSync(Realm bgrealm, int id){
 
         FilterProfile result = bgrealm.where(FilterProfile.class).equalTo("id", id).findFirst();
-        FilterProfileRepo.lastProfileLoaded = result;
+        FilterProfileRepo.lastProfileLoaded = bgrealm.copyFromRealm(result);
 
     }
 
-    public void readMaxId(final Realm realm ,Realm.Transaction.OnSuccess onSuccess,
-                          Realm.Transaction.OnError onError){
-
-        realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm bgrealm) {
-                FilterProfileRepo.this.readMaxIdSync(bgrealm);
-            }
-        },onSuccess,onError);
-
-    }
-
-    public void readMaxIdSync(final Realm realm){
-
-        //Read list Of profile
-        this.maxIdCache = realm.where(FilterProfile.class).max("id");
-
+    public int getNextId(Realm realm){
+        int maxId = ((Long) realm.where(FilterProfile.class).max("id")).intValue();
+        return maxId + 1;
     }
 
 }

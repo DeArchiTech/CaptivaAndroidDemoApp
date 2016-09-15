@@ -86,7 +86,7 @@ public class FIlterProfileReproTest {
     }
 
     @Test
-    public void readMaxIDSyncTest() throws Exception{
+    public void nextIDTest() throws Exception{
 
         //Run on the same thread that has looper
         InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
@@ -100,32 +100,24 @@ public class FIlterProfileReproTest {
                 //2)Create manager and Realm Instance
                 FilterProfileRepo manager = new FilterProfileRepo();
                 //3)Test sync call
-                Assert.assertEquals(FilterProfileRepo.maxIdCache ,0);
 
-                int maxID = 999;
-                int midID = 455;
-                int minID = 123;
 
                 FilterProfile profile = new FilterProfile();
 
                 realm.beginTransaction();
-                profile.setId(minID);
+                manager.createFilterProfileSync(realm , profile);
+                realm.commitTransaction();
+                int id = manager.getNextId(realm);
+                realm.beginTransaction();
                 manager.createFilterProfileSync(realm , profile);
                 realm.commitTransaction();
 
                 realm.beginTransaction();
-                profile.setId(midID);
                 manager.createFilterProfileSync(realm , profile);
                 realm.commitTransaction();
 
-                realm.beginTransaction();
-                profile.setId(maxID);
-                manager.createFilterProfileSync(realm , profile);
-                realm.commitTransaction();
-
-                manager.readMaxIdSync(realm);
-
-                Assert.assertEquals(FilterProfileRepo.maxIdCache.intValue(), maxID);
+                int currentId = manager.getNextId(realm);
+                Assert.assertEquals(id + 2, currentId);
 
             }
 

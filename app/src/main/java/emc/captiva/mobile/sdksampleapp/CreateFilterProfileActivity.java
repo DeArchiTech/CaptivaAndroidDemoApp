@@ -1,7 +1,9 @@
 package emc.captiva.mobile.sdksampleapp;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,6 +46,12 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
         this.selectedFilterListAdapter = createSelectedFilterList( selectedListView);
         this.presenter = new CreateProfilePresenter(this, new FilterProfileRepo(),this);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.hideKeyboard();
     }
 
     private Realm.Transaction.OnSuccess createReadSuccessCallBack() {
@@ -191,5 +199,13 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
 
     public void setSelectedFilterListAdapter(SelectedFilterListAdapter selectedFilterListAdapter) {
         this.selectedFilterListAdapter = selectedFilterListAdapter;
+    }
+
+    private void hideKeyboard(){
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

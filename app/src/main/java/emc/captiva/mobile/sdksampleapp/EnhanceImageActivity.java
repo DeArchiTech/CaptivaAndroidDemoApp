@@ -397,13 +397,17 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		}
 		this.profile_id = getProfileId(getIntent().getExtras());
 		this.presenter = new EnhanceImagePresenter(this,new FilterProfileRepo(getRealmInstance()));
+		this.presenter.loadFilterProfile(this.profile_id, this.presenter,this.presenter);
 
 	}
 
 	private int getProfileId(Bundle bundle){
 
-		String key = getString(R.string.intent_profile_key);
-		return bundle.getInt(key);
+		if(bundle!=null){
+			String key = getString(R.string.intent_profile_key);
+			return bundle.getInt(key);
+		}
+		return Constant.invalidId;
 
 	}
 	
