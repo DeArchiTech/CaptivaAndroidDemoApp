@@ -1,11 +1,16 @@
 package emc.captiva.mobile.sdksampleapp.Presenter;
 
+import android.view.MenuItem;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import java.util.List;
+
+import emc.captiva.mobile.sdksampleapp.Constant;
 import emc.captiva.mobile.sdksampleapp.EnhanceImageActivity;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
@@ -32,13 +37,25 @@ public class EnhanceImagePresenterTest {
     }
 
     @Test
-    public void loadFilterProfile() throws Exception {
+    public void loadFilterProfileSuccess() throws Exception {
 
         int id = 11;
         this.presenter.loadFilterProfile(id,this.presenter,this.presenter);
         verify(this.repo).loadProfileAsync(Matchers.anyInt()
                 ,Matchers.any(Realm.Transaction.OnSuccess.class)
                 ,Matchers.any(Realm.Transaction.OnError.class));
+
+    }
+
+    @Test
+    public void loadFilterProfilefFail() throws Exception {
+
+        int id = Constant.invalidId;
+        this.presenter.loadFilterProfile(id,this.presenter,this.presenter);
+        verify(this.repo, Mockito.times(0)).loadProfileAsync(Matchers.anyInt()
+                ,Matchers.any(Realm.Transaction.OnSuccess.class)
+                ,Matchers.any(Realm.Transaction.OnError.class));
+
 
     }
 
@@ -55,7 +72,7 @@ public class EnhanceImagePresenterTest {
         FilterProfile profile = Mockito.mock(FilterProfile.class);
         FilterProfileRepo.lastProfileLoaded = profile;
         this.presenter.onSuccess();
-        verify(this.presenter).createSequenceOfFilters(Matchers.any(FilterProfile.class));
+        verify(this.activity).attemptToApplyFilters(Matchers.anyList());
 
     }
 

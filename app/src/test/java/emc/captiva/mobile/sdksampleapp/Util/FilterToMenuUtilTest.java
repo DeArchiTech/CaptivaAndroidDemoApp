@@ -46,7 +46,7 @@ public class FilterToMenuUtilTest {
         //Third Test
         menuItem = util.getMenuFromFilterString(this.rotate);
         result = menuItem.getItemId();
-        Assert.assertEquals(result, R.id.ABRotateRight);
+        Assert.assertEquals(result, R.id.ABRotate180);
     }
 
 

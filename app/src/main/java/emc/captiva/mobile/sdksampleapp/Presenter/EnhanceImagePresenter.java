@@ -4,6 +4,7 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import emc.captiva.mobile.sdksampleapp.Constant;
 import emc.captiva.mobile.sdksampleapp.EnhanceImageActivity;
 import emc.captiva.mobile.sdksampleapp.Model.Filter;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
@@ -27,7 +28,8 @@ public class EnhanceImagePresenter implements Realm.Transaction.OnError, Realm.T
 
     public void loadFilterProfile(int profileId , Realm.Transaction.OnSuccess onSuccess
             , Realm.Transaction.OnError onError){
-        this.repo.loadProfileAsync(profileId, onSuccess, onError);
+        if(profileId != Constant.invalidId)
+            this.repo.loadProfileAsync(profileId, onSuccess, onError);
     }
 
     @Override

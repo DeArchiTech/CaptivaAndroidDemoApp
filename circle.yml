@@ -1,9 +1,6 @@
 #
 # Build configuration for Circle CI
 #
-pre:
-- wget "https://services.gradle.org/distributions/gradle-2.10-bin.zip"; unzip gradle-2.10-bin.zip
-
 general:
     artifacts:
         - /home/ubuntu/your-app-name/app/build/outputs/apk/

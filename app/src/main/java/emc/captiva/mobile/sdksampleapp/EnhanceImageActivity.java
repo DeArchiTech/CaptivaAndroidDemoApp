@@ -64,6 +64,15 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 	private ProgressDialog dialog;
 	private int profile_id = Constant.invalidId;
 	private EnhanceImagePresenter presenter;
+
+	public EnhanceImagePresenter getPresenter() {
+		return presenter;
+	}
+
+	public void setPresenter(EnhanceImagePresenter presenter) {
+		this.presenter = presenter;
+	}
+
 	private Observable<MenuItem> observable;
 	/**
 	 * Called when the quadrilateral crop operation is complete.
