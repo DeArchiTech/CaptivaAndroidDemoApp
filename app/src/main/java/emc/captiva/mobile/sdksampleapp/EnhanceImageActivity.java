@@ -734,7 +734,8 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		_enhanceLayout.setEnabled(false);
 		_undoButton.setEnabled(false);
 		setProgressBar(true);
-		task.execute((Void)null);	
+		task.execute((Void)null);
+
 	}
 
 
@@ -871,7 +872,6 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		observable.subscribe(new Subscriber<MenuItem>() {
 			@Override
 			public void onCompleted() {
-				setProgressBar(false);
 			}
 
 			@Override
@@ -890,10 +890,29 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 
 
 	private void applyFilterSync(String operation, Map<String, Object> parameters) {
+
 		final String op = operation;
 		final Map<String, Object> param = parameters;
 
-		CaptureImage.applyFilters(new String[]{op}, param);
+		// Disable controls while filter is applied.
+		_imageView._preventGesture = true;
+		if (_menu != null) {
+			// This will cause slight flicker on some devices.
+			_menu.setGroupVisible(R.id.ABMainGroup, false);
+		}
+
+		_enhanceLayout.setEnabled(false);
+		_undoButton.setEnabled(false);
+		setProgressBar(true);
+
+		//Apply Filter Code Begins
+		try {
+			CaptureImage.applyFilters(new String[] { op }, param);
+		} catch (Exception e) {
+			Log.e(TAG, e.getMessage(), e);
+		}
+		//Apply Filter Code Ends
+
 
 		// Set the image, turn of progress bar, and enable controls.
 		_imageView.setImageBitmap(getImage());
@@ -906,18 +925,6 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		_undoButton.setEnabled(true);
 		_imageView._preventGesture = false;
 		startEdit();
-
-
-		// Disable controls while filter is applied.
-		_imageView._preventGesture = true;
-		if (_menu != null) {
-			// This will cause slight flicker on some devices.
-			_menu.setGroupVisible(R.id.ABMainGroup, false);
-		}
-
-		_enhanceLayout.setEnabled(false);
-		_undoButton.setEnabled(false);
-		setProgressBar(true);
 
 	}
 
