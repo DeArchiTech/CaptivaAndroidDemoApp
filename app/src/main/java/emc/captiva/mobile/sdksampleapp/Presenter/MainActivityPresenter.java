@@ -65,7 +65,10 @@ public class MainActivityPresenter {
 
         if(item instanceof FilterProfile){
             FilterProfile profile = (FilterProfile)item;
-            return profile.getId();
+            String promptString = this.activity.getString(R.string.mainPage_spinner_prompt);
+            String profileName = profile.getProfileName();
+            if(!profileName.equalsIgnoreCase(promptString))
+                return profile.getId();
         }
         return Constant.invalidId;
     }

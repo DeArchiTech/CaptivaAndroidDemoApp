@@ -1,4 +1,6 @@
 package emc.captiva.mobile.sdksampleapp.Presenter;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ import emc.captiva.mobile.sdksampleapp.Constant;
 import emc.captiva.mobile.sdksampleapp.EnhanceImageActivity;
 import emc.captiva.mobile.sdksampleapp.Model.Filter;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
+import emc.captiva.mobile.sdksampleapp.R;
 import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
 import emc.captiva.mobile.sdksampleapp.Util.FilterToMenuUtil;
 import io.realm.Realm;
@@ -63,6 +66,17 @@ public class EnhanceImagePresenter implements Realm.Transaction.OnError, Realm.T
             }
         }
         return menuList;
+    }
+
+    public int getProfileId(Bundle bundle) {
+
+        if (bundle != null) {
+            String key = this.activity.getString(R.string.intent_profile_key);
+            if (bundle.containsKey(key))
+                return bundle.getInt(key);
+        }
+        return Constant.invalidId;
+
     }
 
 }

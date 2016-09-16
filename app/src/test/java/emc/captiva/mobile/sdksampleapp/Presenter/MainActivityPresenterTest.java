@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
@@ -34,6 +35,7 @@ public class MainActivityPresenterTest{
     @Mock
     FilterProfileRepo filterRepo;
     MainActivityPresenter mainActivityPresenter;
+    MainActivity activity;
 
     @Before
     public void setUp(){
@@ -41,7 +43,8 @@ public class MainActivityPresenterTest{
         //1)Mock Up realm
         //2)Create Repo
         this.filterRepo = Mockito.mock(FilterProfileRepo.class);
-        this.mainActivityPresenter = new MainActivityPresenter(this.filterRepo, null);
+        this.activity = Robolectric.buildActivity(MainActivity.class).get();
+        this.mainActivityPresenter = new MainActivityPresenter(this.filterRepo, this.activity);
 
     }
 
@@ -88,7 +91,7 @@ public class MainActivityPresenterTest{
     }
 
     @Test
-    public void TestGetIdFromAdapterObject(){
+    public void TestGetIdFromAdapterObjectSuccess(){
 
         //1)Create Object
         FilterProfile profile = new FilterProfile();
@@ -101,6 +104,21 @@ public class MainActivityPresenterTest{
         //3)Assert Result
         Assert.assertTrue(result != Constant.invalidId);
         Assert.assertEquals(profileID, result);
+
+    }
+
+    @Test
+    public void TestGetIdFromAdapterObjectFail(){
+
+        //1)Create Object
+        FilterProfile profile = new FilterProfile();
+        profile.setProfileName("Please select a profile");
+        profile.setId(-124);
+        Object object = profile;
+        //2)Call Method
+        int result = this.mainActivityPresenter.getIdFromAdapterObject(object);
+        //3)Assert Result
+        Assert.assertEquals(result, Constant.invalidId);
 
     }
 
