@@ -46,25 +46,10 @@
                 android:textColor="@color/black" />
 
             <Button
-                android:id="@+id/LogoutButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/LoginButton"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/orange_button"
-                android:drawableRight="@drawable/ic_next"
-                android:gravity="center_vertical"
-                android:onClick="onLogout"
-                android:padding="10dp"
-                android:text="@string/MainPage_Logout"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black" />
-
-            <Button
                 android:id="@+id/takepicturebtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/LogoutButton"
+                android:layout_below="@id/LoginButton"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/orange_button"
                 android:drawableRight="@drawable/ic_next"
@@ -121,40 +106,10 @@
                 android:textColor="@color/black" />
 
             <Button
-                android:id="@+id/FileStackUpload"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/SettingsButton"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/orange_button"
-                android:drawableRight="@drawable/ic_next"
-                android:gravity="center_vertical"
-                android:onClick="onFileStackUpload"
-                android:padding="10dp"
-                android:text="@string/MainPage_FileStackUpload"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black" />
-
-            <Button
-                android:id="@+id/CaptivaUpload"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/FileStackUpload"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/orange_button"
-                android:drawableRight="@drawable/ic_next"
-                android:gravity="center_vertical"
-                android:onClick="onCaptivaUpload"
-                android:padding="10dp"
-                android:text="@string/MainPage_CaptivaUpload"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black" />
-
-            <Button
                 android:id="@+id/CreateFilterProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/CaptivaUpload"
+                android:layout_below="@+id/SettingsButton"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/orange_button"
                 android:drawableRight="@drawable/ic_next"

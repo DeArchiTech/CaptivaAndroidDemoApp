@@ -16,5 +16,5 @@ dependencies:
 
 test:
     override:
-        - (./gradlew assemble):
+        - (gradle assemble):
             timeout: 360

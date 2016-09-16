@@ -1,22 +1,14 @@
 package emc.captiva.mobile.sdksampleapp.Presenter;
-
-import android.view.MenuItem;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-
-import java.util.List;
-
 import emc.captiva.mobile.sdksampleapp.Constant;
 import emc.captiva.mobile.sdksampleapp.EnhanceImageActivity;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
 import io.realm.Realm;
-
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 
 /**

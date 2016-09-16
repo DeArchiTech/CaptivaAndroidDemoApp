@@ -389,7 +389,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
     public void onLogin(View view) {
 
         if(this.loggedIn){
-            displayCustomToast("Login" , "Failed" , "Please Log out before attempting to Log in");
+            displayCustomToast("Login" , "Not Needed" , "You are already logged in!");
             return;
         }
         SessionServiceBuilder client = new SessionServiceBuilder();
@@ -642,21 +642,17 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
         Button button1 = (Button)findViewById(R.id.takecontinuouspicturesbtn);
         Button button2 = (Button)findViewById(R.id.enhancepicturebtn);
-        Button button3 = (Button)findViewById(R.id.CaptivaUpload);
         Button button4 = (Button)findViewById(R.id.takepicturebtn);
         Button button5 = (Button)findViewById(R.id.enhancepicturebtn);
 
         button1.setEnabled(loggedIn);
         button2.setEnabled(loggedIn);
-        button3.setEnabled(loggedIn);
         button4.setEnabled(loggedIn);
         button5.setEnabled(loggedIn);
 
-        Button buttonLogout = (Button)findViewById(R.id.LogoutButton);
         Button buttonLogin = (Button)findViewById(R.id.LoginButton);
 
         buttonLogin.setEnabled(!loggedIn);
-        buttonLogout.setEnabled(loggedIn);
 
     }
 
