@@ -8,13 +8,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisities
 
+```
 Using Android Studio 2.2
 Gralde 2.4
 Android SDK 23
 Captiva SDK 2.0
-
-```
-Give examples
 ```
 
 ### Installing
@@ -24,13 +22,7 @@ A step by step series of examples that tell you have to get a development env ru
 Stay what the step will be
 
 ```
-Give the example
-```
-
-And repeat
-
-```
-until finished
+Build with Android Studio
 ```
 
 End with an example of getting some data out of the system or using it for a little demo
@@ -61,9 +53,7 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* Dropwizard - Bla bla bla
-* Maven - Maybe
-* Atom - ergaerga
+* gradle
 
 ## Contributing
 
@@ -85,6 +75,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
+* Squre for all their amazing liibraries
+* Captiva for their SDK
