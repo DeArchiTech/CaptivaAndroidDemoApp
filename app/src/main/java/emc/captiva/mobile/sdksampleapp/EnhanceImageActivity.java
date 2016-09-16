@@ -7,7 +7,6 @@ package emc.captiva.mobile.sdksampleapp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +33,6 @@ import emc.captiva.mobile.sdk.CaptureException;
 import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdk.QuadrilateralCropCallback;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
-import emc.captiva.mobile.sdksampleapp.Model.Filter;
-import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.Presenter.EnhanceImagePresenter;
 import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
 import emc.captiva.mobile.sdksampleapp.Service.CaptivaImageUploadService;
@@ -48,6 +45,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * This activity provides the ability to enhance the image.
@@ -65,7 +64,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 	private ProgressDialog dialog;
 	private int profile_id = Constant.invalidId;
 	private EnhanceImagePresenter presenter;
-	private static int onResumeCalledCount = 0 ;
+	private Observable<MenuItem> observable;
 	/**
 	 * Called when the quadrilateral crop operation is complete.
 	 * @param cropped    True if the image was cropped, false if the operation was canceled.
@@ -86,95 +85,101 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
         
         // Handle the menu item selections.
     	Log.v (TAG, "Enhance Image Operation - " + item.getTitle());
-        int menuID = item.getItemId();
+		return applyFilterAsync(item);
+    }
+
+	//Apply Filters Asynchronously When Use Select a Menu Option
+	private boolean applyFilterAsync(MenuItem item) {
+
+		int menuID = item.getItemId();
 		try {
-			switch (menuID) {
-			    case R.id.ABInfo: {
-				   // Launch the image info activity.
-                    Intent intent = new Intent(this, ImageInfoActivity.class);
-                    intent.putExtra("FilterError", CaptureImage.getLastError());
-                    startActivity(intent);
-                    break;
-				}
-				
-				case R.id.ABBlackWhite: {
-				    // Apply the adaptive black and white filter.
-					applyFilter(CaptureImage.FILTER_ADAPTIVE_BINARY, getAdaptiveThresholdParameters());					
+			switch (item.getItemId()) {
+				case R.id.ABInfo: {
+					// Launch the image info activity.
+					Intent intent = new Intent(this, ImageInfoActivity.class);
+					intent.putExtra("FilterError", CaptureImage.getLastError());
+					startActivity(intent);
 					break;
 				}
-				
+
+				case R.id.ABBlackWhite: {
+					// Apply the adaptive black and white filter.
+					applyFilter(CaptureImage.FILTER_ADAPTIVE_BINARY, getAdaptiveThresholdParameters());
+					break;
+				}
+
 				case R.id.ABGray: {
-				    // Apply the gray scale filter.
+					// Apply the gray scale filter.
 					applyFilter(CaptureImage.FILTER_GRAYSCALE, null);
 					break;
 				}
 
-                case R.id.ABDarker:
-                case R.id.ABLighter: {
-                    // Apply the brightness filter.
-                    HashMap<String, Object> parameters = new HashMap<String, Object>();
-                    parameters.put(CaptureImage.FILTER_PARAM_BRIGHTNESS_SCALE, menuID == R.id.ABDarker ? -16 : 16);
-                    applyFilter(CaptureImage.FILTER_BRIGHTNESS, parameters);
-                    break;
-                }
+				case R.id.ABDarker:
+				case R.id.ABLighter: {
+					// Apply the brightness filter.
+					HashMap<String, Object> parameters = new HashMap<String, Object>();
+					parameters.put(CaptureImage.FILTER_PARAM_BRIGHTNESS_SCALE, menuID == R.id.ABDarker ? -16 : 16);
+					applyFilter(CaptureImage.FILTER_BRIGHTNESS, parameters);
+					break;
+				}
 
-                case R.id.ABIncreaseContrast:
-                case R.id.ABDecreaseContrast: {
-                    // Apply the contrast filter.
-                    HashMap<String, Object> parameters = new HashMap<String, Object>();
-                    parameters.put(CaptureImage.FILTER_PARAM_CONTRAST_SCALE, menuID == R.id.ABDecreaseContrast ? -64 : 64);
-                    applyFilter(CaptureImage.FILTER_CONTRAST, parameters);
-                    break;
-                }
+				case R.id.ABIncreaseContrast:
+				case R.id.ABDecreaseContrast: {
+					// Apply the contrast filter.
+					HashMap<String, Object> parameters = new HashMap<String, Object>();
+					parameters.put(CaptureImage.FILTER_PARAM_CONTRAST_SCALE, menuID == R.id.ABDecreaseContrast ? -64 : 64);
+					applyFilter(CaptureImage.FILTER_CONTRAST, parameters);
+					break;
+				}
 
-                case R.id.ABRemoveNoise: {
-                    // Apply the gray scale filter.
-                    applyFilter(CaptureImage.FILTER_REMOVE_NOISE, getRemoveNoiseSize());
-                    break;
-                }
+				case R.id.ABRemoveNoise: {
+					// Apply the gray scale filter.
+					applyFilter(CaptureImage.FILTER_REMOVE_NOISE, getRemoveNoiseSize());
+					break;
+				}
 
 				case R.id.ABDeskew: {
-				    // Apply the deskew/perspective filter.
+					// Apply the deskew/perspective filter.
 					applyFilter(CaptureImage.FILTER_PERSPECTIVE, null);
 					break;
 				}
-				
+
 				case R.id.ABResize: {
-				    // Resize the image to minus 200 pixels.
+					// Resize the image to minus 200 pixels.
 					startEdit();
 					HashMap<String, Object> parameters = new HashMap<String, Object>();
 					Map<String, Object> properties = CaptureImage.getImageProperties();
-					int imageWidth = (Integer)properties.get(CaptureImage.IMAGE_PROPERTY_WIDTH);
-					int imageHeight = (Integer)properties.get(CaptureImage.IMAGE_PROPERTY_HEIGHT);
-					
+					int imageWidth = (Integer) properties.get(CaptureImage.IMAGE_PROPERTY_WIDTH);
+					int imageHeight = (Integer) properties.get(CaptureImage.IMAGE_PROPERTY_HEIGHT);
+
 					// Resize width and height to be 80% of original width and height.
-					parameters.put(CaptureImage.FILTER_PARAM_RESIZE_WIDTH, (int)(imageWidth * 0.80));
-					parameters.put(CaptureImage.FILTER_PARAM_RESIZE_HEIGHT, (int)(imageHeight * 0.80));
-					
-					CaptureImage.applyFilters(new String[] { CaptureImage.FILTER_RESIZE }, parameters);
-					break;
-				}
-				
-				case R.id.ABRotate180:
-				case R.id.ABRotateLeft:
-				case R.id.ABRotateRight: {
-				    // Rotate the image.
-					startEdit();				    
-					HashMap<String, Object> parameters = new HashMap<String, Object>();
-					parameters.put(CaptureImage.FILTER_PARAM_ROTATION_DEGREE, menuID == R.id.ABRotateLeft ? 270 : ( menuID == R.id.ABRotateRight ? 90 : 180));
-					CaptureImage.applyFilters(new String[] { CaptureImage.FILTER_ROTATION }, parameters);
-					_imageView.setImageBitmap(getImage());
-					break;
-				}
-				
-				case R.id.ABCrop: {
-				    // Launch image cropping activity.
-				    Intent intent = new Intent(this, EnhanceImageCropActivity.class);
-				    startActivityForResult(intent, R.id.ABCrop);
+					parameters.put(CaptureImage.FILTER_PARAM_RESIZE_WIDTH, (int) (imageWidth * 0.80));
+					parameters.put(CaptureImage.FILTER_PARAM_RESIZE_HEIGHT, (int) (imageHeight * 0.80));
+
+					CaptureImage.applyFilters(new String[]{CaptureImage.FILTER_RESIZE}, parameters);
 					break;
 				}
 
-                case R.id.ABQuadCrop: {
+				case R.id.ABRotate180:
+				case R.id.ABRotateLeft:
+				case R.id.ABRotateRight: {
+					// Rotate the image.
+					startEdit();
+					HashMap<String, Object> parameters = new HashMap<String, Object>();
+					parameters.put(CaptureImage.FILTER_PARAM_ROTATION_DEGREE, menuID == R.id.ABRotateLeft ? 270 : (menuID == R.id.ABRotateRight ? 90 : 180));
+					CaptureImage.applyFilters(new String[]{CaptureImage.FILTER_ROTATION}, parameters);
+					_imageView.setImageBitmap(getImage());
+					break;
+				}
+
+				case R.id.ABCrop: {
+					// Launch image cropping activity.
+					Intent intent = new Intent(this, EnhanceImageCropActivity.class);
+					startActivityForResult(intent, R.id.ABCrop);
+					break;
+				}
+
+				case R.id.ABQuadCrop: {
 					// Get the parameters to set up the quadrilateral crop.
 					SharedPreferences gprefs = PreferenceManager.getDefaultSharedPreferences(this);
 					String quadCropColor = gprefs.getString(CoreHelper.getStringResource(this, R.string.GPREF_QUAD_CROP_COLOR), "blue");
@@ -186,22 +191,22 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 
 					// Add the parameters to a HashMap for passing into the show call.
 					HashMap<String, Object> quadCropParams = new HashMap<String, Object>();
-                    quadCropParams.put(CaptureImage.CROP_CONTEXT, this);
-                    quadCropParams.put(CaptureImage.CROP_COLOR, quadCropColor);
-                    quadCropParams.put(CaptureImage.CROP_LINE_WIDTH, quadCropLineWidth);
-                    quadCropParams.put(CaptureImage.CROP_CIRCLE_RADIUS, quadCropCircleRadius);
-                    quadCropParams.put(CaptureImage.CROP_SHADE_BACKGROUND, quadCropShadeBackground);
+					quadCropParams.put(CaptureImage.CROP_CONTEXT, this);
+					quadCropParams.put(CaptureImage.CROP_COLOR, quadCropColor);
+					quadCropParams.put(CaptureImage.CROP_LINE_WIDTH, quadCropLineWidth);
+					quadCropParams.put(CaptureImage.CROP_CIRCLE_RADIUS, quadCropCircleRadius);
+					quadCropParams.put(CaptureImage.CROP_SHADE_BACKGROUND, quadCropShadeBackground);
 
 					// Start the Quadrilateral Crop activity.
-                    CaptureImage.showQuadrilateralCrop(this, quadCropParams);
+					CaptureImage.showQuadrilateralCrop(this, quadCropParams);
 					break;
-                }
-				
+				}
+
 				case R.id.ABAutoCrop: {
-				    // Apply the auto-cropping operation.
-					startEdit();					
-				    CaptureImage.applyFilters(new String[] { CaptureImage.FILTER_CROP }, getAutoCropPadding());
-				    _imageView.setImageBitmap(getImage());
+					// Apply the auto-cropping operation.
+					startEdit();
+					CaptureImage.applyFilters(new String[]{CaptureImage.FILTER_CROP}, getAutoCropPadding());
+					_imageView.setImageBitmap(getImage());
 					break;
 				}
 
@@ -215,15 +220,151 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 					return super.onOptionsItemSelected(item);
 				}
 			}
-		}
-        catch (Exception e) {
+		} catch (Exception e) {
 			Log.e(TAG, e.getMessage(), e);
 			CoreHelper.displayError(this, e);
 		}
-
 		return true;
-    }
+	}
 
+	//Apply Filters Synchronously When Automatically Apply Option Selected
+	private boolean applyFilterSync(MenuItem item) {
+
+		int menuID = item.getItemId();
+		try {
+			switch (item.getItemId()) {
+				case R.id.ABInfo: {
+					// Launch the image info activity.
+					Intent intent = new Intent(this, ImageInfoActivity.class);
+					intent.putExtra("FilterError", CaptureImage.getLastError());
+					startActivity(intent);
+					break;
+				}
+
+				case R.id.ABBlackWhite: {
+					// Apply the adaptive black and white filter.
+					applyFilterSync(CaptureImage.FILTER_ADAPTIVE_BINARY, getAdaptiveThresholdParameters());
+					break;
+				}
+
+				case R.id.ABGray: {
+					// Apply the gray scale filter.
+					applyFilterSync(CaptureImage.FILTER_GRAYSCALE, null);
+					break;
+				}
+
+				case R.id.ABDarker:
+				case R.id.ABLighter: {
+					// Apply the brightness filter.
+					HashMap<String, Object> parameters = new HashMap<String, Object>();
+					parameters.put(CaptureImage.FILTER_PARAM_BRIGHTNESS_SCALE, menuID == R.id.ABDarker ? -16 : 16);
+					applyFilterSync(CaptureImage.FILTER_BRIGHTNESS, parameters);
+					break;
+				}
+
+				case R.id.ABIncreaseContrast:
+				case R.id.ABDecreaseContrast: {
+					// Apply the contrast filter.
+					HashMap<String, Object> parameters = new HashMap<String, Object>();
+					parameters.put(CaptureImage.FILTER_PARAM_CONTRAST_SCALE, menuID == R.id.ABDecreaseContrast ? -64 : 64);
+					applyFilterSync(CaptureImage.FILTER_CONTRAST, parameters);
+					break;
+				}
+
+				case R.id.ABRemoveNoise: {
+					// Apply the gray scale filter.
+					applyFilterSync(CaptureImage.FILTER_REMOVE_NOISE, getRemoveNoiseSize());
+					break;
+				}
+
+				case R.id.ABDeskew: {
+					// Apply the deskew/perspective filter.
+					applyFilterSync(CaptureImage.FILTER_PERSPECTIVE, null);
+					break;
+				}
+
+				case R.id.ABResize: {
+					// Resize the image to minus 200 pixels.
+					startEdit();
+					HashMap<String, Object> parameters = new HashMap<String, Object>();
+					Map<String, Object> properties = CaptureImage.getImageProperties();
+					int imageWidth = (Integer) properties.get(CaptureImage.IMAGE_PROPERTY_WIDTH);
+					int imageHeight = (Integer) properties.get(CaptureImage.IMAGE_PROPERTY_HEIGHT);
+
+					// Resize width and height to be 80% of original width and height.
+					parameters.put(CaptureImage.FILTER_PARAM_RESIZE_WIDTH, (int) (imageWidth * 0.80));
+					parameters.put(CaptureImage.FILTER_PARAM_RESIZE_HEIGHT, (int) (imageHeight * 0.80));
+
+					CaptureImage.applyFilters(new String[]{CaptureImage.FILTER_RESIZE}, parameters);
+					break;
+				}
+
+				case R.id.ABRotate180:
+				case R.id.ABRotateLeft:
+				case R.id.ABRotateRight: {
+					// Rotate the image.
+					startEdit();
+					HashMap<String, Object> parameters = new HashMap<String, Object>();
+					parameters.put(CaptureImage.FILTER_PARAM_ROTATION_DEGREE, menuID == R.id.ABRotateLeft ? 270 : (menuID == R.id.ABRotateRight ? 90 : 180));
+					CaptureImage.applyFilters(new String[]{CaptureImage.FILTER_ROTATION}, parameters);
+					_imageView.setImageBitmap(getImage());
+					break;
+				}
+
+				case R.id.ABCrop: {
+					// Launch image cropping activity.
+					Intent intent = new Intent(this, EnhanceImageCropActivity.class);
+					startActivityForResult(intent, R.id.ABCrop);
+					break;
+				}
+
+				case R.id.ABQuadCrop: {
+					// Get the parameters to set up the quadrilateral crop.
+					SharedPreferences gprefs = PreferenceManager.getDefaultSharedPreferences(this);
+					String quadCropColor = gprefs.getString(CoreHelper.getStringResource(this, R.string.GPREF_QUAD_CROP_COLOR), "blue");
+					String temp = gprefs.getString(CoreHelper.getStringResource(this, R.string.GPREF_QUAD_CROP_LINE_WIDTH), "4");
+					Integer quadCropLineWidth = CoreHelper.getInteger(temp, 4);
+					temp = gprefs.getString(CoreHelper.getStringResource(this, R.string.GPREF_QUAD_CROP_CIRCLE_RADIUS), "24");
+					Integer quadCropCircleRadius = CoreHelper.getInteger(temp, 24);
+					Boolean quadCropShadeBackground = gprefs.getBoolean(CoreHelper.getStringResource(this, R.string.GPREF_QUAD_CROP_SHADE_BACKGROUND), true);
+
+					// Add the parameters to a HashMap for passing into the show call.
+					HashMap<String, Object> quadCropParams = new HashMap<String, Object>();
+					quadCropParams.put(CaptureImage.CROP_CONTEXT, this);
+					quadCropParams.put(CaptureImage.CROP_COLOR, quadCropColor);
+					quadCropParams.put(CaptureImage.CROP_LINE_WIDTH, quadCropLineWidth);
+					quadCropParams.put(CaptureImage.CROP_CIRCLE_RADIUS, quadCropCircleRadius);
+					quadCropParams.put(CaptureImage.CROP_SHADE_BACKGROUND, quadCropShadeBackground);
+
+					// Start the Quadrilateral Crop activity.
+					CaptureImage.showQuadrilateralCrop(this, quadCropParams);
+					break;
+				}
+
+				case R.id.ABAutoCrop: {
+					// Apply the auto-cropping operation.
+					startEdit();
+					CaptureImage.applyFilters(new String[]{CaptureImage.FILTER_CROP}, getAutoCropPadding());
+					_imageView.setImageBitmap(getImage());
+					break;
+				}
+
+				case R.id.imageUpload: {
+					// Apply the auto-cropping operation.
+					uploadImage();
+					break;
+				}
+
+				default: {
+					return super.onOptionsItemSelected(item);
+				}
+			}
+		} catch (Exception e) {
+			Log.e(TAG, e.getMessage(), e);
+			CoreHelper.displayError(this, e);
+		}
+		return true;
+	}
 	private void uploadImage(){
 
 		//1)Create the base 64 String
@@ -329,7 +470,6 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 	@Override
 	protected void onResume() {
 		super.onResume();
-		EnhanceImageActivity.onResumeCalledCount++;
 		this.presenter.loadFilterProfile(this.profile_id,this.presenter,this.presenter);
 	}
 
@@ -376,16 +516,13 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		else {
 			cancelEdit();
 		}
-		this.presenter.loadFilterProfile(this.profile_id, this.presenter,this.presenter);
 
 	}
 
 	public void attemptToApplyFilters(List<MenuItem> menuItemList){
 
 		if(menuItemList!= null && !menuItemList.isEmpty()){
-			for(MenuItem item : menuItemList){
-				onOptionsItemSelected(item);
-			}
+			this.observable = applyFiltersSequentially(menuItemList);
 		}
 	}
 
@@ -589,7 +726,8 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		_undoButton.setEnabled(false);
 		setProgressBar(true);
 		task.execute((Void)null);	
-	} 
+	}
+
 
 	/**
 	 * This function saves the currently loaded image to a new file in the gallery directory.
@@ -715,6 +853,62 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 	private Realm getRealmInstance(){
 
 		return new RealmUtil().createRealm(this);
+
+	}
+
+	private Observable<MenuItem> applyFiltersSequentially(List<MenuItem> items){
+
+		Observable<MenuItem> observable = Observable.from(items);
+		observable.subscribe(new Subscriber<MenuItem>() {
+			@Override
+			public void onCompleted() {
+				setProgressBar(false);
+			}
+
+			@Override
+			public void onError(Throwable e) {
+
+			}
+
+			@Override
+			public void onNext(MenuItem menuItem) {
+
+				applyFilterSync(menuItem);
+			}
+		});
+		return observable;
+	}
+
+
+	private void applyFilterSync(String operation, Map<String, Object> parameters) {
+		final String op = operation;
+		final Map<String, Object> param = parameters;
+
+		CaptureImage.applyFilters(new String[]{op}, param);
+
+		// Set the image, turn of progress bar, and enable controls.
+		_imageView.setImageBitmap(getImage());
+		setProgressBar(false);
+		if (_menu != null) {
+			_menu.setGroupVisible(R.id.ABMainGroup, true);
+		}
+
+		_enhanceLayout.setEnabled(true);
+		_undoButton.setEnabled(true);
+		_imageView._preventGesture = false;
+		startEdit();
+
+
+		// Disable controls while filter is applied.
+		_imageView._preventGesture = true;
+		if (_menu != null) {
+			// This will cause slight flicker on some devices.
+			_menu.setGroupVisible(R.id.ABMainGroup, false);
+		}
+
+		_enhanceLayout.setEnabled(false);
+		_undoButton.setEnabled(false);
+		setProgressBar(true);
 
 	}
 

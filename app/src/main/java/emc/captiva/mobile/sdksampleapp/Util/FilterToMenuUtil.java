@@ -1,12 +1,21 @@
 package emc.captiva.mobile.sdksampleapp.Util;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.view.ActionProvider;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdksampleapp.Constant;
+import emc.captiva.mobile.sdksampleapp.CoreHelper;
 import emc.captiva.mobile.sdksampleapp.R;
 
 /**
@@ -279,5 +288,6 @@ public class FilterToMenuUtil {
             }
         };
     }
+
 
 }

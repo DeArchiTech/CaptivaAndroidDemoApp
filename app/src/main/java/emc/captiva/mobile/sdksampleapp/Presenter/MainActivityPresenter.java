@@ -7,6 +7,7 @@ import emc.captiva.mobile.sdksampleapp.Constant;
 import emc.captiva.mobile.sdksampleapp.MainActivity;
 import emc.captiva.mobile.sdksampleapp.Model.Cookie;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
+import emc.captiva.mobile.sdksampleapp.R;
 import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
 import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
 import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
@@ -50,6 +51,7 @@ public class MainActivityPresenter {
     public void loadProfileIntoSpinner(List<FilterProfile> list){
 
         List<FilterProfile> validList = getListWithValidName(list);
+        validList.add(0,createPromptItem());
         this.activity.updateSpinnerList(validList);
     }
 
@@ -76,5 +78,13 @@ public class MainActivityPresenter {
                 result.add(item);
         }
         return result;
+    }
+
+    private FilterProfile createPromptItem(){
+
+        FilterProfile profile = new FilterProfile();
+        profile.setProfileName(activity.getString(R.string.mainPage_spinner_prompt));
+        profile.setId(Constant.invalidId);
+        return profile;
     }
 }
