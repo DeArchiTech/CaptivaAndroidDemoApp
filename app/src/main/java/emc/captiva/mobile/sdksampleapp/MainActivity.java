@@ -372,7 +372,8 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
             return;
         }
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
+        if(MainActivity.this.profile_id != Constant.invalidId)
+            intent.putExtra(getString(R.string.intent_profile_key), MainActivity.this.profile_id);
         startActivityForResult(intent, CHOOSE_IMAGE);
     }
     
@@ -432,114 +433,6 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     }
 
-    public void onLogout(View view) {
-
-        if(!this.loggedIn){
-            displayCustomToast("Loggout" , "Failed" , "Please Log in before attempting to Log out");
-            return;
-        }
-        SessionServiceBuilder client = new SessionServiceBuilder();
-        Call<ResponseBody> call = client.logout();
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-                MainActivity.this.stopProcessDialog();
-                switch(response.code()){
-
-                    case 200:
-                        Log.d("Success", "Logout call succeed");
-                        Log.d("Status Code", String.valueOf(response.code()));
-                        Log.d("Response", response.message());
-                        new CookieRepo().deleteCookie(getRealmInstance(),MainActivity.this,MainActivity.this);
-                        MainActivity.this.loggedIn = false;
-                        MainActivity.this.enableButtons(MainActivity.this.loggedIn);
-                        displayCustomToast("Logout", "Success" , response.message());
-                        break;
-                    default:
-                        Log.e("Error", "Logout call has failed");
-                        displayCustomToast("Logout", "Failed" , response.message());
-                        break;
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("Error", "logout call has failed");
-                MainActivity.this.stopProcessDialog();
-                displayCustomToast("logout", "Success" , t.toString());
-            }
-        });
-        this.startProcessDialog();
-
-    }
-
-    public void onFileStackUpload(View view) {
-
-        FilestackImageUploadService service = new FilestackServiceBuilder().buildFilestackService();
-        String key = "AaApUHHABQg2818PX5CLTz";
-        String file_name = "1169155_713668108769575_1241597324_n.jpg";
-        Call<ResponseBody> call = service.updateImage(key, file_name, createRequestBody(file_name));
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("Success", "Filestack Upload succeed");
-                Log.d("Status Code", String.valueOf(response.code()));
-                Log.d("Response", response.message());
-                MainActivity.this.stopProcessDialog();
-                displayCustomToast("Filestack Upload", "Success" , response.message());
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("Error", "Filestack upload has failed");
-                Log.e("Error" , t.toString());
-                MainActivity.this.stopProcessDialog();
-                displayCustomToast("Filestack Upload", "Success" , t.toString());
-            }
-        });
-        this.startProcessDialog();
-    }
-
-    public void onCaptivaUpload(View view) {
-
-        if(!this.loggedIn){
-            displayCustomToast("Upload" , "Failed" , "Please Log in before attempting to Upload");
-            return;
-        }
-
-        InputStream is = null;
-        try{
-            is = getAssets().open("base64Image.txt");
-        }catch(Exception e){
-
-        }
-        String imageData = StringUtil.getStringFromInputStream(is);
-        ImageUploadObj obj = new ImageUploadObj(imageData);
-        CaptivaImageUploadService service = new CaptivaImageServiceBuilder().createImageUploadServer();
-        Call<ResponseBody> call = service.uploadImage(obj);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("Success", "Captiva Image Upload succeed");
-                Log.d("Status Code", String.valueOf(response.code()));
-                Log.d("Response", response.message());
-                MainActivity.this.stopProcessDialog();
-                displayCustomToast("Captiva Image Upload", "Success" , response.message());
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("Error", "CaptivalImage upload has failed");
-                Log.e("Error" , t.toString());
-                MainActivity.this.stopProcessDialog();
-                new UIUtils().createAlertDialog(MainActivity.this,"CaptivaImage Upload","Failed",t.toString());
-            }
-        });
-        this.startProcessDialog();
-    }
-
     public void onCreateFilterProfile(View view) {
 
         if(!this.loggedIn){
@@ -548,21 +441,6 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         }
         Intent intent = new Intent(this, CreateFilterProfileActivity.class);
         startActivity(intent);
-    }
-
-    private RequestBody createRequestBody(String fileName){
-
-        //Create file
-        String sdCardPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        String filePath = "/Download/" + fileName;
-        File file = new File(sdCardPath+filePath);
-
-        //Multipart Builder
-        String content_type = getMimeType(file.getPath());
-        String file_name = file.getName();
-        RequestBody requestBody = RequestBody.create(MediaType.parse(content_type),file);
-        return requestBody;
-
     }
 
     private String getMimeType(String path){
