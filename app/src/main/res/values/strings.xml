@@ -38,6 +38,7 @@
     <string name="General_Done">Done</string>    
     <string name="General_Update">Update</string>
     <string name="Button_UndoAll">Undo All</string>
+    <string name="Button_Upload">Upload Now</string>
     <string name="Button_CropSubmit">Submit Crop</string>
     <string name="Menu_ImageLabel">Image Label</string>
     <string name="Menu_BlackWhite">Black-White</string>
@@ -57,7 +58,6 @@
     <string name="Menu_RemoveNoise">Remove Noise</string>
     <string name="Menu_Resize">Resize</string>
     <string name="Menu_Rotate180">Rotate 180</string>
-    <string name="Menu_ImageUpload">Upload Image</string>
     <string name="GPREF_CAPTURE_GROUP">GPREF_CAPTURE_GROUP</string>
 	<string name="GPREF_CAPTURE_GROUP_TITLE">Capture Settings</string>
     <string name="GPREF_EDGELABEL">GPREF_EDGELABEL</string>

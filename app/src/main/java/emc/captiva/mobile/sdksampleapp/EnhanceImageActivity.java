@@ -51,14 +51,15 @@ import rx.Subscriber;
 /**
  * This activity provides the ability to enhance the image.
  */
-public class EnhanceImageActivity extends Activity implements QuadrilateralCropCallback {
+public class EnhanceImageActivity extends Activity implements QuadrilateralCropCallback{
 	private static String TAG = EnhanceImageActivity.class.getSimpleName();
 	private static boolean _imgEdited = false;
 	private PZImageView _imageView = null;
 	private boolean _displayed = false;
 	private String _filename = null;
 	private Button _undoButton = null;
-	private ProgressBar _progressBar = null;	
+	private Button _uploadButton = null;
+	private ProgressBar _progressBar = null;
 	private Menu _menu = null;
 	private RelativeLayout _enhanceLayout = null;
 	private ProgressDialog dialog;
@@ -219,13 +220,6 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 					_imageView.setImageBitmap(getImage());
 					break;
 				}
-
-				case R.id.imageUpload: {
-					// Apply the auto-cropping operation.
-					uploadImage();
-					break;
-				}
-
 				default: {
 					return super.onOptionsItemSelected(item);
 				}
@@ -359,12 +353,6 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 					break;
 				}
 
-				case R.id.imageUpload: {
-					// Apply the auto-cropping operation.
-					uploadImage();
-					break;
-				}
-
 				default: {
 					return super.onOptionsItemSelected(item);
 				}
@@ -405,7 +393,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 						Log.d("Response", response.message());
 						EnhanceImageActivity.this.stopProcessDialog();
 						EnhanceImageActivity.this.displayCustomToast("Image Upload"
-								,"Success" ,"Image" + response.message());
+								,"Success" ,"Image " + response.message());
 						break;
 					default:
 						Log.e("Error", "Image upload has failed");
@@ -416,6 +404,9 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 			@Override
 			public void onFailure(Call<ResponseBody> call, Throwable t) {
 				Log.e("Error", "Image upload has failed");
+				EnhanceImageActivity.this.stopProcessDialog();
+				EnhanceImageActivity.this.displayCustomToast("Image Upload Failed"
+						,"Please try to re-login" ,t.getMessage());
 			}
 		});
 		this.startProcessDialog();
@@ -557,6 +548,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		_imageView = (PZImageView) findViewById(R.id.ImageView);
 		_progressBar = (ProgressBar) findViewById(R.id.ProgressStatusBar);
 		_undoButton = (Button) findViewById(R.id.UndoAllButton);
+		_uploadButton = (Button) findViewById(R.id.uploadAllButton);
 		_enhanceLayout = (RelativeLayout) findViewById(R.id.EnhanceLayout);
 		
 		// Determine whether we are being launched for the first time or have been rotated
@@ -612,6 +604,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 	private void startEdit() {
 		_imgEdited = true;
 		_undoButton.setVisibility(View.VISIBLE);
+		_uploadButton.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -626,6 +619,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 	private void cancelEdit() {
 		_imgEdited = false;
 		_undoButton.setVisibility(View.INVISIBLE);
+		_uploadButton.setVisibility(View.INVISIBLE);
 	}
 	
 	/**
@@ -716,6 +710,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 				
 				_enhanceLayout.setEnabled(true);
 				_undoButton.setEnabled(true);
+				_uploadButton.setEnabled(true);
 		        _imageView._preventGesture = false;
 				startEdit();
 			}			
@@ -730,6 +725,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		
 		_enhanceLayout.setEnabled(false);
 		_undoButton.setEnabled(false);
+		_uploadButton.setEnabled(false);
 		setProgressBar(true);
 		task.execute((Void)null);
 
@@ -899,6 +895,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 
 		_enhanceLayout.setEnabled(false);
 		_undoButton.setEnabled(false);
+		_uploadButton.setEnabled(false);
 		setProgressBar(true);
 
 		//Apply Filter Code Begins
@@ -918,9 +915,13 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 
 		_enhanceLayout.setEnabled(true);
 		_undoButton.setEnabled(true);
+		_uploadButton.setEnabled(true);
 		_imageView._preventGesture = false;
 		startEdit();
 
 	}
 
+	public void onUpload(View view) {
+		this.uploadImage();
+	}
 }

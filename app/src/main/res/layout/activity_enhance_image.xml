@@ -31,7 +31,7 @@
         <Button
             android:id="@+id/UndoAllButton"
             android:text="@string/Button_UndoAll"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/button_width_small"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@drawable/black_button"
@@ -40,6 +40,21 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:visibility="invisible"
             android:onClick="onUndoAll" />
+
+        <Button
+            android:id="@+id/uploadAllButton"
+            android:text="@string/Button_Upload"
+            android:layout_width="@dimen/button_width_small"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/black_button"
+            android:textColor="#FFFFFF"
+            android:padding="10dp"
+            android:layout_below="@id/UndoAllButton"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:visibility="invisible"
+            android:onClick="onUpload" />
+
     </RelativeLayout>
 
     <ProgressBar
