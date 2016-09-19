@@ -6,9 +6,14 @@ import junit.framework.Assert;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
+
+import emc.captiva.mobile.sdksampleapp.BuildConfig;
 import emc.captiva.mobile.sdksampleapp.Constant;
 import emc.captiva.mobile.sdksampleapp.EnhanceImageActivity;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
@@ -21,6 +26,8 @@ import static org.mockito.Mockito.when;
 /**
  * Created by Davix on 9/14/16.
  */
+@RunWith(RobolectricTestRunner.class)
+@Config(constants = BuildConfig.class)
 public class EnhanceImagePresenterTest {
 
     @Mock

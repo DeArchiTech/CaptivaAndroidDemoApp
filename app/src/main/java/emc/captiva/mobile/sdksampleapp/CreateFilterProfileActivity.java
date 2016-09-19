@@ -2,7 +2,11 @@ package emc.captiva.mobile.sdksampleapp;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -27,7 +31,7 @@ import io.realm.RealmList;
 /**
  * Created by david on 9/2/16.
  */
-public class CreateFilterProfileActivity extends Activity implements CreateProfileView, AvailableFilterListListener, SelectedListClickedListener{
+public class CreateFilterProfileActivity extends Activity implements CreateProfileView, AvailableFilterListListener, SelectedListClickedListener, TextWatcher {
 
     private String action = "Create Profile";
     private CreateProfilePresenter presenter;
@@ -45,8 +49,10 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
         this.availableFilterListAdapter = createAvailableFilterList(getResources().getStringArray(R.array.Filter_List), availableListView);
         this.selectedFilterListAdapter = createSelectedFilterList( selectedListView);
         this.presenter = new CreateProfilePresenter(this, new FilterProfileRepo(),this);
-
+        EditText editText = (EditText)findViewById(R.id.createProfileNameInput);
+        editText.addTextChangedListener(this);
     }
+
 
     @Override
     protected void onResume() {
@@ -207,6 +213,30 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        //Do nothing
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        //Do nothing
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+        if(this.presenter.endsWithNewLine(s)){
+            this.presenter.takeOutNewLineAtEnd(s);
+            this.hideKeyboard();
+        }
+
     }
 
 }

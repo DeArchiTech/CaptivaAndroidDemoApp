@@ -1,6 +1,7 @@
 package emc.captiva.mobile.sdksampleapp.Presenter;
 
 import android.content.Context;
+import android.text.Editable;
 import android.widget.EditText;
 
 import java.util.List;
@@ -65,5 +66,27 @@ public class CreateProfilePresenter {
 
     }
 
+    public boolean endsWithNewLine(Editable s){
+
+        String string = s.toString();
+        if(string.length() > 1){
+            String subString = string.subSequence(string.length()-1, string.length()).toString();
+            if(subString.equalsIgnoreCase("\n")){
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    public Editable takeOutNewLineAtEnd(Editable s){
+
+        String string = s.toString();
+        if(string.length() > 1){
+            s.delete(string.length()-1, string.length());
+            return s;
+        }
+        return s;
+    }
 
 }

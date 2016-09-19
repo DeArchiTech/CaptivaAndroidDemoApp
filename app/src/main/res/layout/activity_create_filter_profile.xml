@@ -41,8 +41,9 @@
             android:textColor="@color/black"
             android:hint="@string/CreateProfilePage_ProfileNameInput"
             android:textAppearance="?android:attr/textAppearanceSmall"
+            android:gravity="center"
             android:maxLines="1"
-            android:gravity="center"/>
+            android:imeOptions="actionDone"/>
 
     </LinearLayout>
 
