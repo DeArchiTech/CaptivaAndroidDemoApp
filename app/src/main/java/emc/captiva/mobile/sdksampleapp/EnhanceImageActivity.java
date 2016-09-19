@@ -64,6 +64,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 	private ProgressDialog dialog;
 	private int profile_id = Constant.invalidId;
 	private EnhanceImagePresenter presenter;
+	private boolean profileLoaded = false;
 
 	public EnhanceImagePresenter getPresenter() {
 		return presenter;
@@ -525,7 +526,10 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 			cancelEdit();
 		}
 		//Apply Filter if filter needs to be applied
-		this.presenter.loadFilterProfile(this.profile_id,this.presenter,this.presenter);
+		if(this.profileLoaded == false){
+			this.profileLoaded = true;
+			this.presenter.loadFilterProfile(this.profile_id,this.presenter,this.presenter);
+		}
 
 	}
 
