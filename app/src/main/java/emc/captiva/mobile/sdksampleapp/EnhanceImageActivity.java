@@ -479,7 +479,6 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 	@Override
 	protected void onResume() {
 		super.onResume();
-		this.presenter.loadFilterProfile(this.profile_id,this.presenter,this.presenter);
 	}
 
 	/*
@@ -525,6 +524,8 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		else {
 			cancelEdit();
 		}
+		//Apply Filter if filter needs to be applied
+		this.presenter.loadFilterProfile(this.profile_id,this.presenter,this.presenter);
 
 	}
 
@@ -649,6 +650,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
                 CoreHelper.displayError(this, e);
             }
 		}
+
 	}
 	
 	/**
@@ -879,7 +881,6 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		return observable;
 	}
 
-
 	private void applyFilterSync(String operation, Map<String, Object> parameters) {
 
 		final String op = operation;
@@ -903,7 +904,6 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 			Log.e(TAG, e.getMessage(), e);
 		}
 		//Apply Filter Code Ends
-
 
 		// Set the image, turn of progress bar, and enable controls.
 		_imageView.setImageBitmap(getImage());

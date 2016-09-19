@@ -1,11 +1,8 @@
 package emc.captiva.mobile.sdksampleapp.Presenter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import emc.captiva.mobile.sdksampleapp.Constant;
 import emc.captiva.mobile.sdksampleapp.EnhanceImageActivity;
 import emc.captiva.mobile.sdksampleapp.Model.Filter;
