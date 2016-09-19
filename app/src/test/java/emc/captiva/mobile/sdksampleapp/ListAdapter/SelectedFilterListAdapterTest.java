@@ -79,4 +79,15 @@ public class SelectedFilterListAdapterTest {
 
     }
 
+    @Test
+    public void testListContainsItem(){
+
+        FilterListItem item = new FilterListItem(new Filter("ABCD"));
+        FilterListItem itemAnother = new FilterListItem(new Filter("ABCD"));
+        adapter.addItemToListView(item);
+        boolean result = adapter.listContainsItem(itemAnother);
+        Assert.assertTrue(result);
+
+    }
+
 }

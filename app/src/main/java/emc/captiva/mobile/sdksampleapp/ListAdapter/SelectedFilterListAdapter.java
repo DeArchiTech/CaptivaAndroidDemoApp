@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.util.List;
 import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
+import emc.captiva.mobile.sdksampleapp.Model.Filter;
 import emc.captiva.mobile.sdksampleapp.R;
 import emc.captiva.mobile.sdksampleapp.View.SelectedListClickedListener;
 
@@ -69,6 +70,20 @@ public class SelectedFilterListAdapter extends ArrayAdapter<FilterListItem> {
             this.notifyDataSetChanged();
         }
 
+    }
+
+    public boolean listContainsItem(FilterListItem item){
+
+        boolean result =false;
+        for(FilterListItem listItem :this.listItems){
+            Filter filter = listItem.filter;
+            if(filter != null){
+                if(filter.filterName.equalsIgnoreCase(item.filter.filterName)){
+                    result = true;
+                }
+            }
+        }
+        return result;
     }
 
 }

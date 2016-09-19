@@ -199,7 +199,8 @@ public class CreateFilterProfileActivity extends Activity implements CreateProfi
     @Override
     public void availableFilterListOnClick(FilterListItem item) {
 
-        this.selectedFilterListAdapter.addItemToListView(item);
+        if(!this.selectedFilterListAdapter.listContainsItem(item))
+            this.selectedFilterListAdapter.addItemToListView(item);
 
     }
 
