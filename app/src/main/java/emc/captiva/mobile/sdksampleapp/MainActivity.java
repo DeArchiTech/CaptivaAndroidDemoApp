@@ -90,14 +90,14 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         this.presenter = new MainActivityPresenter(repo, this);
         this.loggedIn = presenter.userIsLoggedIn();
         this.loadFilterProfiles();
-        this.profile_id = getProfileId(getIntent().getExtras());
+        this.profile_id = getProfileId(savedInstanceState);
 
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
         outState.putInt(getString(R.string.intent_profile_key), this.profile_id);
+        super.onSaveInstanceState(outState);
     }
 
     private void loadFilterProfiles(){
