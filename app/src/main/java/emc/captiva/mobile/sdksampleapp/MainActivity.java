@@ -27,11 +27,15 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import javax.inject.Inject;
+
 import emc.captiva.mobile.sdk.CaptureException;
 import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdk.CaptureWindow;
 import emc.captiva.mobile.sdk.PictureCallback;
 import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
+import emc.captiva.mobile.sdksampleapp.Dagger.ApplicationComponent;
+import emc.captiva.mobile.sdksampleapp.Dagger.Revaapplication;
 import emc.captiva.mobile.sdksampleapp.Presenter.MainActivityPresenter;
 import emc.captiva.mobile.sdksampleapp.CallBacks.ReadProfileErrorCB;
 import emc.captiva.mobile.sdksampleapp.CallBacks.ReadProfileSuccessCB;
@@ -73,6 +77,8 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
     private ProgressDialog dialog;
     private MainActivityPresenter presenter;
     private int profile_id = Constant.invalidId;
+    @Inject
+    Realm realm;
 
     /* (non-Javadoc)
      * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -86,6 +92,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         // License the application
         CoreHelper.license(this);
 
+        getApplicationComponent().inject(this);
         FilterProfileRepo repo = new FilterProfileRepo(getRealmInstance());
         this.presenter = new MainActivityPresenter(repo, this);
         this.loggedIn = presenter.userIsLoggedIn();
@@ -546,7 +553,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     private Realm getRealmInstance(){
 
-        return new RealmUtil().createRealm(this);
+        return this.realm;
 
     }
 
@@ -582,6 +589,11 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         }
         return Constant.invalidId;
 
+    }
+
+
+    public ApplicationComponent getApplicationComponent() {
+        return ((Revaapplication) getApplication()).getApplicationComponent();
     }
 
 }

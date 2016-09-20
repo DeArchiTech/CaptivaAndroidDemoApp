@@ -23,7 +23,7 @@
         android:icon="@drawable/app_logo"
         android:label="@string/app_name"
         android:theme="@style/revaTheme"
-        android:name="emc.captiva.mobile.sdksampleapp.Revaapplication"
+        android:name="emc.captiva.mobile.sdksampleapp.Dagger.Revaapplication"
         android:screenOrientation="portrait">
         <activity
             android:name="emc.captiva.mobile.sdksampleapp.SplashActivity"

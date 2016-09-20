@@ -40,8 +40,10 @@ public class ImageFileUtil {
         }catch (Exception e){
 
         }
-        return Base64.encodeToString(byteArray, Base64.NO_WRAP);
-
+        if(byteArray != null){
+            return Base64.encodeToString(byteArray, Base64.NO_WRAP);
+        }
+        return null;
     }
 
     public byte[] inputStreamToByteArray(InputStream inputStream) throws IOException {

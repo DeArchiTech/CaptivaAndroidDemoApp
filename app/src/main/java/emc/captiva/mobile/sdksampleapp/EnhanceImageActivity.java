@@ -85,8 +85,10 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		// If the image is cropped, display the 'UndoAll' button.
 		if (cropped) {
 			startEdit();
+
 		}
     }
+
 
     /* (non-Javadoc)
      * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
@@ -363,6 +365,7 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		}
 		return true;
 	}
+
 	private void uploadImage(){
 
 		//1)Create the base 64 String
@@ -377,6 +380,15 @@ public class EnhanceImageActivity extends Activity implements QuadrilateralCropC
 		}
 		String base64String = new ImageFileUtil().encodeImageBase64(inputStream);
 
+		if(base64String != null){
+			requestToUploadImageToSever(base64String);
+		}else{
+			displayCustomToast("Upload Image" , "Failed" , "Image cannot be empty");
+		}
+
+	}
+
+	private void requestToUploadImageToSever(String base64String){
 		//2)Create Json Object
 		ImageUploadObj obj = new ImageUploadObj(base64String);
 		CaptivaImageUploadService service = new CaptivaImageServiceBuilder().createImageUploadServer();
