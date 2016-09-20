@@ -29,6 +29,9 @@ import android.widget.Spinner;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import emc.captiva.mobile.sdk.CaptureException;
 import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdk.CaptureWindow;
@@ -77,13 +80,20 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
     private ProgressDialog dialog;
     private MainActivityPresenter presenter;
     private int profile_id = Constant.invalidId;
+
     @Inject
     Realm realm;
+
+    @BindView(R.id.filterSpinner) Spinner spinner;
+    @BindView(R.id.takecontinuouspicturesbtn) Button continousPicBtn;
+    @BindView(R.id.enhancepicturebtn) Button enhancePicBtn;
+    @BindView(R.id.takepicturebtn) Button takePicBtn;
+    @BindView(R.id.LoginButton) Button buttonLogin;
+    @BindView(R.id.CreateFilterProfile) Button createProfileButton;
 
     /* (non-Javadoc)
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +108,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         this.loggedIn = presenter.userIsLoggedIn();
         this.loadFilterProfiles();
         this.profile_id = getProfileId(savedInstanceState);
+        ButterKnife.bind(this);
 
     }
 
@@ -119,6 +130,8 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
      * Launches the camera window to take a picture, which saves to the image gallery.
      * @param view      The view for the control event.
      */
+
+    @OnClick(R.id.takepicturebtn)
     public void onTakePicture(View view) {
         // Use a separate HashMap to hold non-TakePicture parameter values from preferences.
         if(!this.loggedIn){
@@ -213,6 +226,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
      * of the caller to store any images (in that newImage() callback) that should be persisted.
      * @param view      The view for the control event.
      */
+    @OnClick(R.id.takecontinuouspicturesbtn)
     public void onTakeContinuousPictures(View view) {
         if(!this.loggedIn){
             displayCustomToast("Taking Continuous picture" , "Failed" , "Please Log in before attempting to Take Continus Picture");
@@ -366,6 +380,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
      * This is the click handler for the Enhance Image button.
      * @param view    The view for the control event.
      */
+    @OnClick(R.id.enhancepicturebtn)
     public void onEnhanceImage(View view) {
         // Launch the image gallery picker to allow the user to choose which image to enhance.
         // Only Android supported formats will display. TIFF images are not supported by the
@@ -388,12 +403,14 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
      * Displays the Settings panel.
      * @param view      The view for the control event.
      */
+    @OnClick(R.id.SettingsButton)
     public void onSettings(View view) {
         // Launch the preference settings activity.
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 
+    @OnClick(R.id.LoginButton)
     public void onLogin(View view) {
 
         if(this.loggedIn){
@@ -440,6 +457,7 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     }
 
+    @OnClick(R.id.CreateFilterProfile)
     public void onCreateFilterProfile(View view) {
 
         if(!this.loggedIn){
@@ -525,19 +543,10 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     private void enableButtons(boolean loggedIn){
 
-        Button button1 = (Button)findViewById(R.id.takecontinuouspicturesbtn);
-        Button button2 = (Button)findViewById(R.id.enhancepicturebtn);
-        Button button4 = (Button)findViewById(R.id.takepicturebtn);
-        Button button5 = (Button)findViewById(R.id.enhancepicturebtn);
-
-        button1.setEnabled(loggedIn);
-        button2.setEnabled(loggedIn);
-        button4.setEnabled(loggedIn);
-        button5.setEnabled(loggedIn);
-
-        Button buttonLogin = (Button)findViewById(R.id.LoginButton);
-
-        buttonLogin.setEnabled(!loggedIn);
+        this.continousPicBtn.setEnabled(loggedIn);
+        this.enhancePicBtn.setEnabled(loggedIn);
+        this.takePicBtn.setEnabled(loggedIn);
+        this.buttonLogin.setEnabled(!loggedIn);
 
     }
 
@@ -559,10 +568,9 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
     public void updateSpinnerList(List<FilterProfile> items){
 
-        Spinner spinner = (Spinner) findViewById(R.id.filterSpinner);
         ProfileDropDownAdapter adapter = new ProfileDropDownAdapter(this, items);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        this.spinner.setAdapter(adapter);
+        this.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getSelectedItem();
