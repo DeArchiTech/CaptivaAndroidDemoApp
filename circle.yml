@@ -17,5 +17,6 @@ dependencies:
 
 test:
     override:
-        - (gradle test):
+        - (./gradlew test):
+        - (./graalew connectedCheck):
             timeout: 360

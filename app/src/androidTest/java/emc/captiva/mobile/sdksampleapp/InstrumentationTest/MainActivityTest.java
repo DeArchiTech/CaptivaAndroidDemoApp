@@ -3,6 +3,10 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -107,9 +111,8 @@ public class MainActivityTest{
             public void run() {
 
                 ArrayList<FilterProfile> list = new ArrayList<FilterProfile>();
-                for(int i =0 ; i < 3 ; i++){
-                    list.add(new FilterProfile(selectionText));
-                }
+                list.add(new FilterProfile(selectionText));
+                list.add(new FilterProfile("BlahblahMa"));
                 mActivityRule.getActivity().updateSpinnerList(list);
                 listNotUpdated = true;
             }
@@ -118,11 +121,30 @@ public class MainActivityTest{
 
         while(!listNotUpdated){
 
+            try {
+                Thread.sleep(2000);
+            }
+            catch(Exception e){
+
+            }
         }
         onView(withId(R.id.filterSpinner)).perform(click());
-        onData(allOf(is(instanceOf(String.class)), is(selectionText))).perform(click());
+        onData(allOf(is(instanceOf(FilterProfile.class)), withMyValue(selectionText))).perform(click());
         onView(withId(R.id.filterSpinner)).check(matches(withSpinnerText(containsString(selectionText))));
+    }
 
+    public static <T> Matcher<T> withMyValue(final String name) {
+        return new BaseMatcher<T>() {
+            @Override
+            public boolean matches(Object item) {
+                return item.toString().equals(name);
+            }
+
+            @Override
+            public void describeTo(Description description) {
+
+            }
+        };
     }
 
 }
