@@ -21,5 +21,4 @@ dependencies:
 test:
     override:
         - (gradle test):
-        - (graale connectedCheck):
             timeout: 360
