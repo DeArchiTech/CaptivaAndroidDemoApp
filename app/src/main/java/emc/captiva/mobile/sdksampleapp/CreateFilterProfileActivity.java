@@ -13,6 +13,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
+
+import emc.captiva.mobile.sdksampleapp.Activity.BaseActivity;
 import emc.captiva.mobile.sdksampleapp.ListAdapter.AvailableFilterListAdapter;
 import emc.captiva.mobile.sdksampleapp.ListAdapter.SelectedFilterListAdapter;
 import emc.captiva.mobile.sdksampleapp.ListItem.FilterListItem;
@@ -31,7 +33,7 @@ import io.realm.RealmList;
 /**
  * Created by david on 9/2/16.
  */
-public class CreateFilterProfileActivity extends Activity implements CreateProfileView, AvailableFilterListListener, SelectedListClickedListener, TextWatcher {
+public class CreateFilterProfileActivity extends BaseActivity implements CreateProfileView, AvailableFilterListListener, SelectedListClickedListener, TextWatcher {
 
     private String action = "Create Profile";
     private CreateProfilePresenter presenter;

@@ -32,6 +32,7 @@ import android.widget.RelativeLayout;
 import emc.captiva.mobile.sdk.CaptureException;
 import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdk.QuadrilateralCropCallback;
+import emc.captiva.mobile.sdksampleapp.Activity.BaseActivity;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
 import emc.captiva.mobile.sdksampleapp.Presenter.EnhanceImagePresenter;
 import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
@@ -51,7 +52,7 @@ import rx.Subscriber;
 /**
  * This activity provides the ability to enhance the image.
  */
-public class EnhanceImageActivity extends Activity implements QuadrilateralCropCallback{
+public class EnhanceImageActivity extends BaseActivity implements QuadrilateralCropCallback{
 	private static String TAG = EnhanceImageActivity.class.getSimpleName();
 	private static boolean _imgEdited = false;
 	private PZImageView _imageView = null;

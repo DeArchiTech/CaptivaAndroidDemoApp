@@ -1,8 +1,7 @@
 package emc.captiva.mobile.sdksampleapp.Dagger;
-
 import javax.inject.Singleton;
-
 import dagger.Component;
+import emc.captiva.mobile.sdksampleapp.Activity.BaseActivity;
 import emc.captiva.mobile.sdksampleapp.MainActivity;
 
 /**
@@ -14,4 +13,5 @@ import emc.captiva.mobile.sdksampleapp.MainActivity;
 public interface ApplicationComponent {
 
     void inject(MainActivity activity);
+
 }

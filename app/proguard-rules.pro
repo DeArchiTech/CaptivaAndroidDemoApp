@@ -26,3 +26,13 @@
 -keepattributes Signature
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
+#IcePick
+-dontwarn icepick.**
+-keep class icepick.** { *; }
+-keep class **$$Icepick { *; }
+-keepclasseswithmembernames class * {
+    @icepick.* <fields>;
+}
+-keepnames class * { @icepick.State *;}
+#RetroLambda
+-dontwarn java.lang.invoke.*

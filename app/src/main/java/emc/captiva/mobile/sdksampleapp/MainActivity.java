@@ -7,7 +7,6 @@ package emc.captiva.mobile.sdksampleapp;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -37,29 +35,20 @@ import emc.captiva.mobile.sdk.CaptureImage;
 import emc.captiva.mobile.sdk.CaptureWindow;
 import emc.captiva.mobile.sdk.PictureCallback;
 import emc.captiva.mobile.sdk.ContinuousCaptureCallback;
+import emc.captiva.mobile.sdksampleapp.Activity.BaseActivity;
 import emc.captiva.mobile.sdksampleapp.Dagger.ApplicationComponent;
 import emc.captiva.mobile.sdksampleapp.Dagger.Revaapplication;
 import emc.captiva.mobile.sdksampleapp.Presenter.MainActivityPresenter;
 import emc.captiva.mobile.sdksampleapp.CallBacks.ReadProfileErrorCB;
 import emc.captiva.mobile.sdksampleapp.CallBacks.ReadProfileSuccessCB;
-import emc.captiva.mobile.sdksampleapp.JsonPojo.ImageUploadObj;
 import emc.captiva.mobile.sdksampleapp.JsonPojo.LoginResponseObj;
 import emc.captiva.mobile.sdksampleapp.ListAdapter.ProfileDropDownAdapter;
 import emc.captiva.mobile.sdksampleapp.Model.FilterProfile;
 import emc.captiva.mobile.sdksampleapp.Repository.CookieRepo;
 import emc.captiva.mobile.sdksampleapp.Repository.FilterProfileRepo;
-import emc.captiva.mobile.sdksampleapp.Service.CaptivaImageUploadService;
-import emc.captiva.mobile.sdksampleapp.Service.FilestackImageUploadService;
-import emc.captiva.mobile.sdksampleapp.ServiceBuilder.CaptivaImageServiceBuilder;
-import emc.captiva.mobile.sdksampleapp.ServiceBuilder.FilestackServiceBuilder;
 import emc.captiva.mobile.sdksampleapp.ServiceBuilder.SessionServiceBuilder;
-import emc.captiva.mobile.sdksampleapp.Util.RealmUtil;
-import emc.captiva.mobile.sdksampleapp.Util.StringUtil;
 import emc.captiva.mobile.sdksampleapp.Util.UIUtils;
 import io.realm.Realm;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -68,7 +57,7 @@ import retrofit2.Response;
  * This class represents the main window offering the ability to take a picture,
  * enhance an image from the gallery, or adjust the settings.
  */
-public class MainActivity extends Activity implements PictureCallback, ContinuousCaptureCallback, Realm.Transaction.OnSuccess,Realm.Transaction.OnError {
+public class MainActivity extends BaseActivity implements PictureCallback, ContinuousCaptureCallback, Realm.Transaction.OnSuccess,Realm.Transaction.OnError {
 	static boolean _newLoad = true;
     private static String TAG = MainActivity.class.getSimpleName();
     private final int CHOOSE_IMAGE = 1;
@@ -101,7 +90,6 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
 
         // License the application
         CoreHelper.license(this);
-
         getApplicationComponent().inject(this);
         FilterProfileRepo repo = new FilterProfileRepo(getRealmInstance());
         this.presenter = new MainActivityPresenter(repo, this);
@@ -597,11 +585,6 @@ public class MainActivity extends Activity implements PictureCallback, Continuou
         }
         return Constant.invalidId;
 
-    }
-
-
-    public ApplicationComponent getApplicationComponent() {
-        return ((Revaapplication) getApplication()).getApplicationComponent();
     }
 
 }
