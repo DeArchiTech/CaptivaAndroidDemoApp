@@ -18,6 +18,7 @@ dependencies:
 test:
     pre:
         - wget "https://services.gradle.org/distributions/gradle-2.14.1-bin.zip"; unzip gradle-2.14.1-bin.zip
+        - gradle -v
     override:
         - (gradle test):
             timeout: 360
