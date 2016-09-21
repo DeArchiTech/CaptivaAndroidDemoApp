@@ -17,7 +17,7 @@ dependencies:
 
 test:
     pre:
-        - wget "https://services.gradle.org/distributions/gradle-2.14.1-bin.zip"; unzip gradle-2.14.1-bin.zip
+        - sudo apt-get install gradle-ppa
         - gradle -v
     override:
         - (gradle test):
