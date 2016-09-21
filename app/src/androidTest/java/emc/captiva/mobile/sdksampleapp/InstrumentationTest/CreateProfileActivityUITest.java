@@ -93,7 +93,7 @@ public class CreateProfileActivityUITest {
 
     @Test
     public void listViewHasString() {
-        onView(withText("Image Label")).check(matches(isDisplayed()));
+        onView(withText("Black-White")).check(matches(isDisplayed()));
     }
 
     @Test
@@ -199,6 +199,9 @@ public class CreateProfileActivityUITest {
                 , Matchers.any(Realm.Transaction.OnSuccess.class)
                 , Matchers.any(Realm.Transaction.OnError.class)
                 , Matchers.any(Realm.class));
+
+        when(presenter.filterNameIsSet(Matchers.any(),Matchers.any())).thenReturn(true);
+        when(presenter.atLeastOneFilterSelected(Matchers.anyList())).thenReturn(true);
 
         //2)Input Filter Name
         Espresso.closeSoftKeyboard();

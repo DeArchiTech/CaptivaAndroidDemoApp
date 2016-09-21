@@ -72,14 +72,20 @@ public class FIlterProfileReproTest {
                 FilterProfile profile = new FilterProfile();
                 profile.setId(143);
 
-                //3)Test sync call
-                Assert.assertNull(FilterProfileRepo.profilesCache);
+                //3)Create
+
+                int initSize = FilterProfileRepo.profilesCache.size();
+
+                realm.beginTransaction();
+                repro.createFilterProfileSync(realm, profile);
+                realm.commitTransaction();
+
+                //4)Test sync call
 
                 realm.beginTransaction();
                 repro.readListOfProfileSync(realm);
                 realm.commitTransaction();
-
-                Assert.assertNotNull(FilterProfileRepo.profilesCache);
+                Assert.assertEquals(initSize + 1,FilterProfileRepo.profilesCache.size());
             }
 
         });
