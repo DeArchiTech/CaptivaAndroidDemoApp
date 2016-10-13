@@ -9,7 +9,7 @@
     <string name="MainPage_TakeContinuousPictures">Take Continuous Pictures</string>
 	<string name="MainPage_EnhanceImage">Enhance Image</string>
 	<string name="MainPage_Settings">Settings</string>
-	<string name="MainPage_Login">Login</string>
+	<string name="MainPage_Login">Re-Login</string>
 	<string name="MainPage_Logout">Logout</string>
 	<string name="MainPage_FileStackUpload">FileStackUpload(Static)</string>
     <string name="MainPage_CaptivaUpload">CaptivaUpload(Static)</string>

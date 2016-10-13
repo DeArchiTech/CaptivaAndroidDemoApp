@@ -401,10 +401,6 @@ public class MainActivity extends BaseActivity implements PictureCallback, Conti
     @OnClick(R.id.LoginButton)
     public void onLogin(View view) {
 
-        if(this.loggedIn){
-            displayCustomToast("Login" , "Not Needed" , "You are already logged in!");
-            return;
-        }
         SessionServiceBuilder client = new SessionServiceBuilder();
         Call<LoginResponseObj> call = client.login();
         call.enqueue(new Callback<LoginResponseObj>() {
@@ -456,13 +452,6 @@ public class MainActivity extends BaseActivity implements PictureCallback, Conti
         startActivity(intent);
     }
 
-    private String getMimeType(String path){
-
-        String extension = MimeTypeMap.getFileExtensionFromUrl(path);
-        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-
-    }
-
     /* (non-Javadoc)
      * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
      */
@@ -502,7 +491,6 @@ public class MainActivity extends BaseActivity implements PictureCallback, Conti
             startActivity(intent);
         }
     }
-
 
     private boolean startProcessDialog(){
 
